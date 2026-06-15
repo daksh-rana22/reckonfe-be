@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<!--[if IE 8 ]><html class="ie" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US"><!--<![endif]-->
+<head>
+    <!-- Basic Page Needs -->
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <title>Super Value Pharmacy</title>
+     <meta name="author" content="Himanshu IT Engineer">
+
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.css" >
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+
+    <!-- Responsive -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/responsive.css">
+
+    <!-- REVOLUTION LAYERS STYLES -->
+    <link rel="stylesheet" type="text/css" href="revolution/css/layers.css">
+    <link rel="stylesheet" type="text/css" href="revolution/css/settings.css">
+
+    <!-- Colors -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/colors/color1.css" id="colors">
+    
+    <!-- Animation Style -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/animate.css">
+
+    <!-- Favicon and touch icons  -->
+    <link href="icon.jpg" rel="shortcut icon">
+
+    <!--[if lt IE 9]>
+        <script src="javascript/html5shiv.js"></script>
+        <script src="javascript/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .dropdown li a{
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+    </style>
+</head>  
+
+<body class="header-sticky">
+
+    <div class="boxed">
+       
+    
+        <div class="header-inner-pages">
+            <div class="top" style="background-color: #007432;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="flat-information">
+                                <li class="phone">
+                                    <a href="#" title="Phone number"><i>Call us: +918601905555</i></a>
+                                </li>
+                                <li class="email">
+                                    <a href="#" title="Email address"><i>Email: info@supervaluepharmacy.com</i></a>
+                                </li>
+                            </ul>
+                            <div class="style-box text-right">
+                                <ul class="flat-socials v1">
+                                    <li class="facebook">
+                                        <a href="#"><i class="fa fa-facebook-f"></i></a>
+                                    </li>
+                                    <li class="twitter">
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                    </li>
+                                    <li class="instagram">
+                                        <a href="#"><i class="fa fa-instagram"></i></a>
+                                    </li>
+                                    <li class="wifi">
+                                        <a href="#"><i class="fa fa-wifi"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="question">
+                                    <div>
+                                        <i class="fa fa-question-circle-o"></i><p class="text">Have any questions</p>
+                                    </div>
+                                </div>
+                                <div class="box-text text-right">
+                                   <a href="form.php"> <p>Upload Prescription</p></a>
+                                </div>   
+                            </div>
+                        </div><!-- col-md-12 -->
+                    </div><!-- row -->
+                </div><!-- container -->
+            </div><!-- Top -->    
+        </div><!-- header-inner-pages -->
+
+        <!-- Wrap-slide -->
+        <div class="wrap-slider">
+            <!-- Header -->            
+            <header id="header" class="header style-color clearfix">
+                <div class="container">
+                    <div class="header-wrap clearfix">
+                        <div id="logo" class="logo">
+                            <a href="index.php" rel="home">
+                                <img src="logo2.png" alt="image">
+                            </a>
+                        </div><!-- /.logo -->
+
+                        <div class="nav-wrap">
+                            <div class="btn-menu">
+                                <span></span>
+                            </div><!-- //mobile menu button -->
+
+                            <nav id="mainnav" class="mainnav">
+                                <ul class="menu"> 
+                                    <li class="home">
+                                        <a href="index.php">Home</a>
+                                        
+                                    </li>
+                                    <li><a href="about.php">About Us</a></li> 
+									<li><a href="service.php">Services</a>
+								
+									
+									</li> 
+									
+                                 									
+                                    <li><a href="contact.php">Contact Us</a></li>
+                                </ul><!-- /.menu -->
+                            </nav><!-- /.mainnav -->
+                        </div><!-- /.nav-wrap -->
+                    </div><!-- /.header-wrap --> 
+                </div>
+            </header><!-- /.header -->
+        </div> 
+        
+        <!-- /.wrap-slider -->
+
+        <div id="rev_slider_1078_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="classic4export" data-source="gallery" style="margin:0px auto;background-color:transparent;padding:0px;margin-top:0px;margin-bottom:0px;">
+            <!-- START REVOLUTION SLIDER 5.3.0.2 auto mode -->
+            <div id="rev_slider_1078_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.3.0.2">
+                <ul><!-- SLIDE  -->
+            
+                    <!-- SLIDE 1 -->
+                    <li data-index="rs-3047" data-transition="slideremovedown" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut" data-masterspeed="2000"  data-thumb="assets/images/bike-100x50.jpg"  data-rotate="0"  data-saveperformance="off"  data-title="Ken Burns" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+
+                        <!-- MAIN IMAGE -->
+                        <img src="images/slides/1.jpg"  alt=""  data-bgposition="center center" data-kenburns="off" data-duration="30000" data-ease="Linear.easeNone" data-scalestart="100" data-scaleend="120" data-rotatestart="0" data-rotateend="0" data-offsetstart="0 0" data-offsetend="0 0" data-bgparallax="10" class="rev-slidebg" data-no-retina>
+                        
+                    </li>
+
+                    <!-- SLIDE 2 -->
+                    <li data-index="rs-3048" data-transition="slideremoveright" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut" data-masterspeed="2000"  data-thumb="assets/images/fitness-100x50.jpg"  data-rotate="0"  data-saveperformance="off"  data-title="HTML5 Video" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                        <!-- MAIN IMAGE -->
+                        <img src="images/slides/2.jpg"  alt=""  data-bgposition="center center" data-bgfit="cover" data-bgparallax="10" class="rev-slidebg" data-no-retina>
+
+                    </li> 
+					
+					<li data-index="rs-3047" data-transition="slideremovedown" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut" data-masterspeed="2000"  data-thumb="assets/images/bike-100x50.jpg"  data-rotate="0"  data-saveperformance="off"  data-title="Ken Burns" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+
+                        <!-- MAIN IMAGE -->
+                        <img src="images/slides/3.jpg"  alt=""  data-bgposition="center center" data-kenburns="off" data-duration="30000" data-ease="Linear.easeNone" data-scalestart="100" data-scaleend="120" data-rotatestart="0" data-rotateend="0" data-offsetstart="0 0" data-offsetend="0 0" data-bgparallax="10" class="rev-slidebg" data-no-retina>
+                        
+                    </li>
+					
+					
+                </ul>
+            </div>
+        </div><!-- END REVOLUTION SLIDER -->
+
+		
+		     
+			 
+			       <section class="main-content bg-sidebar sidebar-left">
+            <div class="container">
+                <div class="flat-overview">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="title-section style1">
+                                <h3 class="title">Company Overview</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="wrap-main-post">
+                            <div class="col-md-6">
+                                <div class="sidebar">
+                                    
+
+                                    <div class="widget widget-need">
+
+                                        <p><strong>Supervalue Pharmacy</strong> is a specialty pharmaceutical company engaged in Development, Manufacture/Marketing, Distribution and Retailing of quality finished dosages in domestic market. <strong>Established in 2014 </strong>and headquartered in Mumbai-India, we are committed to 'Serve Health Care Needs. Supervalue Pharmacy has been consistently providing high quality affordable medicines to patients.
+</p>
+<p><strong>Supervalue Pharmacy</strong> through its subsidiary operates in Marketing of high quality pharmaceutical products that have state-of-the art manufacturing facilities. We focus on commercializing unique generic products and pioneering synergistic combination products in the therapeutic areas of Nutrition, Neurology, Gynecology, Orthopedic and Surgery. With primary focus on new product innovation and introduction, we have been consistently identifying unmet medical needs and introducing many first-to-market products to cater to those needs. Our products provide patient compliance and convenience over existing therapeutic options. <i>Supervalue Pharmacy has a structured Quality Management System based on Quality by Design approach, as per the guidelines of WHO-GMP. Our Product offerings HAVE THE HALLMARK OF Technology-Based DIFFERENTIATION</i>
+</p>
+                                      
+                                    </div><!-- /widget-archives -->
+
+ 
+                                   
+                                </div><!-- /sidebar -->
+                            </div><!-- /col-md-3 -->
+
+                            <div class="col-md-6">
+                                <div class="post-overview">
+                                    <div class="thumb">
+                                        <img src="images/overview/1.jpg" alt="image">
+                                    </div>
+                                    
+                                </div>
+                            </div><!-- /.col-md-9 --> 
+							
+							<div class="col-md-12">
+							<p>If there is one attribute to which we attach the utmost importance it is quality. Quality is considered paramount at all locations involved in manufacture, retailing and distribution of pharmaceutical products. Our operations are driven by best-in-class technology and processes, abiding by all major stringent regulatory approvals. Our commitment to implementing a robust quality management system is based on our determination to sustain a culture of operational excellence, meeting and exceeding the expectations of all stakeholders, including patients, customers and regulators. Thus, our passion for quality goes beyond business and statutory requirements. Putting patients first is our motto.
+</p><p>Quality Management is committed to customer satisfaction through an integrated system of tools, techniques, and training. It involves continual improvement of organizational processes resulting in high quality products and services.
+</p>
+							</div>
+							
+                        </div><!-- /.wrap-main-post -->
+                    </div><!-- /.row -->
+                </div>            
+            </div><!-- /.container -->   
+        </section><!-- /.main-content -->
+		
+		
+
+		
+		
+		
+        <section class="flat-row no-padding-bottom">
+            <div class="flat-choose-us">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="choose-us">
+							<div class="title-section style1">
+                                <h3 class="title">We remain committed to the highest levels of quality.</h3>
+								<p>Supervalue Pharmacy-Retail is a part of Supervalue Pharmacy Pvt. Ltd. It is one of India's first branded pharmacy network.</p>
+                            </div>
+                                <div class="flat-icon-post">
+                                    <div class="flat-icon">
+                                        <div class="post">
+                                            <div class="item">
+                                                <div class="iconbox icon-left v1">
+                                                   
+                                                    <div class="box-header">
+                                                        <i class="icon-diagram-3"></i>
+                                                    </div>
+                                                    <div class="icon-post">
+                                                      <div class="box-title">
+                                                            <h4 class="title">Compounding </h4>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="iconbox icon-left v1">
+                                                    
+                                                    <div class="box-header v1">
+                                                        <i class="icon-justice-scale"></i>
+                                                    </div>
+                                                    <div class="icon-post">
+                                                        <div class="box-title">
+                                                            <h4 class="title">Hard To Find Items  </h4>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="iconbox icon-left v1">
+                                                    
+                                                    <div class="box-header v2">
+                                                        <i class="icon-piggy-bank"></i>
+                                                    </div>
+                                                    <div class="icon-post">
+                                                        <div class="box-title">
+                                                            <h4 class="title">Personal Service</h4>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- flat-row -->
+
+      
+        <div class="page-title parallax parallax1">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="flat-talk">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="title-section style1">
+                                <p>To help entrepreneurs get their act together</p>
+                                <p><span>before they talk </span> to investors.</p>
+                            </div>
+                        </div>
+                    </div><!-- row -->
+                </div><!-- flat-talk -->
+            </div><!-- container -->
+        </div><!-- page-title -->
+
+        <section class="flat-row no-padding">
+            <div class="flat-clients">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="thumb-clients v1">
+                                <img src="images/clients/1.png" alt="image">
+                            </div>
+                            <div class="thumb-clients v2">
+                                <img src="images/clients/2.png" alt="image">
+                            </div>
+                            <div class="thumb-clients v3">
+                                <img src="images/clients/3.png" alt="image">
+                            </div>
+                            <div class="thumb-clients v4">
+                                <img src="images/clients/4.png" alt="image">
+                            </div>
+                            <div class="thumb-clients v5">
+                                <img src="images/clients/5.png" alt="image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="flat-row">
+            <div class="flat-choose-us flat-news v1">
+                <div class="flat-silder">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="box">
+                                    <div class="title-v1">
+                                        <h4 class="title">Request Call Back.</h4>
+                                        <p>Would you like to speak to one of our financial advisers over the phone? Just submit your details and we'll be in touch shortly. You can also email us if you would prefer.</p>
+                                    </div>
+                                    <div class="form-box">
+                                        <form action="#" method="post" id="commentform-footer" class="comment-form" novalidate="">
+                                            <select name="style cars">
+                                                <option value="1" selected="">How can we help?</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+
+                                            <fieldset class="style name-container">
+                                                <input type="text" id="author-footer" placeholder="You name*" class="tb-my-input" name="author" tabindex="1" value="" size="32" aria-required="true">
+                                            </fieldset>
+
+                                            <fieldset class="style phone-container">
+                                                <input type="text" id="phone-footer" placeholder="You phone number*" class="tb-my-input" name="phone" tabindex="2" value="" size="32" aria-required="true">
+                                            </fieldset>
+
+                                            <fieldset class="style email-container">
+                                                <input type="text" id="email-footer" placeholder="You Email" class="tb-my-input" name="email" tabindex="2" value="" size="32" aria-required="true">
+                                            </fieldset>
+
+                                            <div class="submit-wrap">
+                                                <button class="flat-button button-style">submit <i class="fa fa-chevron-right"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-7">
+                                <div class="company-news v1">
+                                    <div class="title-section">
+                                        <h4 class="title">Company News</h4>
+                                    </div>
+                                    <div class="post-us">
+                                        <div class="blog-home v1">
+                                            <div class="item">
+                                                <div class="thumb">
+                                                   
+                                                    <div class="overlay"></div>
+                                                </div>
+                                                <div class="post-v1">
+                                                    <div class="meta-post">
+                                                        <a href="#">23 Aug 2018</a>
+                                                    </div>
+                                                    <h4 class="title"><a href="#">As a responsible Corporate Supervalue Pharmacy undertakes a number of CSR activities in larger interest of the community.</a></h4>
+                                                </div>
+                                            </div>
+
+                                            <div class="item">
+                                                <div class="thumb">
+                                                   
+                                                    <div class="overlay"></div>
+                                                </div>
+                                                <div class="post-v1">
+                                                    <div class="meta-post">
+                                                        <a href="#">23 Aug 2018</a>
+                                                    </div>
+                                                    <h4 class="title"><a href="#">Our people are our most valuable asset. We are proud that our workforce is bound together by our common values.</a></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="post-list">
+                                        <ul class="list-us">
+                                            <li class="style-1">
+                                                <div class="num-list">
+                                                    <p>1</p>
+                                                </div>
+                                                <div class="text-list">
+                                                    <p>We have a strong belief in a performance-oriented culture. Our team members are recruited, rewarded and given opportunities in the organisation purely based on their merit. The backbone of our meritocratic culture is the Performance Management System which has been put in place with the objective of evaluating our employees’ performance in a fair and transparent manner.</p>
+                                                </div>
+                                            </li>
+
+                                           
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="footer-logo">
+                            
+                            <div class="im-map">
+                                <h5 class="title">We have over 15 years of experience</h5>
+                                <p>Supervalue Pharmacy is a specialty pharmaceutical company engaged in Development, Manufacture/Marketing, Distribution and Retailing of quality finished dosages in domestic market. Established in 2014 and headquartered in Mumbai-India, we are committed to 'Serve Health Care Needs. Supervalue Pharmacy has been consistently providing high quality affordable medicines to patients.</p>
+                               
+                            </div>
+                        </div><!-- footer-logo -->
+                    </div><!-- col-md-4 -->
+
+                    <div class="col-md-2">
+                        <div class="widget widget-follow-us">
+                            <div class="title-link v3">
+                                <h5 class="widget-title">Follow Us</h5>
+                            </div>
+                            <ul class="follow-us">
+                                <li class="facebook"><a href="#"> Facebook</a></li>
+                                <li class="twiter"><a href="#"> Twiiter</a></li>
+                                <li class="google"><a href="#"> Google Plus </a></li>
+                                <li class="linkedIn"><a href="#"> LinkedIn</a></li>
+                                <li class="youtube"><a href="#"> Youtube</a></li>
+                            </ul>
+                        </div>
+                    </div><!-- col-md-2 -->
+
+                    <div class="col-md-3">
+                        <div class="widget widget-our-services">
+                            <div class="title-link v4">
+                                <h5 class="widget-title">Our Services</h5>
+                            </div>
+                            <ul class="our_services">
+                                <li class="facebook"><a href="#"> Upload Prescription</a></li>
+                                <li class="twitch"><a href="#"> Contact Us</a></li>
+                                <li class="google"><a href="#"> Refill Onlin</a></li>
+                                <li class="linkedIn"><a href="#"> Delivery</a></li>
+                                <li class="youtube"><a href="#"> Location</a></li>
+                            </ul>
+                        </div>
+                    </div><!-- col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget widget-subscribe-us">
+                            <div class="title-link v4">
+                                <h5 class="widget-title">Subscribe Us</h5>
+                            </div>
+                            <p>Sign Up for our mailing list to get latest updates and news.</p>
+                            <div class="widget subscribe-search">
+                                <form action="#" id="mailform" method="get">
+                                    <div>
+                                        <input type="text" id="ss" class="ssss" placeholder="Enter your email.">
+                                        <button class="submit-button"><i class="fa fa-envelope-open-o"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- row -->
+            </div><!-- container -->
+        </div><!-- footer -->
+
+        <!-- Bottom -->
+        <div class="bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="container-bottom">
+                            <div class="copyright"> 
+                                <p>Coyright © 2018 Super Value Pharmacy. All rights reserved.</p>
+                            </div>    
+                        </div><!-- /.container-bottom -->
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </div><!-- Bottom -->
+        
+        <!-- Go Top -->
+        <a class="go-top">
+            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        </a> 
+
+        <!-- Javascript -->
+        <!-- Javascript -->
+        <script type="text/javascript" src="javascript/jquery.min.js"></script>
+        <script type="text/javascript" src="javascript/bootstrap.min.js"></script> 
+        <script type="text/javascript" src="javascript/jquery.easing.js"></script> 
+        <script type="text/javascript" src="javascript/jquery.isotope.min.js"></script>
+        <script type="text/javascript" src="javascript/imagesloaded.min.js"></script>    
+        <script type="text/javascript" src="javascript/jquery-waypoints.js"></script>   
+        <script type="text/javascript" src="javascript/parallax.js"></script>
+        <script type="text/javascript" src="javascript/smoothscroll.js"></script>
+
+        <script type="text/javascript" src="javascript/jquery-countTo.js"></script>
+        <script type="text/javascript" src="javascript/owl.carousel.js"></script>
+
+        <script type="text/javascript" src="javascript/jquery.easypiechart.min.js"></script>
+        <script type="text/javascript" src="javascript/jquery.bxslider.js"></script>
+
+         
+        <script type="text/javascript" src="javascript/jquery.cookie.js"></script>   
+        <script type="text/javascript" src="javascript/main.js"></script>
+        <script type="text/javascript" src="javascript/jquery.tweet.min.js"></script>
+
+        <!-- Revolution Slider -->
+        <script type="text/javascript" src="revolution/js/jquery.themepunch.tools.min.js"></script>
+        <script type="text/javascript" src="revolution/js/jquery.themepunch.revolution.min.js"></script>
+        <script type="text/javascript" src="revolution/js/slider.js"></script>
+
+        <!-- SLIDER REVOLUTION 5.0 EXTENSIONS  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->    
+        <script type="text/javascript" src="revolution/js/extensions/revolution.extension.actions.min.js"></script>
+        <script type="text/javascript" src="revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+        <script type="text/javascript" src="revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+        <script type="text/javascript" src="revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+        <script type="text/javascript" src="revolution/js/extensions/revolution.extension.migration.min.js"></script>
+        <script type="text/javascript" src="revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+        <script type="text/javascript" src="revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+        <script type="text/javascript" src="revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+        <script type="text/javascript" src="revolution/js/extensions/revolution.extension.video.min.js"></script>
+    </div>
+</body>
+</html>

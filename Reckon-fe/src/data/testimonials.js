@@ -1,0 +1,63 @@
+export const TESTIMONIALS = [
+  {
+    id: 1,
+    name: 'Rajesh Kumar',
+    designation: 'Owner',
+    company: 'Kumar Medical Store',
+    industry: 'Pharmacy',
+    quote: 'Reckon has completely transformed how we manage our pharmacy. The drug expiry tracking and batch management features have saved us lakhs in potential losses.',
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: 'Priya Sharma',
+    designation: 'Operations Manager',
+    company: 'FreshMart Supermarket',
+    industry: 'Retail',
+    quote: 'The POS system is incredibly fast and reliable. Our checkout times have reduced by 40% since we switched to Reckon-Mart. The customer is always happy.',
+    rating: 5,
+  },
+  {
+    id: 3,
+    name: 'Amit Verma',
+    designation: 'Managing Director',
+    company: 'Verma Auto Spares',
+    industry: 'Auto Parts',
+    quote: 'Managing thousands of auto parts with different vehicle compatibilities was a nightmare before Reckon. Now our team finds any part in seconds.',
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: 'Sunita Agarwal',
+    designation: 'Proprietor',
+    company: 'Sunita Fashion House',
+    industry: 'Garments',
+    quote: 'The size and color matrix feature is exactly what our garment business needed. Inventory tracking across variants has never been easier.',
+    rating: 4,
+  },
+  {
+    id: 5,
+    name: 'Mohammad Farhan',
+    designation: 'Business Owner',
+    company: 'City Electronics',
+    industry: 'Home Appliances',
+    quote: 'Warranty tracking and service management have reduced our customer complaints significantly. Reckon is an essential part of our business now.',
+    rating: 5,
+  },
+  {
+    id: 6,
+    name: 'Deepak Gupta',
+    designation: 'CEO',
+    company: 'Gupta Distributors',
+    industry: 'FMCG',
+    quote: 'Multi-branch synchronization changed the game for us. We now have real-time visibility across all our distribution points. Outstanding support team.',
+    rating: 5,
+  },
+];
+
+export const STATS = [
+  { label: 'Years Experience', value: 25, suffix: '+' },
+  { label: 'Users across India', value: 25000, suffix: '+' },
+  { label: 'Growth Partners', value: 450, suffix: '+' },
+  { label: 'Team Members', value: 90, suffix: '+' },
+];
