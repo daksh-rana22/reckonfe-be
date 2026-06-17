@@ -6,6 +6,7 @@ from app.models.client import ClientLogo
 from app.models.download import DownloadCategory, Download
 from app.models.gallery import GalleryCategory, GalleryItem
 from app.models.testimonial import Testimonial
+from app.models.banner import Banner, BannerSetting
 
 __all__ = [
     "Base",
@@ -19,4 +20,6 @@ __all__ = [
     "GalleryCategory",
     "GalleryItem",
     "Testimonial",
+    "Banner",
+    "BannerSetting",
 ]

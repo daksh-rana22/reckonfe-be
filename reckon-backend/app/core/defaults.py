@@ -1,23 +1,31 @@
 DEFAULT_CLIENTS = [
-    {"id": "client-1", "name": "Big Maart", "img": "/images/clients/big-mart.jpeg"},
-    {"id": "client-2", "name": "Momentous Supermarket", "img": "/images/clients/momentous.jpg"},
-    {"id": "client-3", "name": "ENOVOUS", "img": "/images/clients/enovus.jpg"},
-    {"id": "client-4", "name": "Kiama Herbals", "img": "/images/clients/kiama.jpeg"},
-    {"id": "client-5", "name": "Kothilal Dental College", "img": "/images/clients/kothilal.jpg"},
-    {"id": "client-6", "name": "Surya Hospital", "img": "/images/clients/surya.jpg"},
-    {"id": "client-7", "name": "UNAG Pharma", "img": "/images/clients/unag.jpeg"},
-    {"id": "client-8", "name": "Shakun Medical Store", "img": "/images/clients/shakun.jpg"},
-    {"id": "client-9", "name": "Shobhit Mediworld", "img": "/images/clients/shobhit.png"},
-    {"id": "client-10", "name": "AyurCentral", "img": "/images/clients/ayurcentral.png"},
-    {"id": "client-11", "name": "ABC Family Bazar", "img": "/images/clients/abc-bazar.png"},
-    {"id": "client-12", "name": "SuperValue Pharmacy", "img": "/images/clients/supervalue.jpeg"},
-    {"id": "client-13", "name": "Asha Stores", "img": "/images/clients/asha.jpeg"},
-    {"id": "client-14", "name": "Best Quality Store", "img": "/images/clients/best-quality.jpeg"},
-    {"id": "client-15", "name": "Gicchii Supermarket", "img": "/images/clients/gicchii.jpeg"},
-    {"id": "client-16", "name": "Mittal Medicose", "img": "/images/clients/mittal.jpeg"},
-    {"id": "client-17", "name": "KnitLife Pharma", "img": "/images/clients/knitlife.jpeg"},
-    {"id": "client-18", "name": "Bio Bricks", "img": "/images/clients/biobricks.jpg"},
-    {"id": "client-19", "name": "Noble Remedies", "img": "/images/clients/noble.jpeg"},
+    {"id": "client-1", "name": "Big Maart", "img": "/images/clients/big-mart.jpeg", "city": "Dehradun", "software": "departmental-supermarket"},
+    {"id": "client-2", "name": "Momentous Supermarket", "img": "/images/clients/momentous.jpg", "city": "Delhi", "software": "departmental-supermarket"},
+    {"id": "client-3", "name": "ENOVOUS", "img": "/images/clients/enovus.jpg", "city": "Mumbai", "software": "fmcg-distributors"},
+    {"id": "client-4", "name": "Kiama Herbals", "img": "/images/clients/kiama.jpeg", "city": "Noida", "software": "retail-pharmacies"},
+    {"id": "client-5", "name": "Kothilal Dental College", "img": "/images/clients/kothilal.jpg", "city": "Gurugram", "software": "hospital-pharmacies"},
+    {"id": "client-6", "name": "Surya Hospital", "img": "/images/clients/surya.jpg", "city": "Haridwar", "software": "hospital-pharmacies"},
+    {"id": "client-7", "name": "UNAG Pharma", "img": "/images/clients/unag.jpeg", "city": "Rishikesh", "software": "pharma-distributors"},
+    {"id": "client-8", "name": "Shakun Medical Store", "img": "/images/clients/shakun.jpg", "city": "Roorkee", "software": "retail-pharmacies"},
+    {"id": "client-9", "name": "Shobhit Mediworld", "img": "/images/clients/shobhit.png", "city": "Haldwani", "software": "pharmacy-ayurvedic"},
+    {"id": "client-10", "name": "AyurCentral", "img": "/images/clients/ayurcentral.png", "city": "Nainital", "software": "pharmacy-ayurvedic"},
+    {"id": "client-11", "name": "ABC Family Bazar", "img": "/images/clients/abc-bazar.png", "city": "Lucknow", "software": "departmental-supermarket"},
+    {"id": "client-12", "name": "SuperValue Pharmacy", "img": "/images/clients/supervalue.jpeg", "city": "Chandigarh", "software": "retail-pharmacies"},
+    {"id": "client-13", "name": "Asha Stores", "img": "/images/clients/asha.jpeg", "city": "Pune", "software": "grocery-kirana"},
+    {"id": "client-14", "name": "Best Quality Store", "img": "/images/clients/best-quality.jpeg", "city": "Bangalore", "software": "grocery-kirana"},
+    {"id": "client-15", "name": "Gicchii Supermarket", "img": "/images/clients/gicchii.jpeg", "city": "Chennai", "software": "departmental-supermarket"},
+    {"id": "client-16", "name": "Mittal Medicose", "img": "/images/clients/mittal.jpeg", "city": "Kolkata", "software": "retail-pharmacies"},
+    {"id": "client-17", "name": "KnitLife Pharma", "img": "/images/clients/knitlife.jpeg", "city": "Hyderabad", "software": "pharma-distributors"},
+    {"id": "client-18", "name": "Bio Bricks", "img": "/images/clients/biobricks.jpg", "city": "Ahmedabad", "software": "spare-parts-dealers"},
+    {"id": "client-19", "name": "Noble Remedies", "img": "/images/clients/noble.jpeg", "city": "Jaipur", "software": "retail-pharmacies"},
+]
+
+DEFAULT_PARTNERS = [
+    {"id": "partner-1", "name": "Reckon Sales Corporation", "img": "/images/clients/abc-bazar.png", "city": "Delhi"},
+    {"id": "partner-2", "name": "Vikas Distributors", "img": "/images/clients/big-mart.jpeg", "city": "Mumbai"},
+    {"id": "partner-3", "name": "HealthCare Solutions", "img": "/images/clients/momentous.jpg", "city": "Dehradun"},
+    {"id": "partner-4", "name": "Kiama Herbals", "img": "/images/clients/kiama.jpeg", "city": "Noida"},
+    {"id": "partner-5", "name": "Kothilal Dental College", "img": "/images/clients/kothilal.jpg", "city": "Gurugram"},
 ]
 
 DEFAULT_DOWNLOAD_CATEGORIES = [
@@ -159,4 +167,53 @@ DEFAULT_TESTIMONIALS = [
         "rating": 5,
     },
 ]
+
+DEFAULT_BANNERS = [
+    {
+        "id": "ban-5",
+        "title": "Reckon SmartScan 2.0 — AI invoice scanning is here",
+        "description": "Scan any invoice in under 3 seconds. Auto GST categorisation. Works with 500+ distributors across India.",
+        "image_url": "/images/retail_pharmacy_billing.png",
+        "sort_order": 0,
+        "is_active": True,
+        "redirect_path": "/software/retail"
+    },
+    {
+        "id": "ban-1",
+        "title": "Reckon Retail POS Billing",
+        "description": "Supercharge your retail outlet with the fastest barcode scanning, inventory tracking, and automatic invoice printing.",
+        "image_url": "/images/home_pos_showcase.png",
+        "sort_order": 1,
+        "is_active": True,
+        "redirect_path": "/software/retail"
+    },
+    {
+        "id": "ban-2",
+        "title": "Pharmacy & Chemist Special Edition",
+        "description": "Track drug expiry, batch numbers, schedule-H regulations, and file automatic GST returns seamlessly.",
+        "image_url": "/images/retail_pharmacy_billing.png",
+        "sort_order": 2,
+        "is_active": True,
+        "redirect_path": "/software/pharmacy-healthcare"
+    },
+    {
+        "id": "ban-3",
+        "title": "FMCG & Wholesale Distribution ERP",
+        "description": "Manage bulk orders, credit accounts, salesman route allocations, and multi-branch warehouse synchronization.",
+        "image_url": "/images/fmcg_distributor_billing.png",
+        "sort_order": 3,
+        "is_active": True,
+        "redirect_path": "/software/fmcg"
+    },
+    {
+        "id": "ban-4",
+        "title": "Auto Parts & Hardware POS",
+        "description": "Handle thousands of part numbers, vehicle compatibility filters, hotkey billing, and barcode integration.",
+        "image_url": "/images/multi_branch_autoparts_billing.png",
+        "sort_order": 4,
+        "is_active": True,
+        "redirect_path": "/software/auto-parts"
+    }
+]
+
 

@@ -7,11 +7,17 @@ import { cn } from '@/lib/utils';
 
 export default function MobileNav({ open, onClose }) {
   const [expandedMenu, setExpandedMenu] = useState(null);
+  const [expandedSubMenu, setExpandedSubMenu] = useState(null);
+  const [mobileLoginOpen, setMobileLoginOpen] = useState(false);
   const location = useLocation();
   const { logoUrl } = useAdminStore();
 
   const toggleExpand = (label) => {
     setExpandedMenu(prev => (prev === label ? null : label));
+  };
+
+  const toggleExpandSub = (label) => {
+    setExpandedSubMenu(prev => (prev === label ? null : label));
   };
 
   return (
@@ -53,7 +59,7 @@ export default function MobileNav({ open, onClose }) {
         {/* Navigation Items */}
         <div className="p-4 space-y-1">
           {NAV_ITEMS.map((item) => {
-            /* ── Company Dropdown ── */
+            /* ── Dropdown Items (Software & Company) ── */
             if (item.dropdown) {
               const isActive = item.subItems?.some(s => location.pathname === s.path);
               return (
@@ -80,85 +86,73 @@ export default function MobileNav({ open, onClose }) {
                   <div
                     className={cn(
                       'overflow-hidden transition-all duration-300',
-                      expandedMenu === item.label ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+                      expandedMenu === item.label ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
                     )}
                   >
                     <div className="pl-3 py-1 space-y-0.5">
-                      {item.subItems.map((sub) => (
-                        <Link
-                          key={sub.path}
-                          to={sub.path}
-                          onClick={onClose}
-                          className={cn(
-                            'flex flex-col px-3 py-2.5 rounded-lg transition-colors',
-                            location.pathname === sub.path
-                              ? 'text-primary bg-primary/5'
-                              : 'text-foreground/80 hover:text-primary hover:bg-primary/5'
-                          )}
-                        >
-                          <span className="text-sm font-medium">{sub.label}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-
-            /* ── Softwares Mega Menu ── */
-            if (item.megaMenu) {
-              return (
-                <div key={item.label}>
-                  <button
-                    onClick={() => toggleExpand(item.label)}
-                    className={cn(
-                      'w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-                      location.pathname.startsWith('/softwares')
-                        ? 'text-primary bg-primary/5'
-                        : 'text-foreground hover:bg-surface-secondary'
-                    )}
-                  >
-                    {item.label}
-                    <ChevronDown
-                      className={cn(
-                        'w-4 h-4 transition-transform duration-200',
-                        expandedMenu === item.label && 'rotate-180'
-                      )}
-                    />
-                  </button>
-
-                  {/* Expanded sub-menu */}
-                  <div
-                    className={cn(
-                      'overflow-hidden transition-all duration-300',
-                      expandedMenu === item.label ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
-                    )}
-                  >
-                    <div className="pl-3 py-2 space-y-3">
-                      {item.sections.map((section) => (
-                        <div key={section.title}>
-                          <p className="text-[10px] font-semibold text-muted uppercase tracking-wider px-3 mb-1">
-                            {section.title}
-                          </p>
-                          {section.items.map((sub) => (
-                            <Link
-                              key={sub.slug}
-                              to={`/softwares/${sub.slug}`}
-                              onClick={onClose}
-                              className="block px-3 py-1.5 text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
-                      ))}
-                      <Link
-                        to="/softwares"
-                        onClick={onClose}
-                        className="block px-3 py-2 text-sm font-medium text-primary"
-                      >
-                        View All Products →
-                      </Link>
+                      {item.subItems.map((sub) => {
+                        const hasChildren = !!sub.subItems;
+                        return (
+                          <div key={sub.path} className="space-y-0.5">
+                            {hasChildren ? (
+                              <>
+                                <button
+                                  onClick={() => toggleExpandSub(sub.label)}
+                                  className={cn(
+                                    'w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                                    location.pathname.startsWith(sub.path)
+                                      ? 'text-primary bg-primary/5'
+                                      : 'text-foreground/80 hover:text-primary hover:bg-primary/5'
+                                  )}
+                                >
+                                  <span>{sub.label}</span>
+                                  <ChevronDown
+                                    className={cn(
+                                      'w-3.5 h-3.5 transition-transform duration-200',
+                                      expandedSubMenu === sub.label && 'rotate-180'
+                                    )}
+                                  />
+                                </button>
+                                <div
+                                  className={cn(
+                                    'overflow-hidden transition-all duration-300 pl-4 space-y-0.5',
+                                    expandedSubMenu === sub.label ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+                                  )}
+                                >
+                                  {sub.subItems.map((child) => (
+                                    <Link
+                                      key={child.path}
+                                      to={child.path}
+                                      onClick={onClose}
+                                      className={cn(
+                                        'block px-3 py-2 rounded-lg text-xs font-semibold transition-colors',
+                                        location.pathname === child.path
+                                          ? 'text-primary bg-primary/5'
+                                          : 'text-muted hover:text-primary'
+                                      )}
+                                    >
+                                      {child.label}
+                                    </Link>
+                                  ))}
+                                </div>
+                              </>
+                            ) : (
+                              <Link
+                                to={sub.path}
+                                onClick={onClose}
+                                className={cn(
+                                  'flex flex-col px-3 py-2.5 rounded-lg transition-colors',
+                                  location.pathname === sub.path
+                                    ? 'text-primary bg-primary/5'
+                                    : 'text-foreground/80 hover:text-primary hover:bg-primary/5'
+                                )}
+                              >
+                                <span className="text-sm font-medium">{sub.label}</span>
+                              </Link>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -209,6 +203,41 @@ export default function MobileNav({ open, onClose }) {
               </Link>
             )
           )}
+          {/* Mobile Login Dropdown */}
+          <div className="space-y-1 pt-2">
+            <button
+              onClick={() => setMobileLoginOpen(!mobileLoginOpen)}
+              className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-surface-secondary transition-colors"
+            >
+              <span>Login</span>
+              <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", mobileLoginOpen && "rotate-180")} />
+            </button>
+            <div
+              className={cn(
+                "overflow-hidden transition-all duration-300 pl-3 space-y-0.5",
+                mobileLoginOpen ? "max-h-[100px] opacity-100" : "max-h-0 opacity-0"
+              )}
+            >
+              <a
+                href="https://reckoncare.reckonsales.com/Account/Login"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onClose}
+                className="flex items-center gap-2 px-3 py-2 text-sm text-muted hover:text-foreground transition-colors"
+              >
+                <span>Partner Login</span>
+                <ExternalLink className="w-3.5 h-3.5 opacity-50" />
+              </a>
+              <Link
+                to="/admin"
+                onClick={onClose}
+                className="block px-3 py-2 text-sm text-muted hover:text-foreground transition-colors"
+              >
+                Admin Login
+              </Link>
+            </div>
+          </div>
+
           <Link
             to="/contact"
             onClick={onClose}

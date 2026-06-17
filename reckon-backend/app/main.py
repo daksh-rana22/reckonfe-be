@@ -24,6 +24,14 @@ async def lifespan(app: FastAPI):
         # Automatically creates tables if they don't exist
         await conn.run_sync(Base.metadata.create_all)
         
+        # Ensure redirect_path column exists in banners table
+        from sqlalchemy import text
+        try:
+            await conn.execute(text("ALTER TABLE banners ADD COLUMN IF NOT EXISTS redirect_path VARCHAR(200);"))
+            print("Checked/added redirect_path column to banners table.")
+        except Exception as e:
+            print(f"Banners alter table warning: {e}")
+        
     # ── Seed Default Datasets ──
     print("Checking and seeding default data...")
     from app.db.session import AsyncSessionLocal
@@ -79,15 +87,24 @@ async def lifespan(app: FastAPI):
 
         # 4. Client Logos marquee seeding
         from app.models.client import ClientLogo
-        from app.core.defaults import DEFAULT_CLIENTS
+        from app.core.defaults import DEFAULT_CLIENTS, DEFAULT_PARTNERS
         
-        stmt_cli = select(ClientLogo)
+        stmt_cli = select(ClientLogo).where(ClientLogo.type == "client")
         res_cli = await db.execute(stmt_cli)
         if not res_cli.scalars().first():
             for c in DEFAULT_CLIENTS:
-                db.add(ClientLogo(id=c["id"], name=c["name"], img=c["img"]))
+                db.add(ClientLogo(id=c["id"], name=c["name"], img=c["img"], city=c.get("city"), software=c.get("software"), type="client"))
             await db.commit()
             print("Successfully seeded default client logos")
+
+        # 4b. Partner Logos seeding
+        stmt_part = select(ClientLogo).where(ClientLogo.type == "partner")
+        res_part = await db.execute(stmt_part)
+        if not res_part.scalars().first():
+            for p in DEFAULT_PARTNERS:
+                db.add(ClientLogo(id=p["id"], name=p["name"], img=p["img"], city=p.get("city"), type="partner"))
+            await db.commit()
+            print("Successfully seeded default partner logos")
 
         # 5. Gallery categories and images seeding
         from app.models.gallery import GalleryCategory, GalleryItem
@@ -133,6 +150,33 @@ async def lifespan(app: FastAPI):
                 ))
             await db.commit()
             print("Successfully seeded default client testimonials")
+
+        # 7. Banner & BannerSetting seeding
+        from app.models.banner import Banner, BannerSetting
+        from app.core.defaults import DEFAULT_BANNERS
+        
+        stmt_banner = select(Banner)
+        res_banner = await db.execute(stmt_banner)
+        if not res_banner.scalars().first():
+            for b in DEFAULT_BANNERS:
+                db.add(Banner(
+                    id=b["id"],
+                    title=b["title"],
+                    description=b.get("description"),
+                    image_url=b["image_url"],
+                    sort_order=b.get("sort_order", 0),
+                    is_active=b.get("is_active", True),
+                    redirect_path=b.get("redirect_path")
+                ))
+            await db.commit()
+            print("Successfully seeded default product banners")
+
+        stmt_bsetting = select(BannerSetting)
+        res_bsetting = await db.execute(stmt_bsetting)
+        if not res_bsetting.scalars().first():
+            db.add(BannerSetting(id=1, slide_duration=5))
+            await db.commit()
+            print("Successfully seeded default banner duration settings")
             
     yield  # Serve requests
 

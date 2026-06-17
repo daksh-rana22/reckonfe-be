@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NAV_ITEMS, SOCIAL_LINKS, CONTACT_INFO } from '@/data/navigation';
-import { VERTICALS } from '@/data/softwares';
+import { BILLING_NAV_ITEMS } from '@/data/billingData';
 import { Zap, Mail, MapPin, Globe, ArrowUpRight, Phone } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { useAdminStore } from '@/hooks/useAdminStore';
@@ -159,88 +159,53 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Products */}
+          {/* Software */}
           <div className="col-span-1">
             <h4 className={cn("text-[11px] md:text-xs font-bold uppercase tracking-wider mb-2 md:mb-3.5", isDark ? "text-white" : "text-[#0B0816]")}>
-              Products
+              Software
             </h4>
             <ul className="space-y-1 md:space-y-2">
-              <li>
-                <Link
-                  to="/softwares/reckon-mart"
-                  className={cn(
-                    "text-[12px] md:text-[13px] transition-colors duration-200",
-                    isDark ? "text-muted-foreground hover:text-white" : "text-slate-600 hover:text-[#0B0816]"
-                  )}
-                >
-                  Reckon-Mart
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/softwares/reckon-suvidha"
-                  className={cn(
-                    "text-[12px] md:text-[13px] transition-colors duration-200",
-                    isDark ? "text-muted-foreground hover:text-white" : "text-slate-600 hover:text-[#0B0816]"
-                  )}
-                >
-                  Reckon-Suvidha
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/softwares/reckon-seller"
-                  className={cn(
-                    "text-[12px] md:text-[13px] transition-colors duration-200",
-                    isDark ? "text-muted-foreground hover:text-white" : "text-slate-600 hover:text-[#0B0816]"
-                  )}
-                >
-                  Reckon-Seller
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/softwares/reckon-bizview"
-                  className={cn(
-                    "text-[12px] md:text-[13px] transition-colors duration-200",
-                    isDark ? "text-muted-foreground hover:text-white" : "text-slate-600 hover:text-[#0B0816]"
-                  )}
-                >
-                  Reckon-BizView
-                </Link>
-              </li>
-              <li>
-                <Link to="/softwares" className="inline-flex items-center gap-1 text-[12px] md:text-[13px] text-accent hover:text-accent-light transition-colors duration-200">
-                  All Products <ArrowUpRight className="w-3 h-3 md:w-3.5 md:h-3.5" />
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Industries */}
-          <div className="col-span-2 md:col-span-1">
-            <h4 className={cn("text-[11px] md:text-xs font-bold uppercase tracking-wider mb-2 md:mb-3.5", isDark ? "text-white" : "text-[#0B0816]")}>
-              Industries
-            </h4>
-            <ul className="space-y-1 md:space-y-2">
-              {VERTICALS.slice(0, 7).map((v) => (
-                <li key={v.slug}>
+              {BILLING_NAV_ITEMS.map((item) => (
+                <li key={item.path}>
                   <Link
-                    to={`/softwares/${v.slug}`}
+                    to={item.path}
                     className={cn(
                       "text-[12px] md:text-[13px] transition-colors duration-200",
                       isDark ? "text-muted-foreground hover:text-white" : "text-slate-600 hover:text-[#0B0816]"
                     )}
                   >
-                    {v.name}
+                    {item.label}
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link to="/softwares" className="inline-flex items-center gap-1 text-[12px] md:text-[13px] text-accent hover:text-accent-light transition-colors duration-200">
-                  All Industries <ArrowUpRight className="w-3 h-3 md:w-3.5 md:h-3.5" />
-                </Link>
-              </li>
+            </ul>
+          </div>
+
+          {/* Quick Links */}
+          <div className="col-span-2 md:col-span-1">
+            <h4 className={cn("text-[11px] md:text-xs font-bold uppercase tracking-wider mb-2 md:mb-3.5", isDark ? "text-white" : "text-[#0B0816]")}>
+              Quick Links
+            </h4>
+            <ul className="space-y-1 md:space-y-2">
+              {[
+                { label: 'Downloads', path: '/downloads' },
+                { label: 'Video Tutorials', path: '/tutorials' },
+                { label: 'Contact Sales', path: '/contact' },
+                { label: 'Partner With Us', path: '/partners' },
+                { label: 'Career', path: '/career' },
+              ].map((item) => (
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    className={cn(
+                      "text-[12px] md:text-[13px] transition-colors duration-200",
+                      isDark ? "text-muted-foreground hover:text-white" : "text-slate-600 hover:text-[#0B0816]"
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

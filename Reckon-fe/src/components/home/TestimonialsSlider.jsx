@@ -6,6 +6,62 @@ import { useAdminStore } from '@/hooks/useAdminStore';
 import { cn } from '@/lib/utils';
 import { Quote } from 'lucide-react';
 
+const getParentCategory = (industry) => {
+  const ind = (industry || '').toLowerCase();
+  if (ind.includes('pharmacy') || ind.includes('pharma') || ind.includes('aushadhi') || ind.includes('ayurvedic-generic') || ind.includes('homeopathic')) {
+    return 'Pharmacy';
+  }
+  if (ind.includes('auto') || ind.includes('spare') || ind.includes('car')) {
+    return 'Auto Parts';
+  }
+  if (ind.includes('fmcg')) {
+    return 'FMCG';
+  }
+  if (ind.includes('retail') || ind.includes('grocery') || ind.includes('supermarket') || ind.includes('garment') || ind.includes('sarees') || ind.includes('hardware') || ind.includes('books') || ind.includes('school') || ind.includes('gift') || ind.includes('paint') || ind.includes('multi-outlet') || ind.includes('all')) {
+    return 'Retail';
+  }
+  return industry;
+};
+
+const getIndustryLabel = (industry) => {
+  const mapping = {
+    'pharmacy-healthcare': 'Pharmacy & Healthcare',
+    'retail-pharmacies': 'Retail Pharmacies',
+    'hospital-pharmacies': 'Hospital Pharmacies',
+    'jan-aushadhi-kendra': 'Jan Aushadhi Kendra',
+    'ayurvedic-generic': 'Ayurvedic & Generic Medicine',
+    'homeopathic-shops': 'Homeopathic Shops',
+    'pharma-wholesalers': 'Pharma Wholesalers',
+    'pharma-distributors': 'Pharma Distributors',
+    'pharma-marketing': 'Pharma Marketing Companies',
+    'multi-branch-pharmacy-chain': 'Multi-branch Pharmacy Chain',
+    'auto-parts': 'Auto Parts',
+    'auto-parts-retailers': 'Auto Parts Retailers',
+    'spare-parts-dealers': 'Spare Parts Dealers',
+    'car-accessories': 'Car Accessories',
+    'multi-branch-auto-parts': 'Multi-branch Auto Parts',
+    'fmcg': 'FMCG Suite',
+    'fmcg-distributors': 'FMCG Distributors',
+    'fmcg-wholesalers': 'FMCG Wholesalers',
+    'fmcg-retailers': 'FMCG Retailers',
+    'fmcg-companies': 'FMCG Companies',
+    'retail': 'Retail Suite',
+    'grocery-kirana': 'Grocery & Kirana',
+    'departmental-supermarket': 'Departmental & Supermarket',
+    'garment-footwear': 'Garment & Footwear',
+    'sarees-clothing': 'Sarees & Clothing',
+    'pharmacy-ayurvedic': 'Pharmacy & Ayurvedic',
+    'hardware-electrical': 'Hardware & Electrical',
+    'books-stationary': 'Books & Stationary',
+    'school-dresses': 'School Dresses',
+    'gift-novelty': 'Gift & Novelty',
+    'paint-dealers': 'Paint Dealers',
+    'multi-outlet-chain': 'Multi Outlet Chain',
+    'all': 'All Solutions'
+  };
+  return mapping[industry] || industry;
+};
+
 const INDUSTRY_COLORS = {
   Pharmacy: '#DC2626',
   Retail: '#2563EB',
@@ -18,7 +74,8 @@ const INDUSTRY_COLORS = {
 
 function TestimonialCard({ testimonial, delay }) {
   const { ref, isVisible } = useScrollAnimation();
-  const color = INDUSTRY_COLORS[testimonial.industry] || '#DC2626';
+  const parentCat = getParentCategory(testimonial.industry);
+  const color = INDUSTRY_COLORS[parentCat] || '#DC2626';
 
   return (
     <div
@@ -79,7 +136,7 @@ function TestimonialCard({ testimonial, delay }) {
           className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0"
           style={{ background: `${color}12`, color }}
         >
-          {testimonial.industry}
+          {getIndustryLabel(testimonial.industry)}
         </span>
       </div>
     </div>

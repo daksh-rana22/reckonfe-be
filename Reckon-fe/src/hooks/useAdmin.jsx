@@ -154,7 +154,7 @@ export function AdminProvider({ children }) {
 
       setIsAdmin(true);
       setCurrentUser(username);
-      
+
       // Load admin list
       await fetchAdmins();
 
@@ -179,12 +179,12 @@ export function AdminProvider({ children }) {
         console.error('Logout request failed:', err);
       }
     }
-    
+
     localStorage.removeItem('reckon-access-token');
     localStorage.removeItem('reckon-refresh-token');
     localStorage.removeItem('reckon-admin-auth');
     localStorage.removeItem('reckon-admin-current-user');
-    
+
     setIsAdmin(false);
     setCurrentUser('');
     setAdminUsers([]);

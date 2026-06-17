@@ -1,45 +1,12 @@
-import { BUSINESS_APPS, VERTICALS, ERP_SOLUTIONS } from './softwares';
+import { BILLING_NAV_ITEMS } from './billingData';
 
 export const NAV_ITEMS = [
   { label: 'Home', path: '/' },
   {
-    label: 'Softwares',
-    path: '/softwares',
-    megaMenu: true,
-    sections: [
-      {
-        title: 'Business Applications',
-        items: BUSINESS_APPS.map((app) => ({
-          label: app.name,
-          slug: app.slug,
-          description: app.tagline,
-        })),
-      },
-      {
-        title: 'Industry Verticals',
-        items: VERTICALS.slice(0, 10).map((v) => ({
-          label: v.name,
-          slug: v.slug,
-          description: v.tagline,
-        })),
-      },
-      {
-        title: 'More Verticals',
-        items: VERTICALS.slice(10).map((v) => ({
-          label: v.name,
-          slug: v.slug,
-          description: v.tagline,
-        })),
-      },
-      {
-        title: 'ERP Solutions',
-        items: ERP_SOLUTIONS.map((erp) => ({
-          label: erp.name,
-          slug: erp.slug,
-          description: erp.tagline,
-        })),
-      },
-    ],
+    label: 'Software',
+    path: '/software',
+    dropdown: true,
+    subItems: BILLING_NAV_ITEMS,
   },
   { label: 'Downloads', path: '/downloads' },
   {
@@ -57,9 +24,8 @@ export const NAV_ITEMS = [
   },
 ];
 
+
 export const TOP_BAR_LINKS = [
-  { label: 'Admin', path: '/admin' },
-  { label: 'Login', href: 'https://reckoncare.reckonsales.com/Account/Login', external: true },
   { label: 'Video Tutorials', path: '/tutorials' },
   { label: '🚀 Reckon-SmartScan', href: 'http://smartscan.reckonsales.com/', external: true },
 ];

@@ -17,3 +17,6 @@ class ClientLogo(TimestampMixin, Base):
     id: Mapped[str] = mapped_column(String(50), primary_key=True, default=generate_client_id, index=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     img: Mapped[str] = mapped_column(String(500), nullable=False)  # Named 'img' to match frontend client.img
+    city: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    software: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    type: Mapped[str] = mapped_column(String(20), default="client", server_default="client")

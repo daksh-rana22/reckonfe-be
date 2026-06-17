@@ -24,11 +24,14 @@ export function getIconComponent(iconName) {
 export function AdminStoreProvider({ children }) {
   const [logoUrl, setLogoUrl] = useState('/images/logo.png');
   const [clientLogos, setClientLogos] = useState([]);
+  const [partnerLogos, setPartnerLogos] = useState([]);
   const [categories, setCategories] = useState([]);
   const [downloads, setDownloads] = useState([]);
   const [galleryCategories, setGalleryCategories] = useState([]);
   const [galleryItems, setGalleryItems] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
+  const [banners, setBanners] = useState([]);
+  const [slideDuration, setSlideDuration] = useState(5);
 
   // Fetch token helper
   const getHeaders = useCallback((isMultipart = false) => {
@@ -65,6 +68,18 @@ export function AdminStoreProvider({ children }) {
       }
     } catch (err) {
       console.error('Error fetching client logos:', err);
+    }
+  }, []);
+
+  const fetchPartnerLogos = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_BASE}/partners`);
+      if (res.ok) {
+        const data = await res.json();
+        setPartnerLogos(data.map(p => ({ ...p, img: formatLink(p.img) })));
+      }
+    } catch (err) {
+      console.error('Error fetching partner logos:', err);
     }
   }, []);
 
@@ -116,14 +131,41 @@ export function AdminStoreProvider({ children }) {
     }
   }, []);
 
+  const fetchBanners = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_BASE}/banners`);
+      if (res.ok) {
+        const data = await res.json();
+        setBanners(data.map(b => ({ ...b, image_url: formatLink(b.image_url) })));
+      }
+    } catch (err) {
+      console.error('Error fetching banners:', err);
+    }
+  }, []);
+
+  const fetchSlideDuration = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_BASE}/banners/duration`);
+      if (res.ok) {
+        const data = await res.json();
+        setSlideDuration(data.slide_duration);
+      }
+    } catch (err) {
+      console.error('Error fetching slide duration:', err);
+    }
+  }, []);
+
   // Load all data on mount
   useEffect(() => {
     fetchLogo();
     fetchClientLogos();
+    fetchPartnerLogos();
     fetchDownloads();
     fetchGallery();
     fetchTestimonials();
-  }, [fetchLogo, fetchClientLogos, fetchDownloads, fetchGallery, fetchTestimonials]);
+    fetchBanners();
+    fetchSlideDuration();
+  }, [fetchLogo, fetchClientLogos, fetchPartnerLogos, fetchDownloads, fetchGallery, fetchTestimonials, fetchBanners, fetchSlideDuration]);
 
   // ── Branding mutations ──
   const updateLogo = useCallback(async (fileBlob) => {
@@ -161,10 +203,16 @@ export function AdminStoreProvider({ children }) {
   }, [getHeaders]);
 
   // ── Client mutations ──
-  const addClientLogo = useCallback(async (name, fileBlob) => {
+  const addClientLogo = useCallback(async (name, fileBlob, city, software) => {
     try {
       const formData = new FormData();
       formData.append('name', name);
+      if (city) {
+        formData.append('city', city);
+      }
+      if (software) {
+        formData.append('software', software);
+      }
       formData.append('file', fileBlob);
       
       const res = await fetch(`${API_BASE}/clients`, {
@@ -198,6 +246,41 @@ export function AdminStoreProvider({ children }) {
     }
   }, [fetchClientLogos, getHeaders]);
 
+  const updateClientLogo = useCallback(async (id, name, fileBlob, city, software) => {
+    try {
+      const formData = new FormData();
+      formData.append('name', name);
+      if (city) {
+        formData.append('city', city);
+      } else {
+        formData.append('city', '');
+      }
+      if (software) {
+        formData.append('software', software);
+      } else {
+        formData.append('software', 'all');
+      }
+      if (fileBlob) {
+        formData.append('file', fileBlob);
+      }
+      
+      const res = await fetch(`${API_BASE}/clients/${id}`, {
+        method: 'PUT',
+        headers: getHeaders(true),
+        body: formData
+      });
+      if (res.ok) {
+        await fetchClientLogos();
+      } else {
+        const err = await res.json();
+        throw new Error(err.message || 'Failed to update client logo.');
+      }
+    } catch (err) {
+      console.error('Error updating client logo:', err);
+      throw err;
+    }
+  }, [fetchClientLogos, getHeaders]);
+
   const resetClientLogos = useCallback(async () => {
     try {
       const res = await fetch(`${API_BASE}/clients/reset`, {
@@ -211,6 +294,61 @@ export function AdminStoreProvider({ children }) {
       console.error('Error resetting client logos:', err);
     }
   }, [fetchClientLogos, getHeaders]);
+
+  // ── Partner mutations ──
+  const addPartnerLogo = useCallback(async (name, fileBlob, city) => {
+    try {
+      const formData = new FormData();
+      formData.append('name', name);
+      if (city) {
+        formData.append('city', city);
+      }
+      formData.append('file', fileBlob);
+      
+      const res = await fetch(`${API_BASE}/partners`, {
+        method: 'POST',
+        headers: getHeaders(true),
+        body: formData
+      });
+      if (res.ok) {
+        await fetchPartnerLogos();
+      } else {
+        const err = await res.json();
+        throw new Error(err.message || 'Failed to add partner logo.');
+      }
+    } catch (err) {
+      console.error('Error adding partner logo:', err);
+      throw err;
+    }
+  }, [fetchPartnerLogos, getHeaders]);
+
+  const deletePartnerLogo = useCallback(async (id) => {
+    try {
+      const res = await fetch(`${API_BASE}/partners/${id}`, {
+        method: 'DELETE',
+        headers: getHeaders()
+      });
+      if (res.ok) {
+        await fetchPartnerLogos();
+      }
+    } catch (err) {
+      console.error('Error deleting partner logo:', err);
+    }
+  }, [fetchPartnerLogos, getHeaders]);
+
+  const resetPartnerLogos = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_BASE}/partners/reset`, {
+        method: 'POST',
+        headers: getHeaders()
+      });
+      if (res.ok) {
+        await fetchPartnerLogos();
+      }
+    } catch (err) {
+      console.error('Error resetting partner logos:', err);
+    }
+  }, [fetchPartnerLogos, getHeaders]);
 
   // ── Download Categories mutations ──
   const addCategory = useCallback(async (label) => {
@@ -579,16 +717,104 @@ export function AdminStoreProvider({ children }) {
     }
   }, [fetchTestimonials, getHeaders]);
 
+  // ── Banner mutations ──
+  const addBanner = useCallback(async (title, description, sortOrder, isActive, fileBlob, redirectPath) => {
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      if (description) {
+        formData.append('description', description);
+      }
+      formData.append('sort_order', String(sortOrder));
+      formData.append('is_active', String(isActive));
+      if (redirectPath) {
+        formData.append('redirect_path', redirectPath);
+      }
+      if (fileBlob) {
+        formData.append('file', fileBlob);
+      }
+
+      const res = await fetch(`${API_BASE}/banners`, {
+        method: 'POST',
+        headers: getHeaders(true),
+        body: formData
+      });
+      if (res.ok) {
+        await fetchBanners();
+      } else {
+        const err = await res.json();
+        throw new Error(err.message || 'Failed to add banner.');
+      }
+    } catch (err) {
+      console.error('Error adding banner:', err);
+      throw err;
+    }
+  }, [fetchBanners, getHeaders]);
+
+  const deleteBanner = useCallback(async (id) => {
+    try {
+      const res = await fetch(`${API_BASE}/banners/${id}`, {
+        method: 'DELETE',
+        headers: getHeaders()
+      });
+      if (res.ok) {
+        await fetchBanners();
+      } else {
+        const err = await res.json();
+        throw new Error(err.message || 'Failed to delete banner.');
+      }
+    } catch (err) {
+      console.error('Error deleting banner:', err);
+      throw err;
+    }
+  }, [fetchBanners, getHeaders]);
+
+  const resetBanners = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_BASE}/banners/reset`, {
+        method: 'POST',
+        headers: getHeaders()
+      });
+      if (res.ok) {
+        await fetchBanners();
+      }
+    } catch (err) {
+      console.error('Error resetting banners:', err);
+    }
+  }, [fetchBanners, getHeaders]);
+
+  const updateSlideDuration = useCallback(async (duration) => {
+    try {
+      const res = await fetch(`${API_BASE}/banners/duration`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ slide_duration: Number(duration) })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setSlideDuration(data.slide_duration);
+      } else {
+        const err = await res.json();
+        throw new Error(err.message || 'Failed to update slide duration.');
+      }
+    } catch (err) {
+      console.error('Error updating slide duration:', err);
+      throw err;
+    }
+  }, [getHeaders]);
+
   return (
     <AdminStoreContext.Provider value={{
       logoUrl, updateLogo, resetLogo,
-      clientLogos, addClientLogo, deleteClientLogo, resetClientLogos,
+      clientLogos, addClientLogo, updateClientLogo, deleteClientLogo, resetClientLogos,
+      partnerLogos, addPartnerLogo, deletePartnerLogo, resetPartnerLogos,
       categories, addCategory, removeCategory, updateCategory, toggleCategoryActive,
       downloads, addDownload, removeDownload, updateDownload, resetDownloads, toggleDownloadActive,
       downloadFile, getIconComponent,
       galleryCategories, addGalleryCategory, removeGalleryCategory, updateGalleryCategory,
       galleryItems, addGalleryItem, removeGalleryItem, resetGallery,
-      testimonials, addTestimonial, updateTestimonial, deleteTestimonial, resetTestimonials
+      testimonials, addTestimonial, updateTestimonial, deleteTestimonial, resetTestimonials,
+      banners, addBanner, deleteBanner, resetBanners, slideDuration, updateSlideDuration
     }}>
       {children}
     </AdminStoreContext.Provider>

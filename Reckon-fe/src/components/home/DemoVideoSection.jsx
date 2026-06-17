@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Play, Sparkles, Shield, Cpu, Zap } from 'lucide-react';
+import { Play, Sparkles, Shield, Cpu, Zap, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import SectionHeading from '@/components/shared/SectionHeading';
 
 export default function DemoVideoSection() {
@@ -115,6 +116,16 @@ export default function DemoVideoSection() {
                   </div>
                 );
               })}
+            </div>
+
+            <div className="pt-2">
+              <Link
+                to="/tutorials"
+                className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white font-bold shadow-lg hover:shadow-glow hover:scale-[1.02] active:scale-95 transition-all duration-300 w-full text-sm"
+              >
+                View More Tutorials
+                <ArrowRight className="w-4.5 h-4.5" />
+              </Link>
             </div>
           </motion.div>
         </div>

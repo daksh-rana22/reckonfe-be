@@ -78,7 +78,7 @@ export default function CTASection() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                to="/softwares"
+                to="/software"
                 className={cn(
                   "inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-semibold border transition-all duration-300 backdrop-blur-sm",
                   isDark

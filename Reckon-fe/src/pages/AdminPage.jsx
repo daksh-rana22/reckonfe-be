@@ -11,9 +11,8 @@ import {
   Plus, Trash2, Pencil, X, Check, AlertCircle,
   Monitor, FileText, Cloud, Hammer, Search,
   Sun, Moon, ArrowLeft, Shield, ChevronDown, Menu,
-  TrendingUp, Calendar, User, Settings, FolderOpen,
-  Layers, PlayCircle, Clock, Home, ArrowUpRight, Eye, EyeOff,
-  RefreshCw, Handshake, MessageSquare
+  FolderOpen, Layers, Eye, EyeOff,
+  RefreshCw, Handshake, MessageSquare, Sliders
 } from 'lucide-react';
 
 const ICON_OPTIONS = [
@@ -55,6 +54,154 @@ function GalleryImage({ src, alt, className, ...props }) {
   return <img src={localSrc} alt={alt} className={className} {...props} />;
 }
 
+const getBannerImage = (banner) => {
+  if (banner.image_url && banner.image_url !== 'placeholder' && banner.image_url !== '') {
+    return banner.image_url;
+  }
+
+  const path = banner.redirect_path || "";
+  const segments = path.split('/').filter(Boolean);
+
+  if (segments.length === 1 && segments[0] === 'software') {
+    return '/images/home_pos_showcase.png';
+  }
+
+  if (segments.length >= 3) {
+    const sub = segments[2];
+    switch (sub) {
+      case 'retail-pharmacies':
+        return '/images/retail_pharmacy_billing.png';
+      case 'hospital-pharmacies':
+        return '/images/hospital_pharmacy_billing.png';
+      case 'jan-aushadhi-kendra':
+        return '/images/jan_aushadhi_kendra_billing.png';
+      case 'ayurvedic-generic':
+        return '/images/ayurvedic_generic_billing.png';
+      case 'homeopathic-shops':
+        return '/images/homeopathic_shop_billing.png';
+      case 'pharma-wholesalers':
+        return '/images/pharma_wholesaler_billing.png';
+      case 'pharma-distributors':
+        return '/images/pharma_distributor_billing.png';
+      case 'pharma-marketing':
+        return '/images/pharma_marketing_billing.png';
+      case 'multi-branch-pharmacy':
+      case 'multi-branch-pharmacy-chain':
+        return '/images/multi_branch_pharmacy_billing.png';
+      case 'auto-parts-retailers':
+        return '/images/auto_parts_retailer_billing.png';
+      case 'spare-parts-dealers':
+        return '/images/spare_parts_dealer_billing.png';
+      case 'car-accessories':
+        return '/images/car_accessories_billing.png';
+      case 'multi-branch-auto-parts':
+        return '/images/multi_branch_autoparts_billing.png';
+      case 'fmcg-distributors':
+        return '/images/fmcg_distributor_billing.png';
+      case 'fmcg-wholesalers':
+        return '/images/fmcg_wholesaler_billing.png';
+      case 'fmcg-retailers':
+        return '/images/fmcg_retailer_billing.png';
+      case 'fmcg-companies':
+        return '/images/fmcg_company_billing.png';
+      case 'grocery-kirana':
+        return '/images/grocery_kirana_billing.png';
+      case 'departmental-supermarket':
+        return '/images/departmental_supermarket_billing.png';
+      case 'garment-footwear':
+        return '/images/garment_footwear_billing.png';
+      case 'sarees-clothing':
+        return '/images/sarees_clothing_billing.png';
+      case 'pharmacy-ayurvedic':
+        return '/images/pharmacy_ayurvedic_billing.png';
+      case 'hardware-electrical':
+        return '/images/hardware_electrical_billing.png';
+      case 'books-stationary':
+        return '/images/books_stationary_billing.png';
+      case 'school-dresses':
+        return '/images/school_dresses_billing.png';
+      case 'gift-novelty':
+        return '/images/gift_novelty_billing.png';
+      case 'paint-dealers':
+        return '/images/paint_dealers_billing.png';
+      case 'multi-outlet-chain':
+        return '/images/multi_outlet_chain_billing.png';
+    }
+  }
+
+  if (segments.length >= 2) {
+    const suite = segments[1];
+    switch (suite) {
+      case 'pharmacy-healthcare':
+        return '/images/retail_pharmacy_billing.png';
+      case 'auto-parts':
+        return '/images/multi_branch_autoparts_billing.png';
+      case 'fmcg':
+        return '/images/fmcg_distributor_billing.png';
+      case 'retail':
+        return '/images/home_pos_showcase.png';
+    }
+  }
+
+  return '/images/retail_pharmacy_billing.png';
+};
+
+const getParentCategory = (industry) => {
+  const ind = (industry || '').toLowerCase();
+  if (ind.includes('pharmacy') || ind.includes('pharma') || ind.includes('aushadhi') || ind.includes('ayurvedic-generic') || ind.includes('homeopathic')) {
+    return 'Pharmacy';
+  }
+  if (ind.includes('auto') || ind.includes('spare') || ind.includes('car')) {
+    return 'Auto Parts';
+  }
+  if (ind.includes('fmcg')) {
+    return 'FMCG';
+  }
+  if (ind.includes('retail') || ind.includes('grocery') || ind.includes('supermarket') || ind.includes('garment') || ind.includes('sarees') || ind.includes('hardware') || ind.includes('books') || ind.includes('school') || ind.includes('gift') || ind.includes('paint') || ind.includes('multi-outlet') || ind.includes('all')) {
+    return 'Retail';
+  }
+  return industry;
+};
+
+const getIndustryLabel = (industry) => {
+  const mapping = {
+    'pharmacy-healthcare': 'Pharmacy & Healthcare',
+    'retail-pharmacies': 'Retail Pharmacies',
+    'hospital-pharmacies': 'Hospital Pharmacies',
+    'jan-aushadhi-kendra': 'Jan Aushadhi Kendra',
+    'ayurvedic-generic': 'Ayurvedic & Generic Medicine',
+    'homeopathic-shops': 'Homeopathic Shops',
+    'pharma-wholesalers': 'Pharma Wholesalers',
+    'pharma-distributors': 'Pharma Distributors',
+    'pharma-marketing': 'Pharma Marketing Companies',
+    'multi-branch-pharmacy-chain': 'Multi-branch Pharmacy Chain',
+    'auto-parts': 'Auto Parts',
+    'auto-parts-retailers': 'Auto Parts Retailers',
+    'spare-parts-dealers': 'Spare Parts Dealers',
+    'car-accessories': 'Car Accessories',
+    'multi-branch-auto-parts': 'Multi-branch Auto Parts',
+    'fmcg': 'FMCG Suite',
+    'fmcg-distributors': 'FMCG Distributors',
+    'fmcg-wholesalers': 'FMCG Wholesalers',
+    'fmcg-retailers': 'FMCG Retailers',
+    'fmcg-companies': 'FMCG Companies',
+    'retail': 'Retail Suite',
+    'grocery-kirana': 'Grocery & Kirana',
+    'departmental-supermarket': 'Departmental & Supermarket',
+    'garment-footwear': 'Garment & Footwear',
+    'sarees-clothing': 'Sarees & Clothing',
+    'pharmacy-ayurvedic': 'Pharmacy & Ayurvedic',
+    'hardware-electrical': 'Hardware & Electrical',
+    'books-stationary': 'Books & Stationary',
+    'school-dresses': 'School Dresses',
+    'gift-novelty': 'Gift & Novelty',
+    'paint-dealers': 'Paint Dealers',
+    'multi-outlet-chain': 'Multi Outlet Chain',
+    'all': 'All Solutions'
+  };
+  return mapping[industry] || industry;
+};
+
 export default function AdminPage() {
   const {
     isAdmin,
@@ -70,16 +217,18 @@ export default function AdminPage() {
 
   const {
     logoUrl, updateLogo, resetLogo,
-    clientLogos, addClientLogo, deleteClientLogo, resetClientLogos,
+    clientLogos, addClientLogo, updateClientLogo, deleteClientLogo, resetClientLogos,
+    partnerLogos, addPartnerLogo, deletePartnerLogo, resetPartnerLogos,
     categories, addCategory, removeCategory, updateCategory, toggleCategoryActive,
     downloads, addDownload, removeDownload, updateDownload, resetDownloads, toggleDownloadActive,
     downloadFile, getIconComponent,
     galleryCategories, addGalleryCategory, removeGalleryCategory, updateGalleryCategory,
     galleryItems, addGalleryItem, removeGalleryItem, resetGallery,
-    testimonials, addTestimonial, updateTestimonial, deleteTestimonial, resetTestimonials
+    testimonials, addTestimonial, updateTestimonial, deleteTestimonial, resetTestimonials,
+    banners, addBanner, deleteBanner, resetBanners, slideDuration, updateSlideDuration
   } = useAdminStore();
 
-  const [activeTab, setActiveTab] = useState('dashboard'); // Tab state driven by sidebar
+  const [activeTab, setActiveTab] = useState('downloads'); // Tab state driven by sidebar
 
   // Reviews/Testimonials State
   const [reviewsSearch, setReviewsSearch] = useState('');
@@ -99,12 +248,25 @@ export default function AdminPage() {
   
   // Client Logos state
   const [newClientName, setNewClientName] = useState('');
+  const [newClientCity, setNewClientCity] = useState('');
+  const [newClientSoftware, setNewClientSoftware] = useState('all');
   const [newClientLogoPreview, setNewClientLogoPreview] = useState(null);
   const [newClientLogoFile, setNewClientLogoFile] = useState(null);
   const [clientLogoSuccess, setClientLogoSuccess] = useState('');
   const [showAddClientModal, setShowAddClientModal] = useState(false);
+  const [editingClientLogoId, setEditingClientLogoId] = useState(null);
   const [clientError, setClientError] = useState('');
   const clientLogoInputRef = useRef(null);
+
+  // Partner Logos state
+  const [newPartnerName, setNewPartnerName] = useState('');
+  const [newPartnerCity, setNewPartnerCity] = useState('');
+  const [newPartnerLogoPreview, setNewPartnerLogoPreview] = useState(null);
+  const [newPartnerLogoFile, setNewPartnerLogoFile] = useState(null);
+  const [partnerLogoSuccess, setPartnerLogoSuccess] = useState('');
+  const [showAddPartnerModal, setShowAddPartnerModal] = useState(false);
+  const [partnerError, setPartnerError] = useState('');
+  const partnerLogoInputRef = useRef(null);
 
   // Gallery state
   const [gallerySearch, setGallerySearch] = useState('');
@@ -163,6 +325,26 @@ export default function AdminPage() {
   const [showNewAdminPass, setShowNewAdminPass] = useState(false);
   const [showEditAdminPass, setShowEditAdminPass] = useState(false);
 
+  // Banners state
+  const [showAddBannerModal, setShowAddBannerModal] = useState(false);
+  const [newBannerTitle, setNewBannerTitle] = useState('');
+  const [newBannerDescription, setNewBannerDescription] = useState('');
+  const [newBannerSortOrder, setNewBannerSortOrder] = useState(0);
+  const [newBannerFile, setNewBannerFile] = useState(null);
+  const [newBannerFilePreview, setNewBannerFilePreview] = useState(null);
+  const [newBannerRedirectPath, setNewBannerRedirectPath] = useState('');
+  const [bannerError, setBannerError] = useState('');
+  const [bannerSuccess, setBannerSuccess] = useState('');
+  const bannerImageInputRef = useRef(null);
+
+  // Banner slide duration input
+  const [editDuration, setEditDuration] = useState(5);
+  useEffect(() => {
+    if (slideDuration) {
+      setEditDuration(slideDuration);
+    }
+  }, [slideDuration]);
+
   // Mobile navigation state
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
@@ -208,25 +390,61 @@ export default function AdminPage() {
     reader.readAsDataURL(file);
   };
 
-  const handleAddClientLogo = () => {
+  const handleAddClientLogo = async () => {
     if (!newClientName.trim()) {
       setClientError('Client name is required.');
       return;
     }
-    if (!newClientLogoFile) {
+    // Logo is optional if editing an existing client logo, otherwise mandatory
+    if (!editingClientLogoId && !newClientLogoFile) {
       setClientError('Client logo image is required.');
       return;
     }
 
-    addClientLogo(newClientName, newClientLogoFile);
-    setNewClientName('');
-    setNewClientLogoPreview(null);
+    try {
+      setClientError('');
+      if (editingClientLogoId) {
+        await updateClientLogo(editingClientLogoId, newClientName.trim(), newClientLogoFile, newClientCity.trim(), newClientSoftware);
+        setClientLogoSuccess('Client logo updated successfully!');
+      } else {
+        await addClientLogo(newClientName.trim(), newClientLogoFile, newClientCity.trim(), newClientSoftware);
+        setClientLogoSuccess('Client logo added successfully!');
+      }
+
+      setNewClientName('');
+      setNewClientCity('');
+      setNewClientSoftware('all');
+      setNewClientLogoPreview(null);
+      setNewClientLogoFile(null);
+      setEditingClientLogoId(null);
+      setShowAddClientModal(false);
+      
+      setTimeout(() => setClientLogoSuccess(''), 3000);
+    } catch (err) {
+      setClientError(err.message || 'Failed to save client logo.');
+    }
+  };
+
+  const handleEditClientLogo = (client) => {
+    setEditingClientLogoId(client.id);
+    setNewClientName(client.name);
+    setNewClientCity(client.city || '');
+    setNewClientSoftware(client.software || 'all');
+    setNewClientLogoPreview(client.img);
     setNewClientLogoFile(null);
     setClientError('');
+    setShowAddClientModal(true);
+  };
+
+  const handleCancelClientLogo = () => {
+    setNewClientName('');
+    setNewClientCity('');
+    setNewClientSoftware('all');
+    setNewClientLogoPreview(null);
+    setNewClientLogoFile(null);
+    setEditingClientLogoId(null);
+    setClientError('');
     setShowAddClientModal(false);
-    
-    setClientLogoSuccess('Client logo added successfully!');
-    setTimeout(() => setClientLogoSuccess(''), 3000);
   };
 
   const handleDeleteClientLogo = (id, name) => {
@@ -242,6 +460,61 @@ export default function AdminPage() {
       resetClientLogos();
       setClientLogoSuccess('Client logos reset to default!');
       setTimeout(() => setClientLogoSuccess(''), 3000);
+    }
+  };
+
+  // ── Partner Logos handlers ──
+  const handlePartnerLogoUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 204800) {
+      setPartnerError('File too large. Please use an image under 200KB.');
+      return;
+    }
+    setNewPartnerLogoFile(file);
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setNewPartnerLogoPreview(ev.target.result);
+      setPartnerError('');
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleAddPartnerLogoSubmit = () => {
+    if (!newPartnerName.trim()) {
+      setPartnerError('Partner name is required.');
+      return;
+    }
+    if (!newPartnerLogoFile) {
+      setPartnerError('Partner logo image is required.');
+      return;
+    }
+
+    addPartnerLogo(newPartnerName, newPartnerLogoFile, newPartnerCity);
+    setNewPartnerName('');
+    setNewPartnerCity('');
+    setNewPartnerLogoPreview(null);
+    setNewPartnerLogoFile(null);
+    setPartnerError('');
+    setShowAddPartnerModal(false);
+
+    setPartnerLogoSuccess('Partner logo added successfully!');
+    setTimeout(() => setPartnerLogoSuccess(''), 3000);
+  };
+
+  const handleDeletePartnerLogo = (id, name) => {
+    if (confirm(`Are you sure you want to delete "${name}"?`)) {
+      deletePartnerLogo(id);
+      setPartnerLogoSuccess('Partner logo deleted successfully!');
+      setTimeout(() => setPartnerLogoSuccess(''), 3000);
+    }
+  };
+
+  const handleResetPartnerLogos = () => {
+    if (confirm('Are you sure you want to reset all partner logos to default?')) {
+      resetPartnerLogos();
+      setPartnerLogoSuccess('Partner logos reset to default!');
+      setTimeout(() => setPartnerLogoSuccess(''), 3000);
     }
   };
 
@@ -262,7 +535,7 @@ export default function AdminPage() {
       }
       setShowAddReviewModal(false);
       setEditingReviewId(null);
-      setReviewFormData({ name: '', designation: '', company: '', industry: 'Pharmacy', quote: '', rating: 5 });
+      setReviewFormData({ name: '', designation: '', company: '', industry: 'all', quote: '', rating: 5 });
       setTimeout(() => setReviewSuccess(''), 3000);
     } catch (err) {
       setReviewError(err.message || 'An error occurred.');
@@ -304,6 +577,105 @@ export default function AdminPage() {
       } catch (err) {
         alert('Failed to reset testimonials.');
       }
+    }
+  };
+
+  // ── Banners Management Handlers ──
+  const handleBannerUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 6 * 1024 * 1024) { // 6MB limit
+      setBannerError('File too large. Please upload an image under 6MB.');
+      return;
+    }
+    setNewBannerFile(file);
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setNewBannerFilePreview(ev.target.result);
+      setBannerError('');
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleAddBanner = async () => {
+    // Compulsory image upload only if no redirect page is selected
+    if (!newBannerRedirectPath && !newBannerFile) {
+      setBannerError('Please select a banner image file.');
+      return;
+    }
+
+    // Automatically generate title from software path or uploaded filename
+    let title = 'Banner';
+    if (newBannerRedirectPath) {
+      const parts = newBannerRedirectPath.split('/').filter(Boolean);
+      if (parts.length > 0) {
+        const last = parts[parts.length - 1];
+        title = last.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      }
+    } else if (newBannerFile) {
+      title = newBannerFile.name.replace(/\.[^/.]+$/, "");
+    }
+
+    const sortOrder = (banners || []).length + 1;
+
+    try {
+      setBannerError('');
+      await addBanner(
+        title,
+        '', // No description
+        sortOrder,
+        true, // isActive
+        newBannerFile,
+        newBannerRedirectPath
+      );
+
+      // Reset form
+      setNewBannerTitle('');
+      setNewBannerDescription('');
+      setNewBannerSortOrder(0);
+      setNewBannerFile(null);
+      setNewBannerFilePreview(null);
+      setNewBannerRedirectPath('');
+      setShowAddBannerModal(false);
+
+      setBannerSuccess('Banner added successfully!');
+      setTimeout(() => setBannerSuccess(''), 3000);
+    } catch (err) {
+      setBannerError('Failed to add banner: ' + err.message);
+    }
+  };
+
+  const handleDeleteBanner = async (id, title) => {
+    if (confirm(`Are you sure you want to delete banner "${title}"?`)) {
+      try {
+        await deleteBanner(id);
+        setBannerSuccess('Banner deleted successfully!');
+        setTimeout(() => setBannerSuccess(''), 3000);
+      } catch (err) {
+        alert('Failed to delete banner: ' + err.message);
+      }
+    }
+  };
+
+  const handleResetBanners = async () => {
+    if (confirm('Are you sure you want to reset all banners to default? This will delete your current banners.')) {
+      try {
+        await resetBanners();
+        setBannerSuccess('Banners reset to defaults successfully!');
+        setTimeout(() => setBannerSuccess(''), 3000);
+      } catch (err) {
+        alert('Failed to reset banners: ' + err.message);
+      }
+    }
+  };
+
+  const handleUpdateDuration = async () => {
+    try {
+      await updateSlideDuration(editDuration);
+      setBannerSuccess('Slide duration updated successfully!');
+      setTimeout(() => setBannerSuccess(''), 3000);
+    } catch (err) {
+      alert('Failed to update slide duration: ' + err.message);
     }
   };
 
@@ -505,42 +877,11 @@ export default function AdminPage() {
 
   const countByType = (type) => downloads.filter(d => d.type === type).length;
 
-  const getCategoryStatStyle = (index) => {
-    const styles = [
-      { color: 'text-amber-500 bg-amber-50 dark:bg-amber-500/10', Icon: Monitor },
-      { color: 'text-violet-500 bg-violet-50 dark:bg-violet-500/10', Icon: FolderOpen },
-      { color: 'text-blue-500 bg-blue-50 dark:bg-blue-500/10', Icon: Cloud },
-      { color: 'text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10', Icon: PlayCircle },
-      { color: 'text-pink-500 bg-pink-50 dark:bg-pink-500/10', Icon: Hammer },
-      { color: 'text-cyan-500 bg-cyan-50 dark:bg-cyan-500/10', Icon: Layers }
-    ];
-    return styles[index % styles.length];
-  };
-
-  const averageRating = testimonials && testimonials.length > 0 
-    ? (testimonials.reduce((sum, r) => sum + r.rating, 0) / testimonials.length).toFixed(1)
-    : '5.0';
-
-  const dashboardStats = [
-    { label: 'TOTAL FILES', count: downloads.length, Icon: FileText, color: 'text-red-500 bg-red-50 dark:bg-red-500/10', desc: 'All uploaded files' },
-    { label: 'CLIENT REVIEWS', count: testimonials ? testimonials.length : 0, Icon: MessageSquare, color: 'text-teal-500 bg-teal-50 dark:bg-teal-500/10', desc: `Avg. Rating: ${averageRating} ★` },
-    ...categories.map((cat, idx) => {
-      const style = getCategoryStatStyle(idx);
-      return {
-        label: cat.label.toUpperCase(),
-        count: countByType(cat.value),
-        Icon: style.Icon,
-        color: style.color,
-        desc: `Total ${cat.label} files`
-      };
-    })
-  ];
-
   return (
     <>
       <Helmet>
         <title>Console - Reckon Sales</title>
-        <meta name="description" content="Reckon Sales modern SaaS admin dashboard console." />
+        <meta name="description" content="Reckon Sales modern SaaS admin console." />
       </Helmet>
 
       {/* Main Layout Container (Permanent left sidebar + main content right) */}
@@ -565,13 +906,12 @@ export default function AdminPage() {
             {/* Sidebar Navigation */}
             <nav className="space-y-1">
               {[
-                { id: 'dashboard', label: 'Dashboard', Icon: Home },
                 { id: 'downloads', label: 'Downloads Manager', Icon: Download },
                 { id: 'clientLogos', label: 'Client Logos', Icon: Layers },
                 { id: 'partnerLogos', label: 'Partner Logos', Icon: Handshake },
                 { id: 'gallery', label: 'Gallery Manager', Icon: ImageIcon },
                 { id: 'reviews', label: 'Reviews Manager', Icon: MessageSquare },
-                { id: 'settings', label: 'Settings', Icon: Settings },
+                { id: 'banners', label: 'Banners Manager', Icon: Sliders },
               ].map(item => {
                 const isActive = activeTab === item.id;
                 return (
@@ -627,13 +967,12 @@ export default function AdminPage() {
                 </div>
                 <nav className="space-y-1">
                   {[
-                    { id: 'dashboard', label: 'Dashboard', Icon: Home },
                     { id: 'downloads', label: 'Downloads Manager', Icon: Download },
                     { id: 'clientLogos', label: 'Client Logos', Icon: Layers },
                     { id: 'partnerLogos', label: 'Partner Logos', Icon: Handshake },
                     { id: 'gallery', label: 'Gallery Manager', Icon: ImageIcon },
                     { id: 'reviews', label: 'Reviews Manager', Icon: MessageSquare },
-                    { id: 'settings', label: 'Settings', Icon: Settings },
+                    { id: 'banners', label: 'Banners Manager', Icon: Sliders },
                   ].map(item => {
                     const isActive = activeTab === item.id;
                     return (
@@ -674,7 +1013,7 @@ export default function AdminPage() {
               <Menu className="w-5 h-5 text-primary" />
             </button>
             <div className="hidden md:block text-xs font-semibold text-muted">
-              Console Dashboard Management
+              Console Admin Management
             </div>
 
             {/* Profile Dropdown Actions */}
@@ -722,84 +1061,7 @@ export default function AdminPage() {
           {/* ── CORE CONTENT AREA ── */}
           <div className="p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 max-w-7xl w-full mx-auto flex-1">
 
-            {/* ═══════ VIEW: DASHBOARD OVERVIEW ═══════ */}
-            {activeTab === 'dashboard' && (
-              <div className="space-y-8 animate-fade-up">
-                <div className="flex flex-col gap-1">
-                  <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Dashboard Overview</h1>
-                  <p className="text-xs text-muted">A summary of files, setup assets, and system configuration repositories.</p>
-                </div>
 
-                {/* Statistics Cards Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                  {dashboardStats.map(stat => (
-                    <div
-                      key={stat.label}
-                      className="bg-surface rounded-2xl border border-slate-200 dark:border-white/5 p-5 text-slate-800 dark:text-slate-100 flex flex-col justify-between shadow-sm hover:scale-[1.01] transition-transform duration-300 min-h-[135px]"
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-sm border border-slate-100 dark:border-white/5", stat.color)}>
-                          <stat.Icon className="w-4.5 h-4.5" />
-                        </div>
-                        <ArrowUpRight className="w-4 h-4 text-muted/60" />
-                      </div>
-                      <div className="mt-3">
-                        <p className="text-[10px] font-black text-muted uppercase tracking-wider leading-none mb-1">{stat.label}</p>
-                        <p className="text-2xl font-black text-foreground tabular-nums leading-none mb-1">{stat.count}</p>
-                        <p className="text-[9px] text-muted truncate">{stat.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Additional Quick Actions / Info widgets on Dashboard */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Quick Guide Card */}
-                  <div className="bg-surface p-6 rounded-2xl border border-slate-200 dark:border-white/5 shadow-sm space-y-4">
-                    <h3 className="text-sm font-black text-foreground">Console Control Center</h3>
-                    <p className="text-xs text-muted leading-relaxed">
-                      Welcome to the Reckon Admin Console. From here, you can manage the branding logo displayed across the main platform, structure file classifications in Categories, and configure download lists for setup portals.
-                    </p>
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      <button
-                        onClick={() => setActiveTab('downloads')}
-                        className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-bold shadow-md hover:bg-primary-dark transition-all cursor-pointer"
-                      >
-                        Manage Downloads
-                      </button>
-                      <button
-                        onClick={() => setActiveTab('clientLogos')}
-                        className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-foreground text-xs font-bold hover:bg-slate-200 dark:hover:bg-white/10 transition-all cursor-pointer"
-                      >
-                        Client Logos
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* System Status / Meta info */}
-                  <div className="bg-surface p-6 rounded-2xl border border-slate-200 dark:border-white/5 shadow-sm space-y-4">
-                    <h3 className="text-sm font-black text-foreground">System & Database Status</h3>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-muted">Database Connection</span>
-                        <span className="font-semibold text-emerald-500 flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                          Online (Local IndexedDB)
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-muted">Total Categories</span>
-                        <span className="font-semibold text-foreground">{categories.length} Active Categories</span>
-                      </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-muted">Last System Update</span>
-                        <span className="text-muted font-mono">{currentTimestamp || 'Just now'}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* ═══════ VIEW: CLIENT LOGOS ═══════ */}
             {activeTab === 'clientLogos' && (
@@ -813,6 +1075,8 @@ export default function AdminPage() {
                     <button
                       onClick={() => {
                         setNewClientName('');
+                        setNewClientCity('');
+                        setNewClientSoftware('all');
                         setNewClientLogoPreview(null);
                         setNewClientLogoFile(null);
                         setClientError('');
@@ -857,10 +1121,28 @@ export default function AdminPage() {
                           <p className="mt-2 text-[10px] font-bold text-foreground truncate w-full px-1">
                             {client.name}
                           </p>
+                          {client.city && (
+                            <p className="text-[9px] text-muted truncate w-full px-1">
+                              {client.city}
+                            </p>
+                          )}
+                          {client.software && client.software !== 'all' && (
+                            <span className="mt-1 px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[8px] font-extrabold uppercase tracking-wide truncate max-w-full">
+                              {client.software.replace(/-/g, ' ')}
+                            </span>
+                          )}
+                          {/* Hover action edit button */}
+                          <button
+                            onClick={() => handleEditClientLogo(client)}
+                            className="absolute -top-2 -left-2 p-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-500 hover:text-blue-600 border border-blue-200 dark:bg-blue-500/10 dark:hover:bg-blue-500/20 dark:border-blue-500/20 shadow-md cursor-pointer transition-all hover:scale-105 z-10"
+                            title="Edit Client Logo"
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </button>
                           {/* Hover action delete button */}
                           <button
                             onClick={() => handleDeleteClientLogo(client.id, client.name)}
-                            className="absolute -top-2 -right-2 p-1.5 rounded-full bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 border border-red-200 dark:bg-red-500/10 dark:hover:bg-red-500/20 dark:border-red-500/20 shadow-md cursor-pointer transition-all hover:scale-105"
+                            className="absolute -top-2 -right-2 p-1.5 rounded-full bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 border border-red-200 dark:bg-red-500/10 dark:hover:bg-red-500/20 dark:border-red-500/20 shadow-md cursor-pointer transition-all hover:scale-105 z-10"
                             title="Delete Client Logo"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -894,45 +1176,47 @@ export default function AdminPage() {
                   <div className="flex items-center gap-2.5">
                     <button
                       onClick={() => {
-                        setNewClientName('');
-                        setNewClientLogoPreview(null);
-                        setNewClientLogoFile(null);
-                        setClientError('');
-                        setShowAddClientModal(true);
+                        setNewPartnerName('');
+                        setNewPartnerCity('');
+                        setNewPartnerLogoPreview(null);
+                        setNewPartnerLogoFile(null);
+                        setPartnerError('');
+                        setShowAddPartnerModal(true);
                       }}
                       className="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-xl bg-primary/10 hover:bg-primary/15 text-primary border border-primary/20 dark:bg-primary/15 dark:hover:bg-primary/25 dark:border-primary-light/20 text-xs font-bold shadow-sm transition-all duration-300 cursor-pointer"
                     >
                       <Plus className="w-4 h-4" />
                       Add Partner Logo
                     </button>
+                    <button
+                      onClick={handleResetPartnerLogos}
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-white/5 border border-border text-foreground text-xs font-bold shadow-sm hover:bg-slate-200 dark:hover:bg-white/10 transition-all cursor-pointer"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      Reset
+                    </button>
                   </div>
                 </div>
 
-                {clientLogoSuccess && (
+                {partnerLogoSuccess && (
                   <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs flex items-center gap-2 font-semibold shadow-sm animate-fade-in">
                     <Check className="w-4 h-4" />
-                    {clientLogoSuccess}
+                    {partnerLogoSuccess}
                   </div>
                 )}
 
-                {/* Info note */}
-                <div className="flex items-start gap-3 p-4 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-700 dark:text-blue-400 text-xs">
-                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                  <span>Partner logos and Client logos share the same list — changes here are also reflected under Client Logos and vice versa.</span>
-                </div>
-
                 <div className="bg-surface rounded-2xl border border-border p-6 shadow-sm">
-                  {clientLogos.length > 0 ? (
+                  {partnerLogos.length > 0 ? (
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                      {clientLogos.map((client) => (
+                      {partnerLogos.map((partner) => (
                         <div
-                          key={client.id}
+                          key={partner.id}
                           className="group relative flex flex-col items-center p-3 rounded-2xl border border-border bg-slate-50/50 dark:bg-white/[0.01] hover:bg-white dark:hover:bg-white/[0.03] hover:border-primary/25 hover:shadow-lg transition-all duration-300 text-center"
                         >
                           <div className="w-full h-24 rounded-xl overflow-hidden bg-white border border-border/60 flex items-center justify-center p-2 relative">
                             <img
-                              src={client.img}
-                              alt={client.name}
+                              src={partner.img}
+                              alt={partner.name}
                               className="max-w-full max-h-full object-contain select-none"
                               onError={(e) => {
                                 e.target.style.display = 'none';
@@ -941,10 +1225,15 @@ export default function AdminPage() {
                             />
                           </div>
                           <p className="mt-2 text-[10px] font-bold text-foreground truncate w-full px-1">
-                            {client.name}
+                            {partner.name}
                           </p>
+                          {partner.city && (
+                            <p className="text-[9px] text-muted truncate w-full px-1">
+                              {partner.city}
+                            </p>
+                          )}
                           <button
-                            onClick={() => handleDeleteClientLogo(client.id, client.name)}
+                            onClick={() => handleDeletePartnerLogo(partner.id, partner.name)}
                             className="absolute -top-2 -right-2 p-1.5 rounded-full bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 border border-red-200 dark:bg-red-500/10 dark:hover:bg-red-500/20 dark:border-red-500/20 shadow-md cursor-pointer transition-all hover:scale-105"
                             title="Delete Partner Logo"
                           >
@@ -1381,7 +1670,7 @@ export default function AdminPage() {
             {/* ═══════ VIEW: REVIEWS MANAGER ═══════ */}
             {activeTab === 'reviews' && (() => {
               const filteredReviews = (testimonials || []).filter(item => {
-                const matchesIndustry = reviewsFilter === 'all' || item.industry === reviewsFilter;
+                const matchesIndustry = reviewsFilter === 'all' || getParentCategory(item.industry) === reviewsFilter;
                 const matchesSearch = item.name.toLowerCase().includes(reviewsSearch.toLowerCase()) ||
                                       item.company.toLowerCase().includes(reviewsSearch.toLowerCase()) ||
                                       item.quote.toLowerCase().includes(reviewsSearch.toLowerCase());
@@ -1406,7 +1695,7 @@ export default function AdminPage() {
                       </button>
                       <button
                         onClick={() => {
-                          setReviewFormData({ name: '', designation: '', company: '', industry: 'Pharmacy', quote: '', rating: 5 });
+                          setReviewFormData({ name: '', designation: '', company: '', industry: 'all', quote: '', rating: 5 });
                           setEditingReviewId(null);
                           setReviewError('');
                           setShowAddReviewModal(true);
@@ -1451,7 +1740,7 @@ export default function AdminPage() {
                               : "bg-slate-50 dark:bg-white/5 text-muted hover:text-foreground"
                           )}
                         >
-                          {ind} ({(testimonials || []).filter(r => r.industry === ind).length})
+                          {ind} ({(testimonials || []).filter(r => getParentCategory(r.industry) === ind).length})
                         </button>
                       ))}
                     </div>
@@ -1472,6 +1761,7 @@ export default function AdminPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredReviews.length > 0 ? (
                       filteredReviews.map((review) => {
+                        const parentCat = getParentCategory(review.industry);
                         const indColorMap = {
                           Pharmacy: 'border-red-500/20 text-red-500 bg-red-500/5',
                           Retail: 'border-blue-500/20 text-blue-500 bg-blue-500/5',
@@ -1480,7 +1770,7 @@ export default function AdminPage() {
                           'Home Appliances': 'border-cyan-500/20 text-cyan-500 bg-cyan-500/5',
                           FMCG: 'border-rose-500/20 text-rose-500 bg-rose-500/5',
                         };
-                        const colorClass = indColorMap[review.industry] || 'border-slate-500/20 text-slate-500 bg-slate-500/5';
+                        const colorClass = indColorMap[parentCat] || 'border-slate-500/20 text-slate-500 bg-slate-500/5';
 
                         return (
                           <div
@@ -1496,7 +1786,7 @@ export default function AdminPage() {
                                   ))}
                                 </div>
                                 <span className={cn("text-[9px] px-2 py-0.5 rounded-full font-bold select-none border uppercase tracking-wider", colorClass)}>
-                                  {review.industry}
+                                  {getIndustryLabel(review.industry)}
                                 </span>
                               </div>
 
@@ -1543,6 +1833,132 @@ export default function AdminPage() {
                         <div className="space-y-1">
                           <p className="text-sm font-bold text-foreground">No reviews found</p>
                           <p className="text-xs text-muted leading-relaxed">Add a new review or reset defaults to populate the list.</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* ═══════ VIEW: BANNERS MANAGER ═══════ */}
+            {activeTab === 'banners' && (() => {
+              return (
+                <div className="space-y-6 animate-fade-up">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex flex-col gap-1 text-left">
+                      <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Banners Manager</h1>
+                      <p className="text-xs text-muted">Manage homepage product banners and slideshow interval.</p>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <button
+                        onClick={handleResetBanners}
+                        className="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-xl border border-border bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-white/5 dark:hover:bg-white/10 dark:text-slate-200 text-xs font-bold shadow-sm transition-all duration-300 cursor-pointer"
+                        title="Reset Banners to Defaults"
+                      >
+                        <RotateCcw className="w-4 h-4 text-muted" />
+                        Reset Defaults
+                      </button>
+                      <button
+                        onClick={() => {
+                          setNewBannerTitle('');
+                          setNewBannerDescription('');
+                          setNewBannerSortOrder(banners.length + 1);
+                          setNewBannerFile(null);
+                          setNewBannerFilePreview(null);
+                          setBannerError('');
+                          setShowAddBannerModal(true);
+                        }}
+                        className="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-xl bg-primary/10 hover:bg-primary/15 text-primary border border-primary/20 dark:bg-primary/15 dark:hover:bg-primary/25 dark:border-primary-light/20 text-xs font-bold shadow-sm transition-all duration-300 cursor-pointer"
+                      >
+                        <Plus className="w-4 h-4" />
+                        Add Banner
+                      </button>
+                    </div>
+                  </div>
+
+                  {bannerSuccess && (
+                    <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs flex items-center gap-2 font-semibold shadow-sm animate-fade-in">
+                      <Check className="w-4 h-4" />
+                      {bannerSuccess}
+                    </div>
+                  )}
+
+                  {/* Settings Bar & Interval Configuration */}
+                  <div className="bg-surface rounded-2xl border border-border p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6 text-left">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-black text-foreground">Autoplay Configuration</h3>
+                      <p className="text-xs text-muted">Set the time in seconds before the slides change automatically.</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="number"
+                        min="1"
+                        max="60"
+                        value={editDuration}
+                        onChange={(e) => setEditDuration(Math.max(1, Number(e.target.value)))}
+                        className="w-20 px-3 py-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 text-xs text-center font-bold"
+                      />
+                      <span className="text-xs text-muted">seconds</span>
+                      <button
+                        onClick={handleUpdateDuration}
+                        className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-bold shadow-md hover:bg-primary-dark transition-all cursor-pointer"
+                      >
+                        Save Setting
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Banners Grid */}
+                  <div className="bg-surface rounded-2xl border border-border p-6 shadow-sm text-left">
+                    {(banners || []).length > 0 ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {(banners || []).map((banner) => (
+                          <div
+                            key={banner.id}
+                            className="p-4 rounded-2xl border border-border bg-slate-50/50 dark:bg-white/[0.01] flex flex-col justify-between hover:shadow-md transition-all duration-300 relative animate-fade-in"
+                          >
+                            <div className="space-y-4">
+                              {/* Aspect image frame */}
+                              <div className="aspect-video w-full rounded-xl overflow-hidden bg-secondary border border-border flex items-center justify-center p-0.5 relative">
+                                <img
+                                  src={getBannerImage(banner)}
+                                  alt={banner.title}
+                                  className="w-full h-full object-cover select-none rounded-lg"
+                                />
+                              </div>
+                              <div className="space-y-1">
+                                <div className="flex items-center justify-between">
+                                  <h4 className="font-extrabold text-foreground text-sm truncate pr-2">{banner.title}</h4>
+                                  <span className="text-[9px] px-2 py-0.5 rounded-full font-bold select-none border uppercase tracking-wider bg-primary/10 text-primary border-primary/20 shrink-0">
+                                    Sort: {banner.sort_order}
+                                  </span>
+                                </div>
+                                {banner.description && (
+                                  <p className="text-xs text-muted leading-relaxed line-clamp-2">{banner.description}</p>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="mt-4 pt-3 border-t border-border flex justify-end">
+                              <button
+                                onClick={() => handleDeleteBanner(banner.id, banner.title)}
+                                className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 text-[#DC2626] dark:text-red-400 border border-red-100 dark:border-red-500/20 text-xs font-bold transition-all cursor-pointer"
+                                title="Delete Banner"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-16 flex flex-col items-center gap-4 max-w-md mx-auto">
+                        <ImageIcon className="w-12 h-12 text-muted/40" />
+                        <div className="space-y-1">
+                          <p className="text-sm font-bold text-foreground">No Banners Configured</p>
+                          <p className="text-xs text-muted leading-relaxed">Add a product banner or reset to defaults to display the homepage slideshow.</p>
                         </div>
                       </div>
                     )}
@@ -2176,11 +2592,11 @@ export default function AdminPage() {
 
       {/* Add Client Logo Modal */}
       {showAddClientModal && (
-        <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAddClientModal(false)}>
+        <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in" onClick={handleCancelClientLogo}>
           <div className="bg-surface rounded-2xl border border-border shadow-2xl w-full max-w-sm p-6 animate-fade-up" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-base font-black text-foreground">Add Client Logo</h3>
-              <button onClick={() => setShowAddClientModal(false)} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-muted hover:text-foreground transition-all cursor-pointer">
+              <h3 className="text-base font-black text-foreground">{editingClientLogoId ? "Edit Client Logo" : "Add Client Logo"}</h3>
+              <button onClick={handleCancelClientLogo} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-muted hover:text-foreground transition-all cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -2206,7 +2622,69 @@ export default function AdminPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1.5">Logo Image *</label>
+                <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1.5">City Name (Optional)</label>
+                <input
+                  type="text"
+                  value={newClientCity}
+                  onChange={(e) => setNewClientCity(e.target.value)}
+                  placeholder="e.g. Dehradun"
+                  className="w-full px-4 py-2.5 rounded-xl bg-background border border-input text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#863BFF]/20 focus:border-[#863BFF] transition-all text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1.5">Software Solution Page</label>
+                <select
+                  value={newClientSoftware}
+                  onChange={(e) => setNewClientSoftware(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-[#863BFF]/20 focus:border-[#863BFF] transition-all text-xs"
+                >
+                  <option value="all">All Softwares / General</option>
+                  <optgroup label="Pharmacy & Healthcare Suite">
+                    <option value="pharmacy-healthcare">All Pharmacy Pages</option>
+                    <option value="retail-pharmacies">Retail Pharmacies</option>
+                    <option value="hospital-pharmacies">Hospital Pharmacies</option>
+                    <option value="jan-aushadhi-kendra">Jan Aushidhi Kendra</option>
+                    <option value="ayurvedic-generic">Ayurvedic & Generic Medicine</option>
+                    <option value="homeopathic-shops">Homeopathic Shops</option>
+                    <option value="pharma-wholesalers">Pharma Wholesalers</option>
+                    <option value="pharma-distributors">Pharma Distributors</option>
+                    <option value="pharma-marketing">Pharma Marketing Companies</option>
+                    <option value="multi-branch-pharmacy-chain">Multi-branch Pharmacy Chain</option>
+                  </optgroup>
+                  <optgroup label="Auto Parts Suite">
+                    <option value="auto-parts">All Auto Parts Pages</option>
+                    <option value="auto-parts-retailers">Auto Parts Retailers</option>
+                    <option value="spare-parts-dealers">Spare Parts Dealers</option>
+                    <option value="car-accessories">Car Accessories</option>
+                    <option value="multi-branch-auto-parts">Multi-branch Auto parts Stores</option>
+                  </optgroup>
+                  <optgroup label="FMCG Suite">
+                    <option value="fmcg">All FMCG Pages</option>
+                    <option value="fmcg-distributors">FMCG Distributors</option>
+                    <option value="fmcg-wholesalers">FMCG Wholesalers</option>
+                    <option value="fmcg-retailers">FMCG Retailers</option>
+                    <option value="fmcg-companies">FMCG Companies</option>
+                  </optgroup>
+                  <optgroup label="Retail Suite">
+                    <option value="retail">All Retail Pages</option>
+                    <option value="grocery-kirana">Grocery & Kirana Store</option>
+                    <option value="departmental-supermarket">Departmental Store & Supermarket</option>
+                    <option value="garment-footwear">Garment & Footwear Shops</option>
+                    <option value="sarees-clothing">Sarees & Clothing Showroom</option>
+                    <option value="pharmacy-ayurvedic">Pharmacy & Ayurvedic Stores</option>
+                    <option value="hardware-electrical">Hardware & Electrical Shops</option>
+                    <option value="books-stationary">Books & Stationary Shops</option>
+                    <option value="school-dresses">School Dresses Shops</option>
+                    <option value="gift-novelty">Gift & Novelty Shops</option>
+                    <option value="paint-dealers">Paint Dealers & Distribution</option>
+                    <option value="multi-outlet-chain">Multi Outlet Retail Chain</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1.5">{editingClientLogoId ? "Logo Image (Optional)" : "Logo Image *"}</label>
                 <div className="space-y-2">
                   <div
                     onClick={() => clientLogoInputRef.current?.click()}
@@ -2254,10 +2732,114 @@ export default function AdminPage() {
                 className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary/10 hover:bg-primary/15 text-primary border border-primary/20 dark:bg-primary/15 dark:hover:bg-primary/25 dark:border-primary-light/20 text-xs font-bold shadow-sm transition-all duration-300 cursor-pointer"
               >
                 <Check className="w-4 h-4" />
-                Publish Logo
+                {editingClientLogoId ? "Save Changes" : "Publish Logo"}
               </button>
               <button
-                onClick={() => setShowAddClientModal(false)}
+                onClick={handleCancelClientLogo}
+                className="px-5 py-3 rounded-xl border border-border text-foreground hover:bg-slate-50 dark:hover:bg-white/5 text-xs font-bold transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Partner Logo Modal (no software field) */}
+      {showAddPartnerModal && (
+        <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAddPartnerModal(false)}>
+          <div className="bg-surface rounded-2xl border border-border shadow-2xl w-full max-w-sm p-6 animate-fade-up" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-base font-black text-foreground">Add Partner Logo</h3>
+              <button onClick={() => setShowAddPartnerModal(false)} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-muted hover:text-foreground transition-all cursor-pointer">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {partnerError && (
+              <div className="p-3 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-[#DC2626] dark:text-red-400 text-xs flex items-center gap-2 mb-4 font-semibold">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                {partnerError}
+              </div>
+            )}
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1.5">Partner Name *</label>
+                <input
+                  type="text"
+                  value={newPartnerName}
+                  onChange={(e) => setNewPartnerName(e.target.value)}
+                  placeholder="e.g. Vikas Distributors"
+                  className="w-full px-4 py-2.5 rounded-xl bg-background border border-input text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#863BFF]/20 focus:border-[#863BFF] transition-all text-xs"
+                  autoFocus
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1.5">City Name (Optional)</label>
+                <input
+                  type="text"
+                  value={newPartnerCity}
+                  onChange={(e) => setNewPartnerCity(e.target.value)}
+                  placeholder="e.g. Dehradun"
+                  className="w-full px-4 py-2.5 rounded-xl bg-background border border-input text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#863BFF]/20 focus:border-[#863BFF] transition-all text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1.5">Logo Image *</label>
+                <div className="space-y-2">
+                  <div
+                    onClick={() => partnerLogoInputRef.current?.click()}
+                    className="border-2 border-dashed border-border/85 hover:border-primary/45 rounded-xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer bg-slate-50/50 dark:bg-white/[0.01] hover:bg-slate-50 dark:hover:bg-white/[0.03] transition-all text-center"
+                  >
+                    <Upload className="w-6 h-6 text-muted/60" />
+                    <div className="text-xs text-muted">
+                      <span className="font-semibold text-primary">Click to select image</span>
+                    </div>
+                    <span className="text-[9px] text-muted/65">Supports PNG, JPEG, SVG, WebP (max 200KB)</span>
+                  </div>
+                  <input
+                    ref={partnerLogoInputRef}
+                    type="file"
+                    accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                    className="hidden"
+                    onChange={handlePartnerLogoUpload}
+                  />
+
+                  {newPartnerLogoPreview && (
+                    <div className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-50 dark:bg-white/5 border border-border text-xs animate-fade-in">
+                      <div className="w-10 h-10 rounded-lg bg-white border border-border flex items-center justify-center p-1 shrink-0">
+                        <img src={newPartnerLogoPreview} alt="Preview" className="max-w-full max-h-full object-contain" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-foreground text-[11px] truncate">Logo Image Selected</p>
+                        <p className="text-[9px] text-emerald-500 font-bold">Ready to publish</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => { setNewPartnerLogoPreview(null); setNewPartnerLogoFile(null); }}
+                        className="p-1 rounded-md hover:bg-slate-100 dark:hover:bg-white/10 text-muted hover:text-foreground transition-all cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6 pt-4 border-t border-border">
+              <button
+                onClick={handleAddPartnerLogoSubmit}
+                className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary/10 hover:bg-primary/15 text-primary border border-primary/20 dark:bg-primary/15 dark:hover:bg-primary/25 dark:border-primary-light/20 text-xs font-bold shadow-sm transition-all duration-300 cursor-pointer"
+              >
+                <Check className="w-4 h-4" />
+                Publish Partner Logo
+              </button>
+              <button
+                onClick={() => setShowAddPartnerModal(false)}
                 className="px-5 py-3 rounded-xl border border-border text-foreground hover:bg-slate-50 dark:hover:bg-white/5 text-xs font-bold transition-all cursor-pointer"
               >
                 Cancel
@@ -2592,15 +3174,53 @@ export default function AdminPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Industry *</label>
+                  <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Software Solution *</label>
                   <select
                     value={reviewFormData.industry}
                     onChange={(e) => setReviewFormData({ ...reviewFormData, industry: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-[#863BFF]/20 focus:border-[#863BFF] transition-all text-xs"
                   >
-                    {['Pharmacy', 'Retail', 'Auto Parts', 'Garments', 'Home Appliances', 'FMCG'].map(ind => (
-                      <option key={ind} value={ind}>{ind}</option>
-                    ))}
+                    <option value="all">All Softwares / General</option>
+                    <optgroup label="Pharmacy & Healthcare Suite">
+                      <option value="pharmacy-healthcare">All Pharmacy Pages</option>
+                      <option value="retail-pharmacies">Retail Pharmacies</option>
+                      <option value="hospital-pharmacies">Hospital Pharmacies</option>
+                      <option value="jan-aushadhi-kendra">Jan Aushidhi Kendra</option>
+                      <option value="ayurvedic-generic">Ayurvedic & Generic Medicine</option>
+                      <option value="homeopathic-shops">Homeopathic Shops</option>
+                      <option value="pharma-wholesalers">Pharma Wholesalers</option>
+                      <option value="pharma-distributors">Pharma Distributors</option>
+                      <option value="pharma-marketing">Pharma Marketing Companies</option>
+                      <option value="multi-branch-pharmacy-chain">Multi-branch Pharmacy Chain</option>
+                    </optgroup>
+                    <optgroup label="Auto Parts Suite">
+                      <option value="auto-parts">All Auto Parts Pages</option>
+                      <option value="auto-parts-retailers">Auto Parts Retailers</option>
+                      <option value="spare-parts-dealers">Spare Parts Dealers</option>
+                      <option value="car-accessories">Car Accessories</option>
+                      <option value="multi-branch-auto-parts">Multi-branch Auto parts Stores</option>
+                    </optgroup>
+                    <optgroup label="FMCG Suite">
+                      <option value="fmcg">All FMCG Pages</option>
+                      <option value="fmcg-distributors">FMCG Distributors</option>
+                      <option value="fmcg-wholesalers">FMCG Wholesalers</option>
+                      <option value="fmcg-retailers">FMCG Retailers</option>
+                      <option value="fmcg-companies">FMCG Companies</option>
+                    </optgroup>
+                    <optgroup label="Retail Suite">
+                      <option value="retail">All Retail Pages</option>
+                      <option value="grocery-kirana">Grocery & Kirana Store</option>
+                      <option value="departmental-supermarket">Departmental Store & Supermarket</option>
+                      <option value="garment-footwear">Garment & Footwear Shops</option>
+                      <option value="sarees-clothing">Sarees & Clothing Showroom</option>
+                      <option value="pharmacy-ayurvedic">Pharmacy & Ayurvedic Stores</option>
+                      <option value="hardware-electrical">Hardware & Electrical Shops</option>
+                      <option value="books-stationary">Books & Stationary Shops</option>
+                      <option value="school-dresses">School Dresses Shops</option>
+                      <option value="gift-novelty">Gift & Novelty Shops</option>
+                      <option value="paint-dealers">Paint Dealers & Distribution</option>
+                      <option value="multi-outlet-chain">Multi Outlet Retail Chain</option>
+                    </optgroup>
                   </select>
                 </div>
               </div>
@@ -2644,6 +3264,125 @@ export default function AdminPage() {
               </button>
               <button
                 onClick={() => setShowAddReviewModal(false)}
+                className="px-5 py-3 rounded-xl border border-border text-foreground hover:bg-slate-50 dark:hover:bg-white/5 text-xs font-bold transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Banner Modal */}
+      {showAddBannerModal && (
+        <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAddBannerModal(false)}>
+          <div className="bg-surface rounded-2xl border border-border shadow-2xl w-full max-w-md p-6 animate-fade-up" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
+              <h3 className="text-base font-black text-foreground">Add Homepage Product Banner</h3>
+              <button onClick={() => setShowAddBannerModal(false)} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-muted hover:text-foreground transition-all cursor-pointer">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {bannerError && (
+              <div className="p-3 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-[#DC2626] dark:text-red-400 text-xs flex items-center gap-2 mb-4 font-semibold">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                {bannerError}
+              </div>
+            )}
+
+            <div className="space-y-4 text-left">
+              <div>
+                <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Software Solution Page</label>
+                <select
+                  value={newBannerRedirectPath}
+                  onChange={(e) => setNewBannerRedirectPath(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-[#863BFF]/20 focus:border-[#863BFF] transition-all text-xs"
+                >
+                  <option value="">None / No Redirect</option>
+                  <option value="/software">All Softwares / General</option>
+                  <optgroup label="Pharmacy & Healthcare Suite">
+                    <option value="/software/pharmacy-healthcare">All Pharmacy Pages</option>
+                    <option value="/software/pharmacy-healthcare/retail-pharmacies">Retail Pharmacies</option>
+                    <option value="/software/pharmacy-healthcare/hospital-pharmacies">Hospital Pharmacies</option>
+                    <option value="/software/pharmacy-healthcare/jan-aushadhi-kendra">Jan Aushidhi Kendra</option>
+                    <option value="/software/pharmacy-healthcare/ayurvedic-generic">Ayurvedic & Generic Medicine</option>
+                    <option value="/software/pharmacy-healthcare/homeopathic-shops">Homeopathic Shops</option>
+                    <option value="/software/pharmacy-healthcare/pharma-wholesalers">Pharma Wholesalers</option>
+                    <option value="/software/pharmacy-healthcare/pharma-distributors">Pharma Distributors</option>
+                    <option value="/software/pharmacy-healthcare/pharma-marketing">Pharma Marketing Companies</option>
+                    <option value="/software/pharmacy-healthcare/multi-branch-pharmacy-chain">Multi-branch Pharmacy Chain</option>
+                  </optgroup>
+                  <optgroup label="Auto Parts Suite">
+                    <option value="/software/auto-parts">All Auto Parts Pages</option>
+                    <option value="/software/auto-parts/auto-parts-retailers">Auto Parts Retailers</option>
+                    <option value="/software/auto-parts/spare-parts-dealers">Spare Parts Dealers</option>
+                    <option value="/software/auto-parts/car-accessories">Car Accessories</option>
+                    <option value="/software/auto-parts/multi-branch-auto-parts">Multi-branch Auto parts Stores</option>
+                  </optgroup>
+                  <optgroup label="FMCG Suite">
+                    <option value="/software/fmcg">All FMCG Pages</option>
+                    <option value="/software/fmcg/fmcg-distributors">FMCG Distributors</option>
+                    <option value="/software/fmcg/fmcg-wholesalers">FMCG Wholesalers</option>
+                    <option value="/software/fmcg/fmcg-retailers">FMCG Retailers</option>
+                    <option value="/software/fmcg/fmcg-companies">FMCG Companies</option>
+                  </optgroup>
+                  <optgroup label="Retail Suite">
+                    <option value="/software/retail">All Retail Pages</option>
+                    <option value="/software/retail/grocery-kirana">Grocery & Kirana Store</option>
+                    <option value="/software/retail/departmental-supermarket">Departmental Store & Supermarket</option>
+                    <option value="/software/retail/garment-footwear">Garment & Footwear Shops</option>
+                    <option value="/software/retail/sarees-clothing">Sarees & Clothing Showroom</option>
+                    <option value="/software/retail/pharmacy-ayurvedic">Pharmacy & Ayurvedic Stores</option>
+                    <option value="/software/retail/hardware-electrical">Hardware & Electrical Shops</option>
+                    <option value="/software/retail/books-stationary">Books & Stationary Shops</option>
+                    <option value="/software/retail/school-dresses">School Dresses Shops</option>
+                    <option value="/software/retail/gift-novelty">Gift & Novelty Shops</option>
+                    <option value="/software/retail/paint-dealers">Paint Dealers & Distribution</option>
+                    <option value="/software/retail/multi-outlet-chain">Multi Outlet Retail Chain</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Banner Image *</label>
+                <div
+                  onClick={() => bannerImageInputRef.current?.click()}
+                  className="border-2 border-dashed border-border/80 hover:border-primary/50 rounded-xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer bg-slate-50/50 dark:bg-white/[0.01] hover:bg-slate-50 dark:hover:bg-white/[0.03] transition-all text-center"
+                >
+                  {newBannerFilePreview ? (
+                    <img
+                      src={newBannerFilePreview}
+                      alt="Banner Preview"
+                      className="max-h-24 object-contain rounded border border-border mx-auto"
+                    />
+                  ) : (
+                    <>
+                      <Upload className="w-6 h-6 text-muted/65 mx-auto mb-1" />
+                      <span className="text-[11px] text-muted font-bold block">Upload Image File</span>
+                    </>
+                  )}
+                </div>
+                <input
+                  ref={bannerImageInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleBannerUpload}
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6 pt-4 border-t border-border">
+              <button
+                onClick={handleAddBanner}
+                className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary-dark text-xs font-bold shadow-sm transition-all duration-300 cursor-pointer"
+              >
+                <Check className="w-4 h-4" />
+                Add Banner
+              </button>
+              <button
+                onClick={() => setShowAddBannerModal(false)}
                 className="px-5 py-3 rounded-xl border border-border text-foreground hover:bg-slate-50 dark:hover:bg-white/5 text-xs font-bold transition-all cursor-pointer"
               >
                 Cancel

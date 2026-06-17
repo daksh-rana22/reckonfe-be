@@ -1,20 +1,150 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageHeader from '@/components/shared/PageHeader';
 import SectionHeading from '@/components/shared/SectionHeading';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { MapPin, Mail, Phone, Clock, Send, ArrowRight, AlertCircle, CheckCircle } from 'lucide-react';
+// Software mapping from page titles/verticals to dropdown options
+const softwareMapping = {
+  // Pharmacy & Healthcare
+  'Retail Pharmacy Billing Software': 'Retail Pharmacies',
+  'Hospital Pharmacy Software': 'Hospital Pharmacies',
+  'Jan Aushadhi Kendra Software': 'Jan Aushidhi Kendra',
+  'Ayurvedic & Generic Pharmacy Software': 'Ayurvedic & Generic Medicine',
+  'Homeopathic Shops Software': 'Homeopathic Shops',
+  'Pharma Wholesaler Billing Software': 'Pharma Wholesalers',
+  'Pharma Distributor Billing Software': 'Pharma Distributors',
+  'Pharma Marketing Billing Software': 'Pharma Marketing Companies',
+  'Multi-branch Pharmacy Software': 'Multi-branch Pharmacy Chain',
+  'Pharmacy & Healthcare Billing Software': 'Retail Pharmacies',
+  'Reckon-Suvidha': 'Retail Pharmacies',
+  'Chemist Shop': 'Retail Pharmacies',
+  'Specialized Pharmacy': 'Retail Pharmacies',
+
+  // Auto-Parts Billing Software
+  'Auto Parts Retailers Billing Software': 'Auto Parts Retailers',
+  'Spare Parts Dealers Billing Software': 'Spare Parts Dealers',
+  'Car Accessories Billing Software': 'Car Accessories',
+  'Multi-branch Auto parts Stores Billing Software': 'Multi-branch Auto parts Stores',
+  'Auto-Parts Billing Software': 'Auto Parts Retailers',
+  'Automobiles Parts & Spares': 'Auto Parts Retailers',
+  'Specialized Auto Parts': 'Auto Parts Retailers',
+
+  // FMCG Billing Software
+  'FMCG Distributors Billing Software': 'FMCG Distributors',
+  'FMCG Wholesalers Billing Software': 'FMCG Wholesalers',
+  'FMCG Retailers Billing Software': 'FMCG Retailers',
+  'FMCG Companies Billing Software': 'FMCG Companies',
+  'FMCG Billing Software': 'FMCG Distributors',
+  'FMCG Distribution': 'FMCG Distributors',
+
+  // Retail Billing Software
+  'Grocery & Kirana Store Software': 'Grocery & Kirana Store',
+  'Departmental Store & Supermarket Software': 'Departmental Store & Supermarket',
+  'Garment & Footwear Shops Software': 'Garment & Footwear Shops',
+  'Sarees & Clothing Showroom Software': 'Sarees & Clothing Showroom',
+  'Pharmacy & Ayurvedic Stores Software': 'Pharmacy & Ayurvedic Stores',
+  'Hardware & Electrical Shops Software': 'Hardware & Electrical Shops',
+  'Books & Stationary Shops Software': 'Books & Stationary Shops',
+  'School Dresses Shops Software': 'School Dresses Shops',
+  'Gift & Novelty Shos Software': 'Gift & Novelty Shos',
+  'Paint Dealers & Distribution Software': 'Paint Dealers & Distribution',
+  'Multi Outlet Retail Chain Software': 'Multi Outlet Retail Chain',
+  'Retail Billing Software': 'Grocery & Kirana Store',
+  'Reckon-Mart': 'Departmental Store & Supermarket',
+  'Reckon-Seller': 'Grocery & Kirana Store',
+  'Specialized Supermarket': 'Departmental Store & Supermarket',
+  'Multi Location–Branch Synchronization': 'Multi Outlet Retail Chain',
+  'Books & Stationery': 'Books & Stationary Shops',
+  'Cosmetics & Personal Care': 'Grocery & Kirana Store',
+  'Department & Grocery (POS)': 'Departmental Store & Supermarket',
+  'Dry Fruits & Spices': 'Grocery & Kirana Store',
+  'Footwear Showroom': 'Garment & Footwear Shops',
+  'Furniture & Home Decor': 'Grocery & Kirana Store',
+  'Garments & Apparel': 'Garment & Footwear Shops',
+  'Home Appliances Showroom': 'Grocery & Kirana Store',
+  'Mobile Phone & Accessories': 'Hardware & Electrical Shops',
+  'Saree Suit & Salwar Showroom': 'Sarees & Clothing Showroom',
+  'Toys & Gift Store': 'Gift & Novelty Shos',
+  'Vegetables & Fruits Store': 'Grocery & Kirana Store',
+  'Wine Shop': 'Grocery & Kirana Store'
+};
 
 export default function ContactPage() {
+  const [searchParams] = useSearchParams();
+  const softwareParam = searchParams.get('software') || '';
+
+  // Exact software categories and options matching user requirement image
+  const categories = [
+    {
+      label: 'Pharmacy & Healthcare',
+      options: [
+        'Retail Pharmacies',
+        'Hospital Pharmacies',
+        'Jan Aushidhi Kendra',
+        'Ayurvedic & Generic Medicine',
+        'Homeopathic Shops',
+        'Pharma Wholesalers',
+        'Pharma Distributors',
+        'Pharma Marketing Companies',
+        'Multi-branch Pharmacy Chain'
+      ]
+    },
+    {
+      label: 'Auto-Parts Billing Software',
+      options: [
+        'Auto Parts Retailers',
+        'Spare Parts Dealers',
+        'Car Accessories',
+        'Multi-branch Auto parts Stores'
+      ]
+    },
+    {
+      label: 'FMCG Billing Software',
+      options: [
+        'FMCG Distributors',
+        'FMCG Wholesalers',
+        'FMCG Retailers',
+        'FMCG Companies'
+      ]
+    },
+    {
+      label: 'Retail Billing Software',
+      options: [
+        'Grocery & Kirana Store',
+        'Departmental Store & Supermarket',
+        'Garment & Footwear Shops',
+        'Sarees & Clothing Showroom',
+        'Pharmacy & Ayurvedic Stores',
+        'Hardware & Electrical Shops',
+        'Books & Stationary Shops',
+        'School Dresses Shops',
+        'Gift & Novelty Shos',
+        'Paint Dealers & Distribution',
+        'Multi Outlet Retail Chain'
+      ]
+    }
+  ];
+
+  const flatOptions = categories.flatMap(c => c.options);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [demoFor, setDemoFor] = useState('Retail Pharmacy');
+  const [demoFor, setDemoFor] = useState(
+    (softwareParam ? (softwareMapping[softwareParam] || softwareParam) : '') || 'Retail Pharmacies'
+  );
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (softwareParam) {
+      setDemoFor(softwareMapping[softwareParam] || softwareParam);
+    }
+  }, [softwareParam]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,7 +164,9 @@ export default function ContactPage() {
     setName('');
     setEmail('');
     setPhone('');
-    setDemoFor('Retail Pharmacy');
+    setDemoFor(
+      (softwareParam ? (softwareMapping[softwareParam] || softwareParam) : '') || 'Retail Pharmacies'
+    );
     setMessage('');
 
     setTimeout(() => setSuccess(false), 5000);
@@ -115,17 +247,19 @@ export default function ContactPage() {
                         onChange={(e) => setDemoFor(e.target.value)}
                         className="w-full px-4 py-2.5 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                       >
-                        <option>Retail Pharmacy</option>
-                        <option>Hospital Pharmacy</option>
-                        <option>Pharma Wholesale</option>
-                        <option>Grocery Store</option>
-                        <option>FMCG Distributor</option>
-                        <option>Garment & Clothing</option>
-                        <option>Autoparts Traders</option>
-                        <option>Mobile App</option>
-                        <option>Cloud Software</option>
-                        <option>Multi Location Software</option>
-                        <option>Others</option>
+                        {softwareParam && !flatOptions.includes(softwareParam) && (
+                          <option value={softwareParam}>{softwareParam}</option>
+                        )}
+                        {categories.map(category => (
+                          <optgroup key={category.label} label={category.label}>
+                            {category.options.map(opt => (
+                              <option key={opt} value={opt}>{opt}</option>
+                            ))}
+                          </optgroup>
+                        ))}
+                        <optgroup label="Other Options">
+                          <option value="Others">Others</option>
+                        </optgroup>
                       </select>
                     </div>
                   </div>

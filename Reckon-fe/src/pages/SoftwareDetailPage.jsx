@@ -156,7 +156,7 @@ export default function SoftwareDetailPage() {
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  to="/contact"
+                  to={`/contact?software=${encodeURIComponent(software.name)}`}
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold shadow-md hover:shadow-glow hover:scale-[1.02] transition-all duration-300"
                 >
                   Request Demo <ArrowRight className="w-4 h-4" />
@@ -270,7 +270,7 @@ export default function SoftwareDetailPage() {
                   </div>
                 </div>
                 <Link
-                  to="/contact"
+                  to={`/contact?software=${encodeURIComponent(software.name)}`}
                   className="mt-5 block text-center px-4 py-2.5 rounded-xl bg-primary text-white text-xs font-semibold hover:shadow-glow hover:scale-[1.02] transition-all duration-300"
                 >
                   Book Demo
@@ -291,7 +291,7 @@ export default function SoftwareDetailPage() {
             Schedule a personalized demo and see how {software.name} can transform your business operations.
           </p>
           <Link
-            to="/contact"
+            to={`/contact?software=${encodeURIComponent(software.name)}`}
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-accent text-white font-semibold shadow-lg hover:shadow-glow hover:scale-[1.02] transition-all duration-300"
           >
             Schedule Free Demo <ArrowRight className="w-4 h-4" />

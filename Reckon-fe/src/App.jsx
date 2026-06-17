@@ -6,8 +6,8 @@ import { AdminStoreProvider } from '@/hooks/useAdminStore';
 import Layout from '@/components/layout/Layout';
 import HomePage from '@/pages/HomePage';
 import AboutPage from '@/pages/AboutPage';
-import SoftwaresPage from '@/pages/SoftwaresPage';
-import SoftwareDetailPage from '@/pages/SoftwareDetailPage';
+import BillingSoftwarePage from '@/pages/BillingSoftwarePage';
+import SoftwarePage from '@/pages/SoftwarePage';
 import PartnersPage from '@/pages/PartnersPage';
 import GalleryPage from '@/pages/GalleryPage';
 import DownloadsPage from '@/pages/DownloadsPage';
@@ -32,8 +32,15 @@ export default function App() {
                 <Route path="/" element={<Layout />}>
                   <Route index element={<HomePage />} />
                   <Route path="about" element={<AboutPage />} />
-                  <Route path="softwares" element={<SoftwaresPage />} />
-                  <Route path="softwares/:slug" element={<SoftwareDetailPage />} />
+                  <Route path="software" element={<SoftwarePage />} />
+                  <Route path="software/pharmacy-healthcare" element={<BillingSoftwarePage variant="main" />} />
+                  <Route path="software/pharmacy-healthcare/:subVariant" element={<BillingSoftwarePage />} />
+                  <Route path="software/auto-parts" element={<BillingSoftwarePage variant="auto-parts" />} />
+                  <Route path="software/auto-parts/:subVariant" element={<BillingSoftwarePage />} />
+                  <Route path="software/fmcg" element={<BillingSoftwarePage variant="fmcg" />} />
+                  <Route path="software/fmcg/:subVariant" element={<BillingSoftwarePage />} />
+                  <Route path="software/retail" element={<BillingSoftwarePage variant="retail" />} />
+                  <Route path="software/retail/:subVariant" element={<BillingSoftwarePage />} />
                   <Route path="partners" element={<PartnersPage />} />
                   <Route path="gallery" element={<GalleryPage />} />
                   <Route path="downloads" element={<DownloadsPage />} />

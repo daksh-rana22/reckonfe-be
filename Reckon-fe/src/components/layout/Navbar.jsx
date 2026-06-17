@@ -3,22 +3,20 @@ import { Link, useLocation } from 'react-router-dom';
 import { NAV_ITEMS } from '@/data/navigation';
 import { useTheme } from '@/hooks/useTheme';
 import { useAdminStore } from '@/hooks/useAdminStore';
-import { Menu, X, ChevronDown, Sun, Moon, Store, Building2, Cpu, Layers } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight, Sun, Moon, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import MobileNav from './MobileNav';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [megaMenuOpen, setMegaMenuOpen] = useState(false);
-  const [companyDropdownOpen, setCompanyDropdownOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { logoUrl } = useAdminStore();
   const location = useLocation();
-  const megaMenuRef = useRef(null);
-  const megaMenuTimeout = useRef(null);
-  const companyRef = useRef(null);
-  const companyTimeout = useRef(null);
+  const dropdownRefs = useRef({});
+  const dropdownTimeouts = useRef({});
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -28,31 +26,24 @@ export default function Navbar() {
 
   useEffect(() => {
     setMobileOpen(false);
-    setMegaMenuOpen(false);
-    setCompanyDropdownOpen(false);
+    setOpenDropdown(null);
   }, [location.pathname]);
 
-  const handleMegaMouseEnter = () => {
-    clearTimeout(megaMenuTimeout.current);
-    setMegaMenuOpen(true);
-  };
-  const handleMegaMouseLeave = () => {
-    megaMenuTimeout.current = setTimeout(() => setMegaMenuOpen(false), 200);
+  const handleDropdownMouseEnter = (label) => {
+    clearTimeout(dropdownTimeouts.current[label]);
+    setOpenDropdown(label);
   };
 
-  const handleCompanyMouseEnter = () => {
-    clearTimeout(companyTimeout.current);
-    setCompanyDropdownOpen(true);
-  };
-  const handleCompanyMouseLeave = () => {
-    companyTimeout.current = setTimeout(() => setCompanyDropdownOpen(false), 200);
+  const handleDropdownMouseLeave = (label) => {
+    dropdownTimeouts.current[label] = setTimeout(() => {
+      setOpenDropdown((prev) => (prev === label ? null : prev));
+    }, 200);
   };
 
-  const softwaresItem = NAV_ITEMS.find(item => item.megaMenu);
-  const companyItem = NAV_ITEMS.find(item => item.dropdown);
-
-  const companyPaths = companyItem?.subItems?.map(s => s.path) ?? [];
-  const isCompanyActive = companyPaths.some(p => location.pathname === p);
+  const isDropdownActive = (item) => {
+    if (!item.subItems) return false;
+    return item.subItems.some((s) => location.pathname === s.path);
+  };
 
   return (
     <>
@@ -76,7 +67,7 @@ export default function Navbar() {
               <img
                 src={logoUrl}
                 alt="Reckon Logo"
-                className="w-10 h-10 object-contain rounded-lg shadow-sm border border-border/50 group-hover:scale-105 group-hover:rotate-2 transition-all duration-300 bg-white p-1"
+                className="w-10 h-10 object-contain rounded-lg shadow-sm border border-border/50 group-hover:scale-105 group-hover:rotate-2 transition-all duration-1000 bg-white p-1"
               />
               <div className="flex flex-col">
                 <span className="text-lg font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors duration-300">
@@ -91,81 +82,24 @@ export default function Navbar() {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-1.5">
               {NAV_ITEMS.map((item) => {
-                /* ── Company Dropdown ── */
+                /* ── Dropdown Items (Software & Company) ── */
                 if (item.dropdown) {
+                  const isActive = isDropdownActive(item) || location.pathname === item.path;
+                  const isOpen = openDropdown === item.label;
+
                   return (
                     <div
                       key={item.label}
                       className="relative"
-                      ref={companyRef}
-                      onMouseEnter={handleCompanyMouseEnter}
-                      onMouseLeave={handleCompanyMouseLeave}
-                    >
-                      <button
-                        className={cn(
-                          'flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-sm transition-all duration-200',
-                          isCompanyActive
-                            ? 'bg-primary/15 text-primary font-semibold'
-                            : 'text-foreground/80 hover:text-primary hover:bg-primary/5 font-medium'
-                        )}
-                      >
-                        {item.label}
-                        <ChevronDown
-                          className={cn(
-                            'w-3.5 h-3.5 transition-transform duration-200',
-                            companyDropdownOpen && 'rotate-180'
-                          )}
-                        />
-                      </button>
-
-                      {/* Dropdown Panel */}
-                      <div
-                        className={cn(
-                          'absolute top-full left-0 w-64 pt-3 transition-all duration-200',
-                          companyDropdownOpen
-                            ? 'opacity-100 visible translate-y-0'
-                            : 'opacity-0 invisible -translate-y-2'
-                        )}
-                      >
-                        <div className="bg-surface/95 backdrop-blur-xl rounded-2xl shadow-xl border border-border p-2 overflow-hidden">
-                          {item.subItems.map((sub, idx) => (
-                            <Link
-                              key={sub.path}
-                              to={sub.path}
-                              className={cn(
-                                'flex flex-col px-4 py-3 rounded-xl transition-all duration-150 group/item',
-                                location.pathname === sub.path
-                                  ? 'bg-primary/10 text-primary'
-                                  : 'hover:bg-primary/5 text-foreground'
-                              )}
-                              style={{ animationDelay: `${idx * 30}ms` }}
-                            >
-                              <span className="text-sm font-medium group-hover/item:text-primary transition-colors">
-                                {sub.label}
-                              </span>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                }
-
-                /* ── Softwares Mega Menu ── */
-                if (item.megaMenu) {
-                  return (
-                    <div
-                      key={item.label}
-                      className="relative"
-                      ref={megaMenuRef}
-                      onMouseEnter={handleMegaMouseEnter}
-                      onMouseLeave={handleMegaMouseLeave}
+                      ref={(el) => (dropdownRefs.current[item.label] = el)}
+                      onMouseEnter={() => handleDropdownMouseEnter(item.label)}
+                      onMouseLeave={() => handleDropdownMouseLeave(item.label)}
                     >
                       <Link
                         to={item.path}
                         className={cn(
                           'flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-sm transition-all duration-200',
-                          location.pathname.startsWith('/softwares')
+                          isActive
                             ? 'bg-primary/15 text-primary font-semibold'
                             : 'text-foreground/80 hover:text-primary hover:bg-primary/5 font-medium'
                         )}
@@ -174,58 +108,68 @@ export default function Navbar() {
                         <ChevronDown
                           className={cn(
                             'w-3.5 h-3.5 transition-transform duration-200',
-                            megaMenuOpen && 'rotate-180'
+                            isOpen && 'rotate-180'
                           )}
                         />
                       </Link>
 
-                      {/* Mega Menu */}
+                      {/* Dropdown Panel */}
                       <div
                         className={cn(
-                          'absolute top-full left-1/2 -translate-x-1/2 w-[800px] pt-3 transition-all duration-200',
-                          megaMenuOpen
+                          'absolute top-full left-0 w-72 pt-3 transition-all duration-200',
+                          isOpen
                             ? 'opacity-100 visible translate-y-0'
                             : 'opacity-0 invisible -translate-y-2'
                         )}
                       >
-                        <div className="bg-surface/95 backdrop-blur-xl rounded-2xl shadow-xl border border-border p-6">
-                          <div className="grid grid-cols-4 gap-6">
-                            {softwaresItem?.sections.map((section) => {
-                              let SectionIcon = Layers;
-                              if (section.title === 'Business Applications') SectionIcon = Store;
-                              if (section.title === 'Industry Verticals' || section.title === 'More Verticals') SectionIcon = Building2;
-                              if (section.title === 'ERP Solutions') SectionIcon = Cpu;
+                        <div className="bg-surface/95 backdrop-blur-xl rounded-2xl shadow-xl border border-border p-2">
+                          {item.subItems.map((sub, idx) => {
+                            const hasSubItems = !!sub.subItems;
+                            return (
+                              <div
+                                key={sub.path}
+                                className="group/subitem relative"
+                              >
+                                <Link
+                                  to={sub.path}
+                                  className={cn(
+                                    'flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-150',
+                                    location.pathname === sub.path || (hasSubItems && location.pathname.startsWith(sub.path))
+                                      ? 'bg-primary/10 text-primary font-semibold'
+                                      : 'text-foreground/80 hover:bg-primary/5 hover:text-primary font-medium'
+                                  )}
+                                  style={{ animationDelay: `${idx * 30}ms` }}
+                                >
+                                  <span className="text-sm group-hover/subitem:text-primary transition-colors">
+                                    {sub.label}
+                                  </span>
+                                  {hasSubItems && (
+                                    <ChevronRight className="w-3.5 h-3.5 text-muted transition-transform duration-200 group-hover/subitem:translate-x-0.5 group-hover/subitem:text-primary" />
+                                  )}
+                                </Link>
 
-                              return (
-                                <div key={section.title}>
-                                  <h4 className="text-xs font-bold text-muted uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                                    <SectionIcon className="w-3.5 h-3.5 text-primary shrink-0" />
-                                    {section.title}
-                                  </h4>
-                                  <ul className="space-y-1">
-                                    {section.items.map((sub) => (
-                                      <li key={sub.slug}>
+                                {hasSubItems && (
+                                  <div className="absolute left-full top-0 ml-1 w-72 opacity-0 invisible group-hover/subitem:opacity-100 group-hover/subitem:visible translate-x-1 group-hover/subitem:translate-x-0 transition-all duration-200 z-50">
+                                    <div className="bg-surface/95 backdrop-blur-xl rounded-2xl shadow-xl border border-border p-2">
+                                      {sub.subItems.map((child) => (
                                         <Link
-                                          to={`/softwares/${sub.slug}`}
-                                          className="block px-2.5 py-1.5 rounded-md text-sm text-foreground hover:text-primary hover:bg-primary/5 transition-colors duration-150"
+                                          key={child.path}
+                                          to={child.path}
+                                          className={cn(
+                                            'flex px-4 py-2.5 rounded-xl transition-all duration-150 text-foreground hover:bg-primary/5 hover:text-primary font-medium'
+                                          )}
                                         >
-                                          {sub.label}
+                                          <span className="text-xs">
+                                            {child.label}
+                                          </span>
                                         </Link>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              );
-                            })}
-                          </div>
-                          <div className="mt-5 pt-4 border-t border-border">
-                            <Link
-                              to="/softwares"
-                              className="text-sm font-semibold text-primary hover:text-primary-dark transition-colors"
-                            >
-                              View All Products →
-                            </Link>
-                          </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     </div>
@@ -263,6 +207,46 @@ export default function Navbar() {
                   <Moon className="w-4.5 h-4.5" />
                 )}
               </button>
+
+              {/* Login Button with Dropdown (Hover/Click) */}
+              <div
+                className="relative"
+                onMouseEnter={() => setLoginOpen(true)}
+                onMouseLeave={() => setLoginOpen(false)}
+              >
+                <button
+                  onClick={() => setLoginOpen(!loginOpen)}
+                  className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full border border-border text-foreground hover:bg-primary/5 hover:border-primary/20 hover:scale-105 active:scale-95 transition-all duration-300 font-semibold text-sm cursor-pointer shadow-sm"
+                >
+                  <span>Login</span>
+                  <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", loginOpen && "rotate-180")} />
+                </button>
+
+                <div
+                  className={cn(
+                    "absolute right-0 top-full pt-2 w-48 transition-all duration-200 z-50",
+                    loginOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                  )}
+                >
+                  <div className="bg-surface/95 backdrop-blur-xl rounded-2xl shadow-xl border border-border p-2">
+                    <a
+                      href="https://reckoncare.reckonsales.com/Account/Login"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between px-4 py-2.5 rounded-xl text-sm text-foreground/80 hover:bg-primary/5 hover:text-primary font-medium transition-all duration-150"
+                    >
+                      <span>Partner Login</span>
+                      <ExternalLink className="w-3.5 h-3.5 opacity-50" />
+                    </a>
+                    <Link
+                      to="/admin"
+                      className="flex items-center px-4 py-2.5 rounded-xl text-sm text-foreground/80 hover:bg-primary/5 hover:text-primary font-medium transition-all duration-150"
+                    >
+                      Admin Login
+                    </Link>
+                  </div>
+                </div>
+              </div>
 
               <Link
                 to="/contact"

@@ -164,7 +164,7 @@ export default function HeroSection() {
             {/* CTAs */}
             <div className="mt-9 flex flex-wrap gap-4">
               <Link
-                to="/softwares"
+                to="/software"
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-primary to-primary-dark text-white font-bold shadow-lg hover:shadow-glow hover:scale-[1.03] transition-all duration-300 active:scale-95"
               >
                 Explore Products
