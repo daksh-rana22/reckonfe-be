@@ -17,8 +17,8 @@ export default function LoginPage() {
   const { isAdmin, login } = useAdmin();
   const { logoUrl } = useAdminStore();
 
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -31,7 +31,7 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!username || !password) {
+    if (!email || !password) {
       setError('Please fill in all fields.');
       return;
     }
@@ -41,13 +41,13 @@ export default function LoginPage() {
 
     setTimeout(async () => {
       try {
-        const result = await login(username, password);
+        const result = await login(email, password);
         setLoading(false);
         if (result && result.success) {
           setSuccess(true);
           setTimeout(() => navigate('/admin'), 1200);
         } else {
-          setError((result && result.error) || 'Invalid username or password.');
+          setError((result && result.error) || 'Invalid email or password.');
         }
       } catch (err) {
         setLoading(false);
@@ -177,9 +177,6 @@ export default function LoginPage() {
                 <p className="text-xs sm:text-sm text-muted">
                   Enter your credentials to access the dashboard
                 </p>
-                <div className="mt-4 px-3 py-1.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-semibold inline-block">
-                  Demo Credentials: <span className="font-bold text-foreground">admin</span> / <span className="font-bold text-foreground">admin</span>
-                </div>
               </div>
 
               {/* Error */}
@@ -202,19 +199,19 @@ export default function LoginPage() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
-                    <label htmlFor="username" className="block text-xs font-bold text-muted uppercase tracking-wider mb-2">
-                      Username
+                    <label htmlFor="email" className="block text-xs font-bold text-muted uppercase tracking-wider mb-2">
+                      Email
                     </label>
                     <div className="relative">
                       <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-muted pointer-events-none">
                         <User className="w-4.5 h-4.5" />
                       </span>
                       <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="admin"
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="admin@reckonsales.in"
                         className={cn(
                           "w-full pl-10.5 pr-4 py-3 rounded-2xl text-sm border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200",
                           isDark 

@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 export default function BillingShowcase({ data }) {
   const { ref, isVisible } = useScrollAnimation();
@@ -56,14 +55,7 @@ export default function BillingShowcase({ data }) {
               ))}
             </div>
 
-            <div className="mt-8">
-              <Link
-                to={`/contact?software=${encodeURIComponent(data.title)}`}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold shadow-md hover:shadow-glow hover:scale-[1.02] transition-all duration-300"
-              >
-                Get Started <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+
           </div>
         </div>
       </div>

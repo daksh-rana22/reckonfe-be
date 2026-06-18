@@ -174,6 +174,7 @@ const getIndustryLabel = (industry) => {
     'pharma-wholesalers': 'Pharma Wholesalers',
     'pharma-distributors': 'Pharma Distributors',
     'pharma-marketing': 'Pharma Marketing Companies',
+    'multi-branch-pharmacy': 'Multi-branch Pharmacy Chain',
     'multi-branch-pharmacy-chain': 'Multi-branch Pharmacy Chain',
     'auto-parts': 'Auto Parts',
     'auto-parts-retailers': 'Auto Parts Retailers',
@@ -225,7 +226,7 @@ export default function AdminPage() {
     galleryCategories, addGalleryCategory, removeGalleryCategory, updateGalleryCategory,
     galleryItems, addGalleryItem, removeGalleryItem, resetGallery,
     testimonials, addTestimonial, updateTestimonial, deleteTestimonial, resetTestimonials,
-    banners, addBanner, deleteBanner, resetBanners, slideDuration, updateSlideDuration
+    banners, addBanner, deleteBanner, resetBanners, updateBanner, slideDuration, updateSlideDuration, updateBannerSort
   } = useAdminStore();
 
   const [activeTab, setActiveTab] = useState('downloads'); // Tab state driven by sidebar
@@ -245,7 +246,7 @@ export default function AdminPage() {
   });
   const [reviewError, setReviewError] = useState('');
   const [reviewSuccess, setReviewSuccess] = useState('');
-  
+
   // Client Logos state
   const [newClientName, setNewClientName] = useState('');
   const [newClientCity, setNewClientCity] = useState('');
@@ -377,8 +378,8 @@ export default function AdminPage() {
   const handleClientLogoUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 204800) { // 200KB limit
-      setClientError('File too large. Please use an image under 200KB.');
+    if (file.size > 10 * 1024 * 1024) { // 10 MB limit
+      setClientError('File too large. Maximum allowed size is 10 MB.');
       return;
     }
     setNewClientLogoFile(file);
@@ -418,7 +419,7 @@ export default function AdminPage() {
       setNewClientLogoFile(null);
       setEditingClientLogoId(null);
       setShowAddClientModal(false);
-      
+
       setTimeout(() => setClientLogoSuccess(''), 3000);
     } catch (err) {
       setClientError(err.message || 'Failed to save client logo.');
@@ -467,8 +468,8 @@ export default function AdminPage() {
   const handlePartnerLogoUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 204800) {
-      setPartnerError('File too large. Please use an image under 200KB.');
+    if (file.size > 10 * 1024 * 1024) { // 10 MB limit
+      setPartnerError('File too large. Maximum allowed size is 10 MB.');
       return;
     }
     setNewPartnerLogoFile(file);
@@ -584,8 +585,8 @@ export default function AdminPage() {
   const handleBannerUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 6 * 1024 * 1024) { // 6MB limit
-      setBannerError('File too large. Please upload an image under 6MB.');
+    if (file.size > 10 * 1024 * 1024) { // 10 MB limit
+      setBannerError('File too large. Maximum allowed size is 10 MB.');
       return;
     }
     setNewBannerFile(file);
@@ -616,7 +617,7 @@ export default function AdminPage() {
       title = newBannerFile.name.replace(/\.[^/.]+$/, "");
     }
 
-    const sortOrder = (banners || []).length + 1;
+    const sortOrder = newBannerSortOrder || (banners || []).length + 1;
 
     try {
       setBannerError('');
@@ -679,12 +680,24 @@ export default function AdminPage() {
     }
   };
 
+  const handleUpdateBannerSort = async (banner, newOrder) => {
+    try {
+      setBannerError('');
+      await updateBannerSort(banner, newOrder);
+      setBannerSuccess('Banner order updated successfully!');
+      setTimeout(() => setBannerSuccess(''), 3000);
+    } catch (err) {
+      setBannerError('Failed to update banner order: ' + err.message);
+      setTimeout(() => setBannerError(''), 4000);
+    }
+  };
+
   // ── Gallery Management Handlers ──
   const handleGalleryPhotoUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit for IndexedDB
-      setPhotoError('File too large. Maximum size is 5MB.');
+    if (file.size > 10 * 1024 * 1024) { // 10 MB limit
+      setPhotoError('File too large. Maximum allowed size is 10 MB.');
       return;
     }
     setNewPhotoFile(file);
@@ -1188,13 +1201,7 @@ export default function AdminPage() {
                       <Plus className="w-4 h-4" />
                       Add Partner Logo
                     </button>
-                    <button
-                      onClick={handleResetPartnerLogos}
-                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-white/5 border border-border text-foreground text-xs font-bold shadow-sm hover:bg-slate-200 dark:hover:bg-white/10 transition-all cursor-pointer"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      Reset
-                    </button>
+
                   </div>
                 </div>
 
@@ -1367,7 +1374,7 @@ export default function AdminPage() {
                                   <Icon className="w-4.5 h-4.5" />
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <span 
+                                  <span
                                     className="text-[9px] px-2.5 py-1 rounded bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 uppercase font-bold tracking-widest text-muted inline-flex items-center gap-1.5"
                                     title={!isCategoryActive ? "Category is Inactive - Hidden on public page" : undefined}
                                   >
@@ -1404,8 +1411,8 @@ export default function AdminPage() {
                                 <div className="flex items-center gap-2">
                                   <span className={cn(
                                     "text-[9px] font-extrabold uppercase tracking-wider",
-                                    !isCategoryActive 
-                                      ? "text-amber-500" 
+                                    !isCategoryActive
+                                      ? "text-amber-500"
                                       : (isFileActive ? "text-emerald-500" : "text-slate-400 dark:text-white/30")
                                   )}>
                                     {!isCategoryActive ? "Suspended" : (isFileActive ? "Active" : "Inactive")}
@@ -1527,13 +1534,7 @@ export default function AdminPage() {
                         <Layers className="w-4 h-4 text-muted" />
                         Manage Categories
                       </button>
-                      <button
-                        onClick={handleResetGalleryData}
-                        className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-muted hover:text-foreground dark:border-white/10 dark:hover:bg-white/5 text-xs font-bold transition-all cursor-pointer"
-                        title="Reset to Defaults"
-                      >
-                        <RotateCcw className="w-4 h-4" />
-                      </button>
+
                     </div>
                   </div>
 
@@ -1629,7 +1630,7 @@ export default function AdminPage() {
                                 className="max-w-full max-h-full object-contain select-none transition-transform duration-500 group-hover:scale-105"
                               />
                             </div>
-                            
+
                             {/* Caption */}
                             <div className="mt-2 text-left w-full px-1 space-y-0.5">
                               <p className="text-[10px] font-bold text-foreground truncate" title={photo.title}>
@@ -1672,8 +1673,8 @@ export default function AdminPage() {
               const filteredReviews = (testimonials || []).filter(item => {
                 const matchesIndustry = reviewsFilter === 'all' || getParentCategory(item.industry) === reviewsFilter;
                 const matchesSearch = item.name.toLowerCase().includes(reviewsSearch.toLowerCase()) ||
-                                      item.company.toLowerCase().includes(reviewsSearch.toLowerCase()) ||
-                                      item.quote.toLowerCase().includes(reviewsSearch.toLowerCase());
+                  item.company.toLowerCase().includes(reviewsSearch.toLowerCase()) ||
+                  item.quote.toLowerCase().includes(reviewsSearch.toLowerCase());
                 return matchesIndustry && matchesSearch;
               });
 
@@ -1685,14 +1686,7 @@ export default function AdminPage() {
                       <p className="text-xs text-muted">Manage, edit, delete, and add client reviews and testimonials shown on the homepage.</p>
                     </div>
                     <div className="flex flex-wrap items-center gap-2.5">
-                      <button
-                        onClick={handleResetReviews}
-                        className="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-xl border border-border bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-white/5 dark:hover:bg-white/10 dark:text-slate-200 text-xs font-bold shadow-sm transition-all duration-300 cursor-pointer"
-                        title="Reset Reviews to Defaults"
-                      >
-                        <RotateCcw className="w-4 h-4 text-muted" />
-                        Reset Defaults
-                      </button>
+
                       <button
                         onClick={() => {
                           setReviewFormData({ name: '', designation: '', company: '', industry: 'all', quote: '', rating: 5 });
@@ -1832,7 +1826,7 @@ export default function AdminPage() {
                         <MessageSquare className="w-12 h-12 text-muted/40" />
                         <div className="space-y-1">
                           <p className="text-sm font-bold text-foreground">No reviews found</p>
-                          <p className="text-xs text-muted leading-relaxed">Add a new review or reset defaults to populate the list.</p>
+                          <p className="text-xs text-muted leading-relaxed">Add a new review to populate the list.</p>
                         </div>
                       </div>
                     )}
@@ -1851,14 +1845,7 @@ export default function AdminPage() {
                       <p className="text-xs text-muted">Manage homepage product banners and slideshow interval.</p>
                     </div>
                     <div className="flex flex-wrap items-center gap-2.5">
-                      <button
-                        onClick={handleResetBanners}
-                        className="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-xl border border-border bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-white/5 dark:hover:bg-white/10 dark:text-slate-200 text-xs font-bold shadow-sm transition-all duration-300 cursor-pointer"
-                        title="Reset Banners to Defaults"
-                      >
-                        <RotateCcw className="w-4 h-4 text-muted" />
-                        Reset Defaults
-                      </button>
+
                       <button
                         onClick={() => {
                           setNewBannerTitle('');
@@ -1928,11 +1915,26 @@ export default function AdminPage() {
                                 />
                               </div>
                               <div className="space-y-1">
-                                <div className="flex items-center justify-between">
-                                  <h4 className="font-extrabold text-foreground text-sm truncate pr-2">{banner.title}</h4>
-                                  <span className="text-[9px] px-2 py-0.5 rounded-full font-bold select-none border uppercase tracking-wider bg-primary/10 text-primary border-primary/20 shrink-0">
-                                    Sort: {banner.sort_order}
-                                  </span>
+                                <div className="flex items-center justify-between gap-3">
+                                  <h4 className="font-extrabold text-foreground text-sm truncate pr-2" title={banner.title}>{banner.title}</h4>
+                                  <div className="flex items-center gap-1.5 shrink-0">
+                                    <label className="text-[9px] font-black text-muted uppercase tracking-wider select-none">Sort Order:</label>
+                                    <select
+                                      value={banner.sort_order || ''}
+                                      onChange={async (e) => {
+                                        const newOrder = Number(e.target.value);
+                                        if (newOrder === banner.sort_order) return;
+                                        await handleUpdateBannerSort(banner, newOrder);
+                                      }}
+                                      className="px-2 py-1 text-[10px] font-black rounded-lg border border-border bg-slate-50 dark:bg-slate-900 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary cursor-pointer shadow-sm min-w-[50px] text-center"
+                                    >
+                                      {(banners || []).map((_, i) => (
+                                        <option key={i + 1} value={i + 1}>
+                                          {i + 1}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
                                 </div>
                                 {banner.description && (
                                   <p className="text-xs text-muted leading-relaxed line-clamp-2">{banner.description}</p>
@@ -1958,7 +1960,7 @@ export default function AdminPage() {
                         <ImageIcon className="w-12 h-12 text-muted/40" />
                         <div className="space-y-1">
                           <p className="text-sm font-bold text-foreground">No Banners Configured</p>
-                          <p className="text-xs text-muted leading-relaxed">Add a product banner or reset to defaults to display the homepage slideshow.</p>
+                          <p className="text-xs text-muted leading-relaxed">Add a product banner to display the homepage slideshow.</p>
                         </div>
                       </div>
                     )}
@@ -2650,7 +2652,7 @@ export default function AdminPage() {
                     <option value="pharma-wholesalers">Pharma Wholesalers</option>
                     <option value="pharma-distributors">Pharma Distributors</option>
                     <option value="pharma-marketing">Pharma Marketing Companies</option>
-                    <option value="multi-branch-pharmacy-chain">Multi-branch Pharmacy Chain</option>
+                    <option value="multi-branch-pharmacy">Multi-branch Pharmacy Chain</option>
                   </optgroup>
                   <optgroup label="Auto Parts Suite">
                     <option value="auto-parts">All Auto Parts Pages</option>
@@ -2694,7 +2696,7 @@ export default function AdminPage() {
                     <div className="text-xs text-muted">
                       <span className="font-semibold text-primary">Click to select image</span>
                     </div>
-                    <span className="text-[9px] text-muted/65">Supports PNG, JPEG, SVG, WebP (max 200KB)</span>
+                    <span className="text-[9px] text-muted/65">Supports PNG, JPEG, SVG, WebP (max 10 MB)</span>
                   </div>
                   <input
                     ref={clientLogoInputRef}
@@ -2798,7 +2800,7 @@ export default function AdminPage() {
                     <div className="text-xs text-muted">
                       <span className="font-semibold text-primary">Click to select image</span>
                     </div>
-                    <span className="text-[9px] text-muted/65">Supports PNG, JPEG, SVG, WebP (max 200KB)</span>
+                    <span className="text-[9px] text-muted/65">Supports PNG, JPEG, SVG, WebP (max 10 MB)</span>
                   </div>
                   <input
                     ref={partnerLogoInputRef}
@@ -2932,7 +2934,7 @@ export default function AdminPage() {
                       <div className="text-xs text-muted">
                         <span className="font-semibold text-primary">Click to select photo</span>
                       </div>
-                      <span className="text-[9px] text-muted/65">Supports PNG, JPEG, WebP (max 5MB)</span>
+                      <span className="text-[9px] text-muted/65">Supports PNG, JPEG, WebP (max 10 MB)</span>
                     </div>
                     <input
                       ref={galleryImageInputRef}
@@ -3191,7 +3193,7 @@ export default function AdminPage() {
                       <option value="pharma-wholesalers">Pharma Wholesalers</option>
                       <option value="pharma-distributors">Pharma Distributors</option>
                       <option value="pharma-marketing">Pharma Marketing Companies</option>
-                      <option value="multi-branch-pharmacy-chain">Multi-branch Pharmacy Chain</option>
+                      <option value="multi-branch-pharmacy">Multi-branch Pharmacy Chain</option>
                     </optgroup>
                     <optgroup label="Auto Parts Suite">
                       <option value="auto-parts">All Auto Parts Pages</option>
@@ -3311,7 +3313,7 @@ export default function AdminPage() {
                     <option value="/software/pharmacy-healthcare/pharma-wholesalers">Pharma Wholesalers</option>
                     <option value="/software/pharmacy-healthcare/pharma-distributors">Pharma Distributors</option>
                     <option value="/software/pharmacy-healthcare/pharma-marketing">Pharma Marketing Companies</option>
-                    <option value="/software/pharmacy-healthcare/multi-branch-pharmacy-chain">Multi-branch Pharmacy Chain</option>
+                    <option value="/software/pharmacy-healthcare/multi-branch-pharmacy">Multi-branch Pharmacy Chain</option>
                   </optgroup>
                   <optgroup label="Auto Parts Suite">
                     <option value="/software/auto-parts">All Auto Parts Pages</option>
@@ -3345,6 +3347,21 @@ export default function AdminPage() {
               </div>
 
               <div>
+                <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Sort Order</label>
+                <select
+                  value={newBannerSortOrder}
+                  onChange={(e) => setNewBannerSortOrder(Number(e.target.value))}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-[#863BFF]/20 focus:border-[#863BFF] transition-all text-xs"
+                >
+                  {Array.from({ length: (banners || []).length + 1 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      {i + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
                 <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Banner Image *</label>
                 <div
                   onClick={() => bannerImageInputRef.current?.click()}
@@ -3370,6 +3387,28 @@ export default function AdminPage() {
                   className="hidden"
                   onChange={handleBannerUpload}
                 />
+
+                <div className="mt-3.5 p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-[11px] leading-relaxed text-left">
+                  <div className="flex items-center gap-1.5 font-bold uppercase tracking-wider text-[9px] mb-1.5 select-none">
+                    <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                    <span>Edge Overflow & Margin Warning</span>
+                  </div>
+                  <p className="font-semibold mb-1">
+                    The homepage banner container has a display size of <span className="font-black text-foreground underline decoration-amber-500/40">1880 x 449 pixels</span> (a wide ~4.2:1 aspect ratio).
+                  </p>
+                  <ul className="list-disc pl-4 space-y-1 font-medium text-slate-600 dark:text-slate-300">
+                    <li>To prevent clipping, design or crop your image to match these dimensions.</li>
+                    <li><span className="font-bold text-amber-600 dark:text-amber-400">Important Safe Margin:</span> Maintain adequate margin/padding and keep all text, logos, and critical details centered so they do not overflow or get cropped on smaller screen viewports.</li>
+                  </ul>
+
+                  <div className="mt-3 pt-2.5 border-t border-amber-500/20">
+                    <span className="block text-[9px] font-black uppercase tracking-wider mb-1 text-slate-800 dark:text-slate-200">AI Prompt Suffix (Copy & Paste):</span>
+                    <div className="p-2 rounded bg-slate-950 text-slate-200 font-mono text-[9px] select-all break-words border border-slate-800 leading-normal">
+                      , ultra-wide 4:1 aspect ratio panoramic tech banner, keep all text, logos and main objects in the center 60%, left and right edges are empty gradients for safe margins --ar 4:1
+                    </div>
+                    <span className="block text-[8px] text-muted/80 mt-1 italic">Triple-click to select and copy the suffix. Append it to any AI image generator prompt.</span>
+                  </div>
+                </div>
               </div>
             </div>
 

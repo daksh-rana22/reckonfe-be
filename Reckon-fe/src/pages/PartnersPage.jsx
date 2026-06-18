@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageHeader from '@/components/shared/PageHeader';
 import { cn } from '@/lib/utils';
+import { API_BASE } from '../config';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import ClientsSection from '@/components/home/ClientsSection';
-import { Handshake, TrendingUp, HeadphonesIcon, Award, Users, Gift, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { Handshake, TrendingUp, HeadphonesIcon, Award, Users, Gift, Send, CheckCircle, AlertCircle, MapPin } from 'lucide-react';
+import { useAdminStore } from '@/hooks/useAdminStore';
 
 const BENEFITS = [
   { icon: TrendingUp, title: 'Revenue Growth', description: 'Earn attractive commissions on every referral and sale. Our partner program is designed to maximize your earning potential.' },
@@ -16,14 +18,17 @@ const BENEFITS = [
 ];
 
 export default function PartnersPage() {
+  const { partnerLogos } = useAdminStore();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [partnerPage, setPartnerPage] = useState(0);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !phone || !email) {
       setError('Please fill in all required fields.');
@@ -35,14 +40,45 @@ export default function PartnersPage() {
       setSuccess(false);
       return;
     }
+
+    // 2. Email format validation (matching EmailStr requirements)
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address (e.g., user@domain.com).');
+      setSuccess(false);
+      return;
+    }
+
     setError('');
-    setSuccess(true);
-    setName('');
-    setPhone('');
-    setEmail('');
-    setMessage('');
-    setTimeout(() => setSuccess(false), 5000);
+    setLoading(true);
+
+    try {
+      const res = await fetch(`${API_BASE}/contact/partner`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, email, message }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.detail || 'Something went wrong. Please try again.');
+        return;
+      }
+
+      setSuccess(true);
+      setName('');
+      setPhone('');
+      setEmail('');
+      setMessage('');
+      setTimeout(() => setSuccess(false), 6000);
+    } catch {
+      setError('Could not connect to server. Please try again or call us directly.');
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <>
@@ -73,12 +109,146 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      {/* Clients / Partners Marquee */}
-      <ClientsSection
-        badge="Our Partners"
-        title="Businesses That Trust Reckon"
-        subtitle="From retail pharmacies to FMCG distributors — 19+ partners across India run their business on Reckon software."
-      />
+      {/* Partners Directory Section */}
+      <section className="py-20 bg-surface-secondary/40 border-y border-border/40 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-aurora pointer-events-none opacity-40" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div className="max-w-2xl text-left">
+              <span className="text-[10px] font-extrabold uppercase tracking-widest text-primary bg-primary/10 px-3 py-1.5 rounded-full inline-block mb-3.5 animate-pulse-soft">
+                Our Ecosystem
+              </span>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                Businesses That Trust Reckon
+              </h2>
+              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                From tech consultants to retail distributors — partners across India run their business operations on our software.
+              </p>
+            </div>
+            
+            {/* Slide control arrows (visual detail from image) */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  if (partnerPage > 0) {
+                    setPartnerPage(prev => prev - 1);
+                  }
+                }}
+                disabled={partnerPage === 0}
+                className={cn(
+                  "p-3.5 rounded-xl border border-border transition-all shadow-sm bg-surface shrink-0",
+                  partnerPage === 0
+                    ? "opacity-30 cursor-not-allowed text-muted"
+                    : "hover:bg-slate-50 dark:hover:bg-white/5 hover:scale-105 active:scale-95 text-foreground cursor-pointer"
+                )}
+                aria-label="Previous page"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+              </button>
+              <button
+                onClick={() => {
+                  const totalPartners = partnerLogos && partnerLogos.length > 0 ? partnerLogos.length : 3;
+                  if ((partnerPage + 1) * 6 < totalPartners) {
+                    setPartnerPage(prev => prev + 1);
+                  }
+                }}
+                disabled={(() => {
+                  const totalPartners = partnerLogos && partnerLogos.length > 0 ? partnerLogos.length : 3;
+                  return (partnerPage + 1) * 6 >= totalPartners;
+                })()}
+                className={cn(
+                  "p-3.5 rounded-xl transition-all shadow-lg shrink-0",
+                  (() => {
+                    const totalPartners = partnerLogos && partnerLogos.length > 0 ? partnerLogos.length : 3;
+                    return (partnerPage + 1) * 6 >= totalPartners;
+                  })()
+                    ? "bg-primary/30 opacity-30 cursor-not-allowed text-white/50"
+                    : "bg-primary text-white hover:bg-primary-dark hover:scale-105 active:scale-95 cursor-pointer"
+                )}
+                aria-label="Next page"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Card Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {partnerLogos && partnerLogos.length > 0 ? (
+              partnerLogos.slice(partnerPage * 6, (partnerPage + 1) * 6).map((partner, index) => {
+                return (
+                  <div
+                    key={partner.id || index}
+                    className="p-6 rounded-2xl bg-surface border border-border/80 hover:border-primary/25 hover:shadow-glow-sm transition-all duration-300 flex flex-col items-center text-center justify-between"
+                  >
+                    <div className="flex flex-col items-center">
+                      {/* Top Row: Logo */}
+                      <div className="w-28 h-20 rounded-xl bg-white dark:bg-white/5 border border-border/80 flex items-center justify-center p-2 shadow-sm shrink-0">
+                        <img
+                          src={partner.img}
+                          alt={partner.name}
+                          className="max-w-full max-h-full object-contain select-none"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.parentNode.innerHTML = `<span class="text-xs font-bold text-muted">${partner.name.substring(0, 2).toUpperCase()}</span>`;
+                          }}
+                        />
+                      </div>
+
+                      {/* Partner Name */}
+                      <h3 className="text-xl font-bold text-foreground mt-6 text-center">
+                        {partner.name}
+                      </h3>
+                    </div>
+
+                    {/* City Location */}
+                    <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground mt-4">
+                      <MapPin className="w-4.5 h-4.5 text-primary shrink-0" />
+                      <span className="font-semibold">{partner.city || 'Lucknow'}, India</span>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              // Fallback cards matching the image in case no partners exist in DB yet
+              <>
+                {[
+                  { name: 'NexGen Solutions', city: 'Bangalore', category: 'IT Consulting', logoText: 'NS' },
+                  { name: 'RetailFlow Systems', city: 'Mumbai', category: 'Retail Solutions', logoText: 'RF' },
+                  { name: 'DataSphere Analytics', city: 'Hyderabad', category: 'Business Analytics', logoText: 'DA' }
+                ].map((item, index) => (
+                  <div
+                    key={index}
+                    className="p-6 rounded-2xl bg-surface border border-border/80 hover:border-primary/25 hover:shadow-glow-sm transition-all duration-300 flex flex-col items-center text-center justify-between"
+                  >
+                    <div className="flex flex-col items-center">
+                      <div className="w-28 h-20 rounded-xl bg-primary/5 border border-border/85 flex items-center justify-center text-primary font-bold text-base shrink-0">
+                        {item.logoText}
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground mt-6 text-center">
+                        {item.name}
+                      </h3>
+                    </div>
+                    <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground mt-4">
+                      <MapPin className="w-4.5 h-4.5 text-primary shrink-0" />
+                      <span className="font-semibold">{item.city}, India</span>
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+
+
+
+        </div>
+      </section>
 
       <section
         className="py-20 relative overflow-hidden bg-[#0A0D14]"
@@ -185,10 +355,20 @@ export default function PartnersPage() {
 
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary-dark text-white font-semibold shadow-md hover:shadow-glow transition-all duration-300 cursor-pointer"
+                  disabled={loading}
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary-dark text-white font-semibold shadow-md hover:shadow-glow transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <Send className="w-4 h-4" />
-                  Submit Application
+                  {loading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      Submit Application
+                    </>
+                  )}
                 </button>
               </form>
             </div>

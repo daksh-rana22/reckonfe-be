@@ -272,13 +272,6 @@ export default function GalleryPage() {
                 <p className="text-white font-semibold text-sm">{lightboxItem.title}</p>
               </div>
               <div className="flex items-center gap-3">
-                <button
-                  onClick={() => handleDownloadImage(lightboxItem)}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all cursor-pointer"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  Download
-                </button>
                 <span className="text-white/40 text-xs font-mono">
                   {lightboxIndex + 1} / {filtered.length}
                 </span>

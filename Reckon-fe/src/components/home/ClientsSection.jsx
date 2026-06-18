@@ -2,6 +2,46 @@ import { useRef, useState } from 'react';
 import SectionHeading from '@/components/shared/SectionHeading';
 import { useAdminStore } from '@/hooks/useAdminStore';
 
+const HIERARCHY = {
+  'pharmacy-healthcare': [
+    'retail-pharmacies',
+    'hospital-pharmacies',
+    'jan-aushadhi-kendra',
+    'ayurvedic-generic',
+    'homeopathic-shops',
+    'pharma-wholesalers',
+    'pharma-distributors',
+    'pharma-marketing',
+    'multi-branch-pharmacy',
+    'multi-branch-pharmacy-chain'
+  ],
+  'auto-parts': [
+    'auto-parts-retailers',
+    'spare-parts-dealers',
+    'car-accessories',
+    'multi-branch-auto-parts'
+  ],
+  'fmcg': [
+    'fmcg-distributors',
+    'fmcg-wholesalers',
+    'fmcg-retailers',
+    'fmcg-companies'
+  ],
+  'retail': [
+    'grocery-kirana',
+    'departmental-supermarket',
+    'garment-footwear',
+    'sarees-clothing',
+    'pharmacy-ayurvedic',
+    'hardware-electrical',
+    'books-stationary',
+    'school-dresses',
+    'gift-novelty',
+    'paint-dealers',
+    'multi-outlet-chain'
+  ]
+};
+
 export default function ClientsSection({
   badge = 'Our Clients',
   title = 'Trusted by Our Clients',
@@ -10,7 +50,33 @@ export default function ClientsSection({
 }) {
   const { clientLogos } = useAdminStore();
   const filteredLogos = software
-    ? clientLogos.filter(c => c.software === software || c.software === 'all' || !c.software)
+    ? clientLogos.filter(c => {
+        const logoSoftware = c.software;
+        const pageSoftware = software;
+
+        if (logoSoftware === 'all' || !logoSoftware) return true;
+        if (logoSoftware === pageSoftware) return true;
+
+        // Handle multi-branch pharmacy chain naming variants
+        if (
+          (logoSoftware === 'multi-branch-pharmacy' && pageSoftware === 'multi-branch-pharmacy-chain') ||
+          (logoSoftware === 'multi-branch-pharmacy-chain' && pageSoftware === 'multi-branch-pharmacy')
+        ) {
+          return true;
+        }
+
+        // If logo is a parent category, show it on its sub-pages
+        if (HIERARCHY[logoSoftware] && HIERARCHY[logoSoftware].includes(pageSoftware)) {
+          return true;
+        }
+
+        // If page is a parent category, show child logos
+        if (HIERARCHY[pageSoftware] && HIERARCHY[pageSoftware].includes(logoSoftware)) {
+          return true;
+        }
+
+        return false;
+      })
     : clientLogos;
 
   const trackRef = useRef(null);

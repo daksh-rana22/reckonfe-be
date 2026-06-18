@@ -22,7 +22,7 @@ export default function AboutPage() {
       </Helmet>
 
       <PageHeader
-        title="About Reckon Sales"
+        title="About Us"
         subtitle="Empowering businesses with smart, robust, and adaptable ERP solutions."
         breadcrumbs={[{ label: 'About Us' }]}
         gradient

@@ -1,8 +1,7 @@
 import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { AUTH_API_BASE as API_BASE } from '../config';
 
 const AdminContext = createContext();
-
-const API_BASE = 'http://127.0.0.1:8000/api/v1';
 
 const isTokenExpired = (token) => {
   if (!token) return true;
@@ -25,21 +24,13 @@ export function AdminProvider({ children }) {
     if (typeof window !== 'undefined') {
       const auth = localStorage.getItem('reckon-admin-auth') === 'true';
       const token = localStorage.getItem('reckon-access-token');
-      const refreshToken = localStorage.getItem('reckon-refresh-token');
-
-      if (auth) {
-        if (!token || isTokenExpired(token)) {
-          if (!refreshToken || isTokenExpired(refreshToken)) {
-            // Both are expired or missing, clean up and return false
-            localStorage.removeItem('reckon-access-token');
-            localStorage.removeItem('reckon-refresh-token');
-            localStorage.removeItem('reckon-admin-auth');
-            localStorage.removeItem('reckon-admin-current-user');
-            return false;
-          }
-        }
+      if (auth && token && !isTokenExpired(token)) {
         return true;
       }
+      // Clean up stale session
+      localStorage.removeItem('reckon-access-token');
+      localStorage.removeItem('reckon-admin-auth');
+      localStorage.removeItem('reckon-admin-current-user');
     }
     return false;
   });
@@ -51,215 +42,82 @@ export function AdminProvider({ children }) {
     return '';
   });
 
-  const [adminUsers, setAdminUsers] = useState([]);
-
-  // Check token expiration on mount
+  // Periodically check token expiry (every 5 minutes)
   useEffect(() => {
-    const checkTokenExpiration = async () => {
+    const interval = setInterval(() => {
       const token = localStorage.getItem('reckon-access-token');
-      const refreshToken = localStorage.getItem('reckon-refresh-token');
-
-      if (!token && !refreshToken) {
-        return;
-      }
-
       if (isTokenExpired(token)) {
-        if (refreshToken && !isTokenExpired(refreshToken)) {
-          try {
-            const response = await fetch(`${API_BASE}/auth/refresh`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ refresh_token: refreshToken })
-            });
-
-            if (response.ok) {
-              const data = await response.json();
-              localStorage.setItem('reckon-access-token', data.access_token);
-              localStorage.setItem('reckon-refresh-token', data.refresh_token);
-              localStorage.setItem('reckon-admin-auth', 'true');
-              setIsAdmin(true);
-              return;
-            }
-          } catch (err) {
-            console.error('Token refresh failed:', err);
-          }
-        }
-
-        // If refresh failed or was not possible, clear session and redirect
         localStorage.removeItem('reckon-access-token');
-        localStorage.removeItem('reckon-refresh-token');
         localStorage.removeItem('reckon-admin-auth');
         localStorage.removeItem('reckon-admin-current-user');
         setIsAdmin(false);
         setCurrentUser('');
-        setAdminUsers([]);
-
         if (window.location.pathname !== '/login') {
           window.location.href = '/login';
         }
       }
-    };
-
-    checkTokenExpiration();
-  }, [setCurrentUser]);
-
-  // Fetch admin list
-  const fetchAdmins = useCallback(async () => {
-    const token = localStorage.getItem('reckon-access-token');
-    if (!token) return;
-    try {
-      const response = await fetch(`${API_BASE}/auth/admins`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setAdminUsers(data);
-      }
-    } catch (err) {
-      console.error('Failed to fetch admin users:', err);
-    }
+    }, 5 * 60 * 1000);
+    return () => clearInterval(interval);
   }, []);
 
-  // Fetch admins list on load if already logged in
-  useEffect(() => {
-    if (isAdmin) {
-      fetchAdmins();
-    }
-  }, [isAdmin, fetchAdmins]);
-
-  const login = useCallback(async (username, password) => {
+  /**
+   * Login with email + password via existing /api/auth/login endpoint.
+   * Token is stored in localStorage as 'reckon-access-token'.
+   * Role check is done server-side on each admin API call.
+   */
+  const login = useCallback(async (email, password) => {
     try {
-      const response = await fetch(`${API_BASE}/auth/login`, {
+      const response = await fetch(`${API_BASE}/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        return { success: false, error: errorData.message || 'Invalid username or password.' };
+        return { success: false, error: errorData.detail || 'Invalid email or password.' };
       }
 
       const data = await response.json();
+
+      // Verify user has admin role (the server will 403 on admin routes anyway,
+      // but we check here to show a clear error immediately)
+      if (data.user && data.user.role !== 'admin') {
+        return { success: false, error: 'Access denied. This account does not have admin privileges.' };
+      }
+
       localStorage.setItem('reckon-access-token', data.access_token);
-      localStorage.setItem('reckon-refresh-token', data.refresh_token);
       localStorage.setItem('reckon-admin-auth', 'true');
-      localStorage.setItem('reckon-admin-current-user', username);
+      localStorage.setItem('reckon-admin-current-user', data.user?.full_name || email);
 
       setIsAdmin(true);
-      setCurrentUser(username);
-
-      // Load admin list
-      await fetchAdmins();
+      setCurrentUser(data.user?.full_name || email);
 
       return { success: true };
     } catch (err) {
       return { success: false, error: err.message || 'Server connection failed.' };
     }
-  }, [fetchAdmins]);
-
-  const logout = useCallback(async () => {
-    const refresh_token = localStorage.getItem('reckon-refresh-token');
-    if (refresh_token) {
-      try {
-        await fetch(`${API_BASE}/auth/logout`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ refresh_token })
-        });
-      } catch (err) {
-        console.error('Logout request failed:', err);
-      }
-    }
-
-    localStorage.removeItem('reckon-access-token');
-    localStorage.removeItem('reckon-refresh-token');
-    localStorage.removeItem('reckon-admin-auth');
-    localStorage.removeItem('reckon-admin-current-user');
-
-    setIsAdmin(false);
-    setCurrentUser('');
-    setAdminUsers([]);
   }, []);
 
-  const addAdminUser = useCallback(async (username, password) => {
-    const token = localStorage.getItem('reckon-access-token');
-    const response = await fetch(`${API_BASE}/auth/admins`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ username, password })
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || 'Failed to create admin.');
-    }
-
-    await fetchAdmins();
-  }, [fetchAdmins]);
-
-  const removeAdminUser = useCallback(async (username) => {
-    const token = localStorage.getItem('reckon-access-token');
-    const response = await fetch(`${API_BASE}/auth/admins/${encodeURIComponent(username)}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || 'Failed to delete admin.');
-    }
-
-    await fetchAdmins();
-  }, [fetchAdmins]);
-
-  const updateAdminUser = useCallback(async (oldUsername, newUsername, newPassword) => {
-    const token = localStorage.getItem('reckon-access-token');
-    const response = await fetch(`${API_BASE}/auth/admins/${encodeURIComponent(oldUsername)}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ username: newUsername, password: newPassword })
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || 'Failed to update admin.');
-    }
-
-    if (oldUsername.toLowerCase() === currentUser.toLowerCase()) {
-      setCurrentUser(newUsername);
-      localStorage.setItem('reckon-admin-current-user', newUsername);
-    }
-
-    await fetchAdmins();
-  }, [currentUser, fetchAdmins]);
+  const logout = useCallback(() => {
+    localStorage.removeItem('reckon-access-token');
+    localStorage.removeItem('reckon-admin-auth');
+    localStorage.removeItem('reckon-admin-current-user');
+    setIsAdmin(false);
+    setCurrentUser('');
+  }, []);
 
   return (
     <AdminContext.Provider value={{
       isAdmin,
       currentUser,
-      adminUsers,
+      // Stubs for admin user management (kept for API compatibility with AdminPage)
+      adminUsers: [],
+      addAdminUser: async () => { throw new Error('Admin user management is handled server-side.'); },
+      removeAdminUser: async () => { throw new Error('Admin user management is handled server-side.'); },
+      updateAdminUser: async () => { throw new Error('Admin user management is handled server-side.'); },
       login,
       logout,
-      addAdminUser,
-      removeAdminUser,
-      updateAdminUser
     }}>
       {children}
     </AdminContext.Provider>

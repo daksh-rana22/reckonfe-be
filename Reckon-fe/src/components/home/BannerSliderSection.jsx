@@ -129,10 +129,9 @@ export default function BannerSliderSection() {
   };
 
   return (
-    <div 
-      className={`w-full h-[70vh] relative overflow-hidden select-none border-b shadow-inner group/banner ${
-        isDark ? 'border-slate-800/80 bg-slate-950' : 'border-slate-200/80 bg-slate-100'
-      }`}
+    <div
+      className={`w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-[449px] relative overflow-hidden select-none border-b shadow-inner group/banner ${isDark ? 'border-slate-800/80 bg-slate-950' : 'border-slate-200/80 bg-slate-100'
+        }`}
     >
       {/* Background Dots Pattern overlay */}
       <div className={`absolute inset-0 pointer-events-none mix-blend-overlay z-10 ${isDark ? 'opacity-[0.05]' : 'opacity-[0.02]'}`}>
@@ -149,11 +148,10 @@ export default function BannerSliderSection() {
       {/* Dismiss/Close Button */}
       <button
         onClick={handleDismiss}
-        className={`absolute top-4 right-4 p-2 rounded-full border transition-all cursor-pointer z-30 shadow-md backdrop-blur-sm ${
-          isDark 
-            ? 'border-white/10 bg-black/50 text-slate-400 hover:text-white hover:bg-black/75 hover:border-white/30' 
+        className={`absolute top-4 right-4 p-2 rounded-full border transition-all cursor-pointer z-30 shadow-md backdrop-blur-sm ${isDark
+            ? 'border-white/10 bg-black/50 text-slate-400 hover:text-white hover:bg-black/75 hover:border-white/30'
             : 'border-slate-200/80 bg-white/70 text-slate-500 hover:text-slate-900 hover:bg-white/95 hover:border-slate-300'
-        }`}
+          }`}
         aria-label="Dismiss banner"
       >
         <X className="w-4 h-4" />
@@ -171,29 +169,31 @@ export default function BannerSliderSection() {
           className="absolute inset-0 w-full h-full"
         >
           {/* Main Photo Image - direct, bright, not darkened */}
-          <img 
-            src={bannerImage} 
-            alt={currentBanner.title} 
+          <img
+            src={bannerImage}
+            alt={currentBanner.title}
             className="w-full h-full object-cover select-none"
             loading="eager"
           />
 
           {/* Bottom Right "More" Action Button */}
-          <div className="absolute bottom-6 right-6 sm:bottom-10 sm:right-12 z-20 flex items-center gap-4">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.15, duration: 0.4 }}
-            >
-              <Link
-                to={currentBanner.redirect_path || "/software"}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-950 font-black text-xs uppercase tracking-wider shadow-xl hover:shadow-2xl transition-all duration-300 active:scale-95 border border-white/10"
+          {currentBanner.redirect_path && (
+            <div className="absolute bottom-6 right-6 sm:bottom-10 sm:right-12 z-20 flex items-center gap-4">
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.15, duration: 0.4 }}
               >
-                <span>More</span>
-                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/banner:translate-x-1" />
-              </Link>
-            </motion.div>
-          </div>
+                <Link
+                  to={currentBanner.redirect_path}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-950 font-black text-xs uppercase tracking-wider shadow-xl hover:shadow-2xl transition-all duration-300 active:scale-95 border border-white/10"
+                >
+                  <span>More</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/banner:translate-x-1" />
+                </Link>
+              </motion.div>
+            </div>
+          )}
         </motion.div>
       </AnimatePresence>
 
@@ -212,9 +212,8 @@ export default function BannerSliderSection() {
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  currentIndex === index ? 'w-4 bg-white' : 'w-1.5 bg-white/40 hover:bg-white/60'
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${currentIndex === index ? 'w-4 bg-white' : 'w-1.5 bg-white/40 hover:bg-white/60'
+                  }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}

@@ -1,10 +1,8 @@
 import { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { Monitor, FileText, Cloud, Hammer } from 'lucide-react';
+import { API_BASE, BASE_URL as HOST_BASE } from '../config';
 
 const AdminStoreContext = createContext();
-
-const API_BASE = 'http://127.0.0.1:8000/api/v1';
-const HOST_BASE = 'http://127.0.0.1:8000';
 
 // Helper to format file source links
 function formatLink(url) {
@@ -31,7 +29,16 @@ export function AdminStoreProvider({ children }) {
   const [galleryItems, setGalleryItems] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [banners, setBanners] = useState([]);
-  const [slideDuration, setSlideDuration] = useState(5);
+  const [slideDuration, setSlideDuration] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('reckon-slide-duration');
+      if (saved) {
+        const num = Number(saved);
+        if (!isNaN(num) && num > 0) return num;
+      }
+    }
+    return 5;
+  });
 
   // Fetch token helper
   const getHeaders = useCallback((isMultipart = false) => {
@@ -90,11 +97,15 @@ export function AdminStoreProvider({ children }) {
         const dataCat = await resCat.json();
         setCategories(dataCat);
       }
-      
+
       const resFiles = await fetch(`${API_BASE}/downloads/files`);
       if (resFiles.ok) {
         const dataFiles = await resFiles.json();
-        setDownloads(dataFiles.map(d => ({ ...d, link: formatLink(d.link) })));
+        setDownloads(dataFiles.map(d => ({
+          ...d,
+          link: formatLink(d.link),
+          isActive: d.is_active !== false
+        })));
       }
     } catch (err) {
       console.error('Error fetching downloads:', err);
@@ -108,7 +119,7 @@ export function AdminStoreProvider({ children }) {
         const dataCat = await resCat.json();
         setGalleryCategories(dataCat);
       }
-      
+
       const resItems = await fetch(`${API_BASE}/gallery/items`);
       if (resItems.ok) {
         const dataItems = await resItems.json();
@@ -136,22 +147,13 @@ export function AdminStoreProvider({ children }) {
       const res = await fetch(`${API_BASE}/banners`);
       if (res.ok) {
         const data = await res.json();
-        setBanners(data.map(b => ({ ...b, image_url: formatLink(b.image_url) })));
+        const sorted = data
+          .map(b => ({ ...b, image_url: formatLink(b.image_url) }))
+          .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+        setBanners(sorted);
       }
     } catch (err) {
       console.error('Error fetching banners:', err);
-    }
-  }, []);
-
-  const fetchSlideDuration = useCallback(async () => {
-    try {
-      const res = await fetch(`${API_BASE}/banners/duration`);
-      if (res.ok) {
-        const data = await res.json();
-        setSlideDuration(data.slide_duration);
-      }
-    } catch (err) {
-      console.error('Error fetching slide duration:', err);
     }
   }, []);
 
@@ -164,15 +166,14 @@ export function AdminStoreProvider({ children }) {
     fetchGallery();
     fetchTestimonials();
     fetchBanners();
-    fetchSlideDuration();
-  }, [fetchLogo, fetchClientLogos, fetchPartnerLogos, fetchDownloads, fetchGallery, fetchTestimonials, fetchBanners, fetchSlideDuration]);
+  }, [fetchLogo, fetchClientLogos, fetchPartnerLogos, fetchDownloads, fetchGallery, fetchTestimonials, fetchBanners]);
 
   // ── Branding mutations ──
   const updateLogo = useCallback(async (fileBlob) => {
     try {
       const formData = new FormData();
       formData.append('file', fileBlob);
-      
+
       const res = await fetch(`${API_BASE}/branding/logo`, {
         method: 'POST',
         headers: getHeaders(true),
@@ -214,7 +215,7 @@ export function AdminStoreProvider({ children }) {
         formData.append('software', software);
       }
       formData.append('file', fileBlob);
-      
+
       const res = await fetch(`${API_BASE}/clients`, {
         method: 'POST',
         headers: getHeaders(true),
@@ -263,7 +264,7 @@ export function AdminStoreProvider({ children }) {
       if (fileBlob) {
         formData.append('file', fileBlob);
       }
-      
+
       const res = await fetch(`${API_BASE}/clients/${id}`, {
         method: 'PUT',
         headers: getHeaders(true),
@@ -304,7 +305,7 @@ export function AdminStoreProvider({ children }) {
         formData.append('city', city);
       }
       formData.append('file', fileBlob);
-      
+
       const res = await fetch(`${API_BASE}/partners`, {
         method: 'POST',
         headers: getHeaders(true),
@@ -428,7 +429,8 @@ export function AdminStoreProvider({ children }) {
       formData.append('type', item.type);
       formData.append('icon', item.icon || 'Monitor');
       formData.append('isActive', String(item.isActive !== false));
-      
+      formData.append('is_active', String(item.isActive !== false));
+
       if (fileBlob) {
         formData.append('file', fileBlob);
       }
@@ -473,6 +475,7 @@ export function AdminStoreProvider({ children }) {
       formData.append('type', data.type);
       formData.append('icon', data.icon || 'Monitor');
       formData.append('isActive', String(data.isActive !== false));
+      formData.append('is_active', String(data.isActive !== false));
 
       if (fileBlob) {
         formData.append('file', fileBlob);
@@ -496,6 +499,14 @@ export function AdminStoreProvider({ children }) {
   }, [fetchDownloads, getHeaders]);
 
   const toggleDownloadActive = useCallback(async (id) => {
+    const item = (downloads || []).find(d => d.id === id);
+    if (!item) return;
+
+    const newIsActive = !item.isActive;
+
+    // Optimistically update local state for instant transition animation
+    setDownloads(prev => prev.map(d => d.id === id ? { ...d, isActive: newIsActive, is_active: newIsActive } : d));
+
     try {
       const res = await fetch(`${API_BASE}/downloads/files/${id}/toggle-active`, {
         method: 'PUT',
@@ -503,11 +514,16 @@ export function AdminStoreProvider({ children }) {
       });
       if (res.ok) {
         await fetchDownloads();
+      } else {
+        // Revert on failure
+        setDownloads(prev => prev.map(d => d.id === id ? { ...d, isActive: !newIsActive, is_active: !newIsActive } : d));
       }
     } catch (err) {
       console.error('Error toggling download status:', err);
+      // Revert on error
+      setDownloads(prev => prev.map(d => d.id === id ? { ...d, isActive: !newIsActive, is_active: !newIsActive } : d));
     }
-  }, [fetchDownloads, getHeaders]);
+  }, [downloads, fetchDownloads, getHeaders]);
 
   const resetDownloads = useCallback(async () => {
     try {
@@ -783,25 +799,118 @@ export function AdminStoreProvider({ children }) {
     }
   }, [fetchBanners, getHeaders]);
 
-  const updateSlideDuration = useCallback(async (duration) => {
+  const updateBanner = useCallback(async (id, title, description, sortOrder, isActive, fileBlob, redirectPath) => {
     try {
-      const res = await fetch(`${API_BASE}/banners/duration`, {
-        method: 'POST',
-        headers: getHeaders(),
-        body: JSON.stringify({ slide_duration: Number(duration) })
+      const formData = new FormData();
+      formData.append('title', title);
+      if (description) {
+        formData.append('description', description);
+      }
+      formData.append('sort_order', String(sortOrder));
+      formData.append('is_active', String(isActive));
+      if (redirectPath) {
+        formData.append('redirect_path', redirectPath);
+      }
+      if (fileBlob) {
+        formData.append('file', fileBlob);
+      }
+
+      const res = await fetch(`${API_BASE}/banners/${id}`, {
+        method: 'PUT',
+        headers: getHeaders(true),
+        body: formData
       });
       if (res.ok) {
-        const data = await res.json();
-        setSlideDuration(data.slide_duration);
+        await fetchBanners();
       } else {
         const err = await res.json();
-        throw new Error(err.message || 'Failed to update slide duration.');
+        throw new Error(err.message || 'Failed to update banner.');
       }
     } catch (err) {
-      console.error('Error updating slide duration:', err);
+      console.error('Error updating banner:', err);
       throw err;
     }
-  }, [getHeaders]);
+  }, [fetchBanners, getHeaders]);
+
+  const updateSlideDuration = useCallback(async (duration) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('reckon-slide-duration', String(duration));
+    }
+    setSlideDuration(duration);
+  }, []);
+
+  const updateBannerSort = useCallback(async (banner, newOrder) => {
+    const originalBanners = [...banners];
+    const oldOrder = banner.sort_order;
+
+    const targetBanner = originalBanners.find(b => b.sort_order === newOrder && b.id !== banner.id);
+
+    // Optimistically update local state positions instantly
+    let updatedBanners = originalBanners.map(b => {
+      if (b.id === banner.id) {
+        return { ...b, sort_order: newOrder };
+      }
+      if (targetBanner && b.id === targetBanner.id) {
+        return { ...b, sort_order: oldOrder };
+      }
+      return b;
+    });
+
+    // Sort immediately
+    updatedBanners.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+    setBanners(updatedBanners);
+
+    try {
+      // 1. Update first banner
+      const formData1 = new FormData();
+      formData1.append('title', banner.title);
+      if (banner.description) formData1.append('description', banner.description);
+      formData1.append('sort_order', String(newOrder));
+      formData1.append('is_active', String(banner.is_active !== false));
+      if (banner.redirect_path) formData1.append('redirect_path', banner.redirect_path);
+
+      const res1 = await fetch(`${API_BASE}/banners/${banner.id}`, {
+        method: 'PUT',
+        headers: getHeaders(true),
+        body: formData1
+      });
+
+      if (!res1.ok) {
+        const err = await res1.json().catch(() => ({}));
+        throw new Error(err.message || 'Failed to update banner sort order.');
+      }
+
+      // 2. Update target banner if it exists
+      if (targetBanner) {
+        const formData2 = new FormData();
+        formData2.append('title', targetBanner.title);
+        if (targetBanner.description) formData2.append('description', targetBanner.description);
+        formData2.append('sort_order', String(oldOrder));
+        formData2.append('is_active', String(targetBanner.is_active !== false));
+        if (targetBanner.redirect_path) formData2.append('redirect_path', targetBanner.redirect_path);
+
+        const res2 = await fetch(`${API_BASE}/banners/${targetBanner.id}`, {
+          method: 'PUT',
+          headers: getHeaders(true),
+          body: formData2
+        });
+
+        if (!res2.ok) {
+          const err = await res2.json().catch(() => ({}));
+          throw new Error(err.message || 'Failed to swap banner sort order.');
+        }
+      }
+
+      // 3. Final synchronization fetch
+      await fetchBanners();
+    } catch (err) {
+      // Revert state on failure
+      setBanners(originalBanners);
+      console.error('Error swapping banner order:', err);
+      throw err;
+    }
+  }, [banners, fetchBanners, getHeaders]);
+
 
   return (
     <AdminStoreContext.Provider value={{
@@ -814,7 +923,7 @@ export function AdminStoreProvider({ children }) {
       galleryCategories, addGalleryCategory, removeGalleryCategory, updateGalleryCategory,
       galleryItems, addGalleryItem, removeGalleryItem, resetGallery,
       testimonials, addTestimonial, updateTestimonial, deleteTestimonial, resetTestimonials,
-      banners, addBanner, deleteBanner, resetBanners, slideDuration, updateSlideDuration
+      banners, addBanner, deleteBanner, resetBanners, updateBanner, slideDuration, updateSlideDuration, updateBannerSort,
     }}>
       {children}
     </AdminStoreContext.Provider>

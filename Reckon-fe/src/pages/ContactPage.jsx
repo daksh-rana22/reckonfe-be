@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageHeader from '@/components/shared/PageHeader';
 import SectionHeading from '@/components/shared/SectionHeading';
+import { API_BASE } from '../config';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -137,6 +138,7 @@ export default function ContactPage() {
     (softwareParam ? (softwareMapping[softwareParam] || softwareParam) : '') || 'Retail Pharmacies'
   );
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
@@ -146,7 +148,7 @@ export default function ContactPage() {
     }
   }, [softwareParam]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !email || !phone) {
       setError('Please fill in all required fields.');
@@ -158,19 +160,54 @@ export default function ContactPage() {
       setSuccess(false);
       return;
     }
-    
-    setError('');
-    setSuccess(true);
-    setName('');
-    setEmail('');
-    setPhone('');
-    setDemoFor(
-      (softwareParam ? (softwareMapping[softwareParam] || softwareParam) : '') || 'Retail Pharmacies'
-    );
-    setMessage('');
 
-    setTimeout(() => setSuccess(false), 5000);
+    // 2. Email format validation (matching EmailStr requirements)
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address (e.g., user@domain.com).');
+      setSuccess(false);
+      return;
+    }
+
+    setError('');
+    setLoading(true);
+
+    try {
+      const res = await fetch(`${API_BASE}/contact/demo`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          demo_for: demoFor,
+          message,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.detail || 'Something went wrong. Please try again.');
+        return;
+      }
+
+      setSuccess(true);
+      setName('');
+      setEmail('');
+      setPhone('');
+      setDemoFor(
+        (softwareParam ? (softwareMapping[softwareParam] || softwareParam) : '') || 'Retail Pharmacies'
+      );
+      setMessage('');
+      setTimeout(() => setSuccess(false), 6000);
+    } catch {
+      setError('Could not connect to server. Please try again or call us directly.');
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <>
       <Helmet>
@@ -275,10 +312,20 @@ export default function ContactPage() {
                   </div>
                   <button
                     type="submit"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary-dark text-white font-semibold shadow-md hover:shadow-glow transition-all duration-300 cursor-pointer"
+                    disabled={loading}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary-dark text-white font-semibold shadow-md hover:shadow-glow transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-4 h-4" />
-                    Submit Request
+                    {loading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        Submit Request
+                      </>
+                    )}
                   </button>
                 </form>
               </div>

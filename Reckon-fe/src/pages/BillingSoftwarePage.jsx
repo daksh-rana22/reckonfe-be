@@ -73,7 +73,7 @@ export default function BillingSoftwarePage({ variant: propVariant = 'main' }) {
       {isMainPage && (
         <>
           <BillingShowcase data={data} />
-          <ClientsSection software={data.slug} />
+          {activeVariant !== 'main' && <ClientsSection software={data.slug} />}
         </>
       )}
 
