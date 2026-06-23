@@ -328,6 +328,7 @@ export default function AdminPage() {
 
   // Banners state
   const [showAddBannerModal, setShowAddBannerModal] = useState(false);
+  const [showGuidelines, setShowGuidelines] = useState(false);
   const [newBannerTitle, setNewBannerTitle] = useState('');
   const [newBannerDescription, setNewBannerDescription] = useState('');
   const [newBannerSortOrder, setNewBannerSortOrder] = useState(0);
@@ -3278,22 +3279,25 @@ export default function AdminPage() {
       {/* Add Banner Modal */}
       {showAddBannerModal && (
         <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAddBannerModal(false)}>
-          <div className="bg-surface rounded-2xl border border-border shadow-2xl w-full max-w-md p-6 animate-fade-up" onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
+          <div className="bg-surface rounded-2xl border border-border shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col animate-fade-up overflow-hidden" onClick={e => e.stopPropagation()}>
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4.5 border-b border-border shrink-0">
               <h3 className="text-base font-black text-foreground">Add Homepage Product Banner</h3>
               <button onClick={() => setShowAddBannerModal(false)} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-muted hover:text-foreground transition-all cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {bannerError && (
-              <div className="p-3 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-[#DC2626] dark:text-red-400 text-xs flex items-center gap-2 mb-4 font-semibold">
-                <AlertCircle className="w-4 h-4 shrink-0" />
-                {bannerError}
-              </div>
-            )}
+            {/* Modal Body (Scrollable) */}
+            <div className="p-6 overflow-y-auto flex-1 min-h-0 space-y-4.5 text-left">
+              {bannerError && (
+                <div className="p-3 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-[#DC2626] dark:text-red-400 text-xs flex items-center gap-2 mb-1.5 font-semibold">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  {bannerError}
+                </div>
+              )}
 
-            <div className="space-y-4 text-left">
               <div>
                 <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Software Solution Page</label>
                 <select
@@ -3365,19 +3369,19 @@ export default function AdminPage() {
                 <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Banner Image *</label>
                 <div
                   onClick={() => bannerImageInputRef.current?.click()}
-                  className="border-2 border-dashed border-border/80 hover:border-primary/50 rounded-xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer bg-slate-50/50 dark:bg-white/[0.01] hover:bg-slate-50 dark:hover:bg-white/[0.03] transition-all text-center"
+                  className="border-2 border-dashed border-border/80 hover:border-primary/50 rounded-xl flex items-center justify-center cursor-pointer bg-slate-50/50 dark:bg-white/[0.01] hover:bg-slate-50 dark:hover:bg-white/[0.03] transition-all text-center overflow-hidden aspect-[4/1] w-full"
                 >
                   {newBannerFilePreview ? (
                     <img
                       src={newBannerFilePreview}
                       alt="Banner Preview"
-                      className="max-h-24 object-contain rounded border border-border mx-auto"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
-                    <>
-                      <Upload className="w-6 h-6 text-muted/65 mx-auto mb-1" />
-                      <span className="text-[11px] text-muted font-bold block">Upload Image File</span>
-                    </>
+                    <div className="p-4 flex flex-col items-center justify-center">
+                      <Upload className="w-5 h-5 text-muted/65 mx-auto mb-1" />
+                      <span className="text-[10px] text-muted font-bold block">Upload Image File</span>
+                    </div>
                   )}
                 </div>
                 <input
@@ -3387,32 +3391,44 @@ export default function AdminPage() {
                   className="hidden"
                   onChange={handleBannerUpload}
                 />
+              </div>
 
-                <div className="mt-3.5 p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-[11px] leading-relaxed text-left">
-                  <div className="flex items-center gap-1.5 font-bold uppercase tracking-wider text-[9px] mb-1.5 select-none">
-                    <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                    <span>Edge Overflow & Margin Warning</span>
-                  </div>
-                  <p className="font-semibold mb-1">
-                    The homepage banner container has a display size of <span className="font-black text-foreground underline decoration-amber-500/40">1880 x 449 pixels</span> (a wide ~4.2:1 aspect ratio).
-                  </p>
-                  <ul className="list-disc pl-4 space-y-1 font-medium text-slate-600 dark:text-slate-300">
-                    <li>To prevent clipping, design or crop your image to match these dimensions.</li>
-                    <li><span className="font-bold text-amber-600 dark:text-amber-400">Important Safe Margin:</span> Maintain adequate margin/padding and keep all text, logos, and critical details centered so they do not overflow or get cropped on smaller screen viewports.</li>
-                  </ul>
+              {/* Guidelines Accordion */}
+              <div className="space-y-2">
+                <button
+                  type="button"
+                  onClick={() => setShowGuidelines(!showGuidelines)}
+                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-white/5 border border-border text-[11px] font-bold text-muted hover:text-foreground transition-all cursor-pointer"
+                >
+                  <span className="flex items-center gap-1.5">
+                    <AlertCircle className="w-3.5 h-3.5 text-amber-500" />
+                    View Dimensions & AI Prompt Suffix
+                  </span>
+                  <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", showGuidelines && "rotate-180")} />
+                </button>
 
-                  <div className="mt-3 pt-2.5 border-t border-amber-500/20">
-                    <span className="block text-[9px] font-black uppercase tracking-wider mb-1 text-slate-800 dark:text-slate-200">AI Prompt Suffix (Copy & Paste):</span>
-                    <div className="p-2 rounded bg-slate-950 text-slate-200 font-mono text-[9px] select-all break-words border border-slate-800 leading-normal">
-                      , ultra-wide 4:1 aspect ratio panoramic tech banner, keep all text, logos and main objects in the center 60%, left and right edges are empty gradients for safe margins --ar 4:1
+                {showGuidelines && (
+                  <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-[11px] leading-relaxed text-left animate-fade-in space-y-2">
+                    <p className="font-semibold">
+                      The homepage banner container has a display size of <span className="font-black text-foreground underline decoration-amber-500/40">1880 x 449 pixels</span> (a wide ~4.2:1 aspect ratio).
+                    </p>
+                    <ul className="list-disc pl-4 space-y-1 font-medium text-slate-600 dark:text-slate-300">
+                      <li>To prevent clipping, design or crop your image to match these dimensions.</li>
+                      <li><span className="font-bold text-amber-600 dark:text-amber-400">Important Safe Margin:</span> Maintain adequate margin/padding and keep all text, logos, and critical details centered so they do not overflow or get cropped on smaller screen viewports.</li>
+                    </ul>
+                    <div className="pt-2 border-t border-amber-500/20">
+                      <span className="block text-[9px] font-black uppercase tracking-wider mb-1 text-slate-800 dark:text-slate-200">AI Prompt Suffix (Copy & Paste):</span>
+                      <div className="p-2 rounded bg-slate-950 text-slate-200 font-mono text-[9px] select-all break-words border border-slate-800 leading-normal">
+                        , ultra-wide 4:1 aspect ratio panoramic tech banner, keep all text, logos and main objects in the center 60%, left and right edges are empty gradients for safe margins --ar 4:1
+                      </div>
                     </div>
-                    <span className="block text-[8px] text-muted/80 mt-1 italic">Triple-click to select and copy the suffix. Append it to any AI image generator prompt.</span>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 
-            <div className="flex gap-3 mt-6 pt-4 border-t border-border">
+            {/* Modal Footer */}
+            <div className="flex gap-3 px-6 py-4.5 border-t border-border shrink-0 bg-slate-50/50 dark:bg-white/[0.01]">
               <button
                 onClick={handleAddBanner}
                 className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary-dark text-xs font-bold shadow-sm transition-all duration-300 cursor-pointer"
