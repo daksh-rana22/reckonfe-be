@@ -116,24 +116,24 @@ export default function SoftwareDetailPage() {
 
               {/* Breadcrumbs matching PageHeader layout exactly */}
               <nav className={cn(
-                "flex items-center gap-1.5 text-sm font-medium mb-6",
+                "flex items-center gap-1.5 text-xs font-medium mb-6",
                 isDark ? "text-white/50" : "text-slate-600"
               )}>
                 <Link
                   to="/"
                   className="flex items-center gap-1 transition-colors hover:text-foreground"
                 >
-                  <Home className="w-3.5 h-3.5" />
+                  <Home className="w-3 h-3" />
                   <span>Home</span>
                 </Link>
-                <ChevronRight className={cn('w-3.5 h-3.5', isDark ? 'text-white/25' : 'text-slate-400')} />
+                <ChevronRight className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-slate-400')} />
                 <Link
                   to="/softwares"
                   className="transition-colors hover:text-foreground"
                 >
                   Softwares
                 </Link>
-                <ChevronRight className={cn('w-3.5 h-3.5', isDark ? 'text-white/25' : 'text-slate-400')} />
+                <ChevronRight className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-slate-400')} />
                 <span className={cn('font-semibold', isDark ? 'text-primary-light' : 'text-primary')}>
                   {software.name}
                 </span>

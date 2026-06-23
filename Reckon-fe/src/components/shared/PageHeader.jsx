@@ -115,7 +115,7 @@ export default function PageHeader({ title, subtitle, breadcrumbs = [], gradient
           <div className={cn(children ? "lg:col-span-7" : "")}>
             {/* Breadcrumbs */}
             {breadcrumbs.length > 0 && (
-              <nav className="flex items-center gap-1.5 text-sm mb-7">
+              <nav className="flex items-center gap-1.5 text-xs mb-7">
                 <Link
                   to="/"
                   className={cn(
@@ -125,12 +125,12 @@ export default function PageHeader({ title, subtitle, breadcrumbs = [], gradient
                       : 'text-muted hover:text-foreground'
                   )}
                 >
-                  <Home className="w-3.5 h-3.5" />
+                  <Home className="w-3 h-3" />
                   <span>Home</span>
                 </Link>
                 {breadcrumbs.map((crumb, i) => (
                   <span key={i} className="flex items-center gap-1.5">
-                    <ChevronRight className={cn('w-3.5 h-3.5', gradient ? (isDark ? 'text-white/25' : 'text-slate-400') : 'text-muted-foreground')} />
+                    <ChevronRight className={cn('w-3 h-3', gradient ? (isDark ? 'text-white/25' : 'text-slate-400') : 'text-muted-foreground')} />
                     {crumb.path ? (
                       <Link
                         to={crumb.path}

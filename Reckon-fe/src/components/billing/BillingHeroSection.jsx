@@ -148,16 +148,16 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
           <div className="lg:col-span-5 space-y-6">
             {/* Breadcrumbs */}
             <nav className={cn(
-              'flex items-center gap-1.5 text-sm font-medium',
+              'flex items-center gap-1.5 text-xs font-medium',
               isDark ? 'text-white/50' : 'text-slate-600'
             )}>
               <Link to="/" className="flex items-center gap-1 transition-colors hover:text-foreground">
-                <Home className="w-3.5 h-3.5" />
+                <Home className="w-3 h-3" />
                 <span>Home</span>
               </Link>
-              <ChevronRight className={cn('w-3.5 h-3.5', isDark ? 'text-white/25' : 'text-slate-400')} />
+              <ChevronRight className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-slate-400')} />
               <Link to="/software" className="transition-colors hover:text-foreground">Software</Link>
-              <ChevronRight className={cn('w-3.5 h-3.5', isDark ? 'text-white/25' : 'text-slate-400')} />
+              <ChevronRight className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-slate-400')} />
               {variant !== 'main' && variant !== 'auto-parts' && variant !== 'fmcg' && variant !== 'retail' && (
                 <>
                   {variant === 'auto-parts-retailers' || variant === 'spare-parts-dealers' || variant === 'car-accessories' || variant === 'multi-branch-auto-parts' ? (
@@ -169,7 +169,7 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
                   ) : (
                     <Link to="/software/pharmacy-healthcare" className="transition-colors hover:text-foreground">Pharmacy & Healthcare</Link>
                   )}
-                  <ChevronRight className={cn('w-3.5 h-3.5', isDark ? 'text-white/25' : 'text-slate-400')} />
+                  <ChevronRight className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-slate-400')} />
                 </>
               )}
               <span className={cn('font-semibold', isDark ? 'text-primary-light' : 'text-primary')}>

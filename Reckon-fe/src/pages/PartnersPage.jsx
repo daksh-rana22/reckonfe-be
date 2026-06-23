@@ -231,27 +231,27 @@ export default function PartnersPage() {
                 return (
                   <div
                     key={partner.id || index}
-                    className="relative aspect-square w-full rounded-2xl overflow-hidden group shadow-lg border border-border/10 bg-slate-900"
+                    className="flex flex-col group"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950 -z-10" />
-                    <img
-                      src={partner.img}
-                      alt={partner.name}
-                      className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 select-none opacity-90 group-hover:opacity-100"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                      }}
-                    />
-                    {/* Bottom dark overlay */}
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+                    <div className="relative aspect-square w-full rounded-2xl overflow-hidden shadow-lg border border-border/10 bg-slate-900 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950 -z-10" />
+                      <img
+                        src={partner.img}
+                        alt={partner.name}
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 select-none opacity-90 group-hover:opacity-100"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    </div>
                     
-                    {/* Content overlay */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-6 text-left">
-                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-primary-light transition-colors">
+                    {/* Content below image */}
+                    <div className="mt-4 text-center flex flex-col items-center justify-center px-1">
+                      <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1 tracking-tight group-hover:text-primary transition-colors">
                         {partner.name}
                       </h3>
-                      <div className="flex items-center gap-1.5 text-xs sm:text-sm text-white/80">
-                        <MapPin className="w-4 h-4 text-sky-400 shrink-0 fill-sky-400/20" />
+                      <div className="flex items-center justify-center gap-1.5 text-sm sm:text-base text-muted-foreground">
+                        <MapPin className="w-4 h-4 text-sky-500 shrink-0 fill-sky-500/10" />
                         <span className="font-semibold">{formatLocation(partner.city)}</span>
                       </div>
                     </div>
@@ -263,27 +263,27 @@ export default function PartnersPage() {
               FALLBACK_PARTNERS.slice(partnerPage * 8, (partnerPage + 1) * 8).map((partner, index) => (
                 <div
                   key={partner.id || index}
-                  className="relative aspect-square w-full rounded-2xl overflow-hidden group shadow-lg border border-border/10 bg-slate-900"
+                  className="flex flex-col group"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950 -z-10" />
-                  <img
-                    src={partner.img}
-                    alt={partner.name}
-                    className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 select-none opacity-90 group-hover:opacity-100"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
-                  />
-                  {/* Bottom dark overlay */}
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+                  <div className="relative aspect-square w-full rounded-2xl overflow-hidden shadow-lg border border-border/10 bg-slate-900 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950 -z-10" />
+                    <img
+                      src={partner.img}
+                      alt={partner.name}
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 select-none opacity-90 group-hover:opacity-100"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  </div>
 
-                  {/* Content overlay */}
-                  <div className="absolute inset-0 flex flex-col justify-end p-6 text-left">
-                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-primary-light transition-colors">
+                  {/* Content below image */}
+                  <div className="mt-4 text-center flex flex-col items-center justify-center px-1">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1 tracking-tight group-hover:text-primary transition-colors">
                       {partner.name}
                     </h3>
-                    <div className="flex items-center gap-1.5 text-xs sm:text-sm text-white/80">
-                      <MapPin className="w-4 h-4 text-sky-400 shrink-0 fill-sky-400/20" />
+                    <div className="flex items-center justify-center gap-1.5 text-sm sm:text-base text-muted-foreground">
+                      <MapPin className="w-4 h-4 text-sky-500 shrink-0 fill-sky-500/10" />
                       <span className="font-semibold">{formatLocation(partner.city)}</span>
                     </div>
                   </div>
