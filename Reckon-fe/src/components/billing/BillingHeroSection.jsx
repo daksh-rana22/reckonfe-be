@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
@@ -70,9 +71,19 @@ const getHeroImage = (variant) => {
 export default function BillingHeroSection({ data, variant = 'main' }) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setCoords({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
 
   return (
     <section
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={cn(
         'relative overflow-hidden py-16 lg:py-24 select-none transition-colors duration-500 border-b',
         isDark ? 'text-white border-white/5' : 'text-[#0B0816] border-slate-100'
@@ -83,24 +94,53 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
           : 'var(--gradient-section-light)',
       }}
     >
-      {/* Background decorations */}
-      <div className={cn(
-        'absolute inset-0 grid-mesh pointer-events-none',
-        isDark ? 'opacity-30' : 'opacity-20'
-      )} />
-      <div className={cn(
-        'absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none animate-pulse-soft',
-        isDark ? 'bg-primary/15' : 'bg-primary/10'
-      )} />
-      <div className={cn(
-        'absolute bottom-0 left-0 w-64 h-64 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4 pointer-events-none',
-        isDark ? 'bg-accent/10' : 'bg-accent/8'
-      )} />
+      {/* Animated glow blobs */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute top-16 left-8 w-80 h-80 rounded-full blur-[120px] animate-pulse-soft"
+          style={{ backgroundColor: 'var(--section-glow-1)' }}
+        />
+        <div
+          className="absolute bottom-16 right-8 w-96 h-96 rounded-full blur-[140px] animate-pulse-soft"
+          style={{ animationDelay: '2s', backgroundColor: 'var(--section-glow-2)' }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full blur-[160px]"
+          style={{ backgroundColor: 'var(--section-glow-3)' }}
+        />
+      </div>
 
-      {/* Floating shapes */}
-      <div className="absolute top-12 right-12 w-20 h-20 border border-primary/20 rounded-2xl rotate-12 opacity-30 animate-float pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-3 h-3 bg-primary/40 rounded-full animate-float-slow pointer-events-none" />
-      <div className="absolute bottom-16 left-16 w-12 h-12 border border-accent/20 rounded-xl -rotate-6 opacity-25 animate-float pointer-events-none" style={{ animationDelay: '2s' }} />
+      {/* Grid mesh */}
+      <div
+        className="absolute inset-0 grid-mesh pointer-events-none"
+        style={{
+          maskImage: isHovered
+            ? `radial-gradient(circle 350px at ${coords.x}px ${coords.y}px, black 30%, transparent)`
+            : 'radial-gradient(circle 600px at center, black 40%, transparent)',
+          WebkitMaskImage: isHovered
+            ? `radial-gradient(circle 350px at ${coords.x}px ${coords.y}px, black 30%, transparent)`
+            : 'radial-gradient(circle 600px at center, black 40%, transparent)',
+        }}
+      />
+
+      {/* Cursor spotlight */}
+      <div
+        className="absolute pointer-events-none rounded-full blur-[120px] w-[500px] h-[500px] transition-opacity duration-400"
+        style={{
+          background: isDark
+            ? 'radial-gradient(circle, rgba(220,38,38,0.18), rgba(37,99,235,0.10), transparent)'
+            : 'radial-gradient(circle, rgba(249,115,22,0.12), rgba(59,130,246,0.12), transparent)',
+          left: coords.x - 250,
+          top: coords.y - 250,
+          opacity: isHovered ? 1 : 0,
+        }}
+      />
+
+      {/* Floating geometric decorations */}
+      <div className="absolute top-24 right-16 w-24 h-24 border border-primary/15 rounded-3xl rotate-12 opacity-30 animate-float pointer-events-none" />
+      <div className="absolute bottom-32 left-12 w-16 h-16 border border-primary/20 rounded-2xl -rotate-6 opacity-20 animate-float pointer-events-none" style={{ animationDelay: '3s' }} />
+      <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-primary/50 rounded-full animate-pulse-soft pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-2 h-2 bg-primary/40 rounded-full animate-float-slow pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -147,7 +187,7 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
 
             {/* Subtitle */}
             <p className={cn(
-              'text-lg leading-relaxed max-w-xl',
+              'text-lg leading-relaxed max-w-xl capitalize',
               isDark ? 'text-white/60' : 'text-[#0B0816]/70'
             )}>
               {data.subtitle}

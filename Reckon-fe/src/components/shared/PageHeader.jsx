@@ -35,35 +35,48 @@ export default function PageHeader({ title, subtitle, breadcrumbs = [], gradient
       {/* Animated grid mesh */}
       {gradient && (
         <div
-          className="absolute inset-0 grid-mesh"
+          className="absolute inset-0 grid-mesh pointer-events-none"
           style={{
             maskImage: isHovered
               ? `radial-gradient(circle 350px at ${coords.x}px ${coords.y}px, black 30%, transparent)`
-              : 'radial-gradient(circle 500px at 70% 50%, black 40%, transparent)',
+              : 'radial-gradient(circle 600px at center, black 40%, transparent)',
             WebkitMaskImage: isHovered
               ? `radial-gradient(circle 350px at ${coords.x}px ${coords.y}px, black 30%, transparent)`
-              : 'radial-gradient(circle 500px at 70% 50%, black 40%, transparent)',
+              : 'radial-gradient(circle 600px at center, black 40%, transparent)',
           }}
         />
       )}
 
       {/* Background blobs */}
-      <div className={cn(
-        'absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none animate-pulse-soft',
-        gradient ? (isDark ? 'bg-red-600/20' : 'bg-primary/10') : 'bg-primary/8'
-      )} />
-      <div className={cn(
-        'absolute bottom-0 left-0 w-64 h-64 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4 pointer-events-none',
-        gradient ? (isDark ? 'bg-blue-600/12' : 'bg-accent/10') : 'bg-accent/6'
-      )} />
+      {gradient ? (
+        <div className="absolute inset-0 pointer-events-none">
+          <div
+            className="absolute top-16 left-8 w-80 h-80 rounded-full blur-[120px] animate-pulse-soft"
+            style={{ backgroundColor: 'var(--section-glow-1)' }}
+          />
+          <div
+            className="absolute bottom-16 right-8 w-96 h-96 rounded-full blur-[140px] animate-pulse-soft"
+            style={{ animationDelay: '2s', backgroundColor: 'var(--section-glow-2)' }}
+          />
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full blur-[160px]"
+            style={{ backgroundColor: 'var(--section-glow-3)' }}
+          />
+        </div>
+      ) : (
+        <>
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none animate-pulse-soft bg-primary/8" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4 pointer-events-none bg-accent/6" />
+        </>
+      )}
 
       {/* Floating geometric shapes (gradient pages only) */}
       {gradient && (
         <>
-          <div className="absolute top-12 right-12 w-20 h-20 border border-primary/20 rounded-2xl rotate-12 opacity-30 animate-float pointer-events-none" />
-          <div className="absolute top-1/3 right-1/4 w-3 h-3 bg-primary/40 rounded-full animate-float-slow pointer-events-none" />
-          <div className="absolute bottom-16 left-16 w-12 h-12 border border-accent/20 rounded-xl -rotate-6 opacity-25 animate-float pointer-events-none" style={{ animationDelay: '2s' }} />
-          <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-accent/40 rounded-full animate-pulse-soft pointer-events-none" />
+          <div className="absolute top-24 right-16 w-24 h-24 border border-primary/15 rounded-3xl rotate-12 opacity-30 animate-float pointer-events-none" />
+          <div className="absolute bottom-32 left-12 w-16 h-16 border border-primary/20 rounded-2xl -rotate-6 opacity-20 animate-float pointer-events-none" style={{ animationDelay: '3s' }} />
+          <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-primary/50 rounded-full animate-pulse-soft pointer-events-none" />
+          <div className="absolute bottom-1/4 right-1/4 w-2 h-2 bg-primary/40 rounded-full animate-float-slow pointer-events-none" />
         </>
       )}
 
@@ -84,15 +97,15 @@ export default function PageHeader({ title, subtitle, breadcrumbs = [], gradient
 
       {/* Interactive cursor spotlight */}
       <div
-        className="absolute pointer-events-none rounded-full blur-[80px] w-80 h-80 transition-opacity duration-300"
+        className="absolute pointer-events-none rounded-full blur-[120px] w-[500px] h-[500px] transition-opacity duration-400"
         style={{
           background: gradient
             ? (isDark
-              ? 'radial-gradient(circle, rgba(220,38,38,0.18), rgba(37,99,235,0.10))'
-              : 'radial-gradient(circle, rgba(249,115,22,0.12), rgba(59,130,246,0.12))')
-            : 'radial-gradient(circle, rgba(249,115,22,0.12), transparent)',
-          left: coords.x - 160,
-          top: coords.y - 160,
+              ? 'radial-gradient(circle, rgba(220,38,38,0.18), rgba(37,99,235,0.10), transparent)'
+              : 'radial-gradient(circle, rgba(249,115,22,0.12), rgba(59,130,246,0.12), transparent)')
+            : 'radial-gradient(circle, rgba(249,115,22,0.12), transparent, transparent)',
+          left: coords.x - 250,
+          top: coords.y - 250,
           opacity: isHovered ? 1 : 0,
         }}
       />

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageHeader from '@/components/shared/PageHeader';
 import { cn } from '@/lib/utils';
-import { X, ZoomIn, ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAdminStore } from '@/hooks/useAdminStore';
 import { getFile } from '@/lib/db';
 
@@ -80,41 +80,6 @@ export default function GalleryPage() {
     setLightboxIndex(i => (i < filtered.length - 1 ? i + 1 : 0));
   };
 
-  const handleDownloadImage = async (item) => {
-    try {
-      if (item.src.startsWith('db://')) {
-        const fileId = item.src.replace('db://', '');
-        const blob = await getFile(fileId);
-        if (!blob) {
-          alert('Image not found in local browser storage.');
-          return;
-        }
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${item.title || 'photo'}.jpg`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      } else {
-        // Fetch external image as blob to bypass cross-origin restrictions on download attribute
-        const res = await fetch(item.src);
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${item.title || 'photo'}.jpg`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      }
-    } catch (err) {
-      console.error('Direct download failed, opening in new tab instead:', err);
-      window.open(item.src, '_blank');
-    }
-  };
 
   const getCategoryCount = (label) => {
     if (label === 'All') return galleryItems.length;
@@ -194,16 +159,6 @@ export default function GalleryPage() {
                     <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white backdrop-blur-sm shadow-md transition-all">
                       <ZoomIn className="w-5 h-5" />
                     </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDownloadImage(item);
-                      }}
-                      className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white backdrop-blur-sm shadow-md transition-all cursor-pointer"
-                      title="Download Image"
-                    >
-                      <Download className="w-5 h-5" />
-                    </button>
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <p className="text-[10px] uppercase font-bold text-white/70 tracking-wider">

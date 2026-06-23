@@ -17,6 +17,52 @@ const BENEFITS = [
   { icon: Handshake, title: 'Co-branding', description: 'Joint marketing opportunities and co-branded campaigns to boost your visibility.' },
 ];
 
+const FALLBACK_PARTNERS = [
+  {
+    id: 'f1',
+    name: 'sthhdfsgegres',
+    city: 'feafewfE, india',
+    img: '/images/supermarket_gobill.png'
+  },
+  {
+    id: 'f2',
+    name: 'Khushi Infotech',
+    city: 'Guwahati, Assam',
+    img: '/images/home_pos_showcase.png'
+  },
+  {
+    id: 'f3',
+    name: 'NexGen Solutions',
+    city: 'Bangalore, Karnataka',
+    img: '/images/office_real.png'
+  },
+  {
+    id: 'f4',
+    name: 'RetailFlow Systems',
+    city: 'Mumbai, Maharashtra',
+    img: '/images/grocery_real.png'
+  },
+  {
+    id: 'f5',
+    name: 'DataSphere Analytics',
+    city: 'Hyderabad, Telangana',
+    img: '/images/pharma_real.png'
+  },
+  {
+    id: 'f6',
+    name: 'Apex Distributors',
+    city: 'Delhi',
+    img: '/images/fmcg_distributor_billing.png'
+  }
+];
+
+const formatLocation = (location) => {
+  if (!location) return 'Lucknow, India';
+  const locLower = location.toLowerCase();
+  if (locLower.includes('india')) return location;
+  return `${location}, India`;
+};
+
 export default function PartnersPage() {
   const { partnerLogos } = useAdminStore();
   const [name, setName] = useState('');
@@ -151,20 +197,20 @@ export default function PartnersPage() {
               </button>
               <button
                 onClick={() => {
-                  const totalPartners = partnerLogos && partnerLogos.length > 0 ? partnerLogos.length : 3;
-                  if ((partnerPage + 1) * 6 < totalPartners) {
+                  const totalPartners = partnerLogos && partnerLogos.length > 0 ? partnerLogos.length : FALLBACK_PARTNERS.length;
+                  if ((partnerPage + 1) * 8 < totalPartners) {
                     setPartnerPage(prev => prev + 1);
                   }
                 }}
                 disabled={(() => {
-                  const totalPartners = partnerLogos && partnerLogos.length > 0 ? partnerLogos.length : 3;
-                  return (partnerPage + 1) * 6 >= totalPartners;
+                  const totalPartners = partnerLogos && partnerLogos.length > 0 ? partnerLogos.length : FALLBACK_PARTNERS.length;
+                  return (partnerPage + 1) * 8 >= totalPartners;
                 })()}
                 className={cn(
                   "p-3.5 rounded-xl transition-all shadow-lg shrink-0",
                   (() => {
-                    const totalPartners = partnerLogos && partnerLogos.length > 0 ? partnerLogos.length : 3;
-                    return (partnerPage + 1) * 6 >= totalPartners;
+                    const totalPartners = partnerLogos && partnerLogos.length > 0 ? partnerLogos.length : FALLBACK_PARTNERS.length;
+                    return (partnerPage + 1) * 8 >= totalPartners;
                   })()
                     ? "bg-primary/30 opacity-30 cursor-not-allowed text-white/50"
                     : "bg-primary text-white hover:bg-primary-dark hover:scale-105 active:scale-95 cursor-pointer"
@@ -179,69 +225,70 @@ export default function PartnersPage() {
           </div>
 
           {/* Card Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {partnerLogos && partnerLogos.length > 0 ? (
-              partnerLogos.slice(partnerPage * 6, (partnerPage + 1) * 6).map((partner, index) => {
+              partnerLogos.slice(partnerPage * 8, (partnerPage + 1) * 8).map((partner, index) => {
                 return (
                   <div
                     key={partner.id || index}
-                    className="p-6 rounded-2xl bg-surface border border-border/80 hover:border-primary/25 hover:shadow-glow-sm transition-all duration-300 flex flex-col items-center text-center justify-between"
+                    className="relative aspect-square w-full rounded-2xl overflow-hidden group shadow-lg border border-border/10 bg-slate-900"
                   >
-                    <div className="flex flex-col items-center">
-                      {/* Top Row: Logo */}
-                      <div className="w-28 h-20 rounded-xl bg-white dark:bg-white/5 border border-border/80 flex items-center justify-center p-2 shadow-sm shrink-0">
-                        <img
-                          src={partner.img}
-                          alt={partner.name}
-                          className="max-w-full max-h-full object-contain select-none"
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.parentNode.innerHTML = `<span class="text-xs font-bold text-muted">${partner.name.substring(0, 2).toUpperCase()}</span>`;
-                          }}
-                        />
-                      </div>
-
-                      {/* Partner Name */}
-                      <h3 className="text-xl font-bold text-foreground mt-6 text-center">
+                    <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950 -z-10" />
+                    <img
+                      src={partner.img}
+                      alt={partner.name}
+                      className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 select-none opacity-90 group-hover:opacity-100"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                    {/* Bottom dark overlay */}
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+                    
+                    {/* Content overlay */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 text-left">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-primary-light transition-colors">
                         {partner.name}
                       </h3>
-                    </div>
-
-                    {/* City Location */}
-                    <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground mt-4">
-                      <MapPin className="w-4.5 h-4.5 text-primary shrink-0" />
-                      <span className="font-semibold">{partner.city || 'Lucknow'}, India</span>
+                      <div className="flex items-center gap-1.5 text-xs sm:text-sm text-white/80">
+                        <MapPin className="w-4 h-4 text-sky-400 shrink-0 fill-sky-400/20" />
+                        <span className="font-semibold">{formatLocation(partner.city)}</span>
+                      </div>
                     </div>
                   </div>
                 );
               })
             ) : (
               // Fallback cards matching the image in case no partners exist in DB yet
-              <>
-                {[
-                  { name: 'NexGen Solutions', city: 'Bangalore', category: 'IT Consulting', logoText: 'NS' },
-                  { name: 'RetailFlow Systems', city: 'Mumbai', category: 'Retail Solutions', logoText: 'RF' },
-                  { name: 'DataSphere Analytics', city: 'Hyderabad', category: 'Business Analytics', logoText: 'DA' }
-                ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="p-6 rounded-2xl bg-surface border border-border/80 hover:border-primary/25 hover:shadow-glow-sm transition-all duration-300 flex flex-col items-center text-center justify-between"
-                  >
-                    <div className="flex flex-col items-center">
-                      <div className="w-28 h-20 rounded-xl bg-primary/5 border border-border/85 flex items-center justify-center text-primary font-bold text-base shrink-0">
-                        {item.logoText}
-                      </div>
-                      <h3 className="text-xl font-bold text-foreground mt-6 text-center">
-                        {item.name}
-                      </h3>
-                    </div>
-                    <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground mt-4">
-                      <MapPin className="w-4.5 h-4.5 text-primary shrink-0" />
-                      <span className="font-semibold">{item.city}, India</span>
+              FALLBACK_PARTNERS.slice(partnerPage * 8, (partnerPage + 1) * 8).map((partner, index) => (
+                <div
+                  key={partner.id || index}
+                  className="relative aspect-square w-full rounded-2xl overflow-hidden group shadow-lg border border-border/10 bg-slate-900"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950 -z-10" />
+                  <img
+                    src={partner.img}
+                    alt={partner.name}
+                    className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 select-none opacity-90 group-hover:opacity-100"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                  {/* Bottom dark overlay */}
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+
+                  {/* Content overlay */}
+                  <div className="absolute inset-0 flex flex-col justify-end p-6 text-left">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-primary-light transition-colors">
+                      {partner.name}
+                    </h3>
+                    <div className="flex items-center gap-1.5 text-xs sm:text-sm text-white/80">
+                      <MapPin className="w-4 h-4 text-sky-400 shrink-0 fill-sky-400/20" />
+                      <span className="font-semibold">{formatLocation(partner.city)}</span>
                     </div>
                   </div>
-                ))}
-              </>
+                </div>
+              ))
             )}
           </div>
 
