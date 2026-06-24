@@ -130,7 +130,7 @@ export default function BannerSliderSection() {
 
   return (
     <div
-      className={`w-full h-[500px] sm:h-[300px] md:h-[400px] lg:h-[449px] relative overflow-hidden select-none border-b shadow-inner group/banner ${isDark ? 'border-slate-800/80 bg-slate-950' : 'border-slate-200/80 bg-slate-100'
+      className={`w-full h-[65vh] relative overflow-hidden select-none border-b shadow-inner group/banner ${isDark ? 'border-slate-800/80 bg-slate-950' : 'border-slate-200/80 bg-slate-100'
         }`}
     >
       {/* Background Dots Pattern overla */}
