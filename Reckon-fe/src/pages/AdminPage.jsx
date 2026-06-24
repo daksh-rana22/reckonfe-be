@@ -1917,25 +1917,7 @@ export default function AdminPage() {
                               </div>
                               <div className="space-y-1">
                                 <div className="flex items-center justify-between gap-3">
-                                  <h4 className="font-extrabold text-foreground text-sm truncate pr-2" title={banner.title}>{banner.title}</h4>
-                                  <div className="flex items-center gap-1.5 shrink-0">
-                                    <label className="text-[9px] font-black text-muted uppercase tracking-wider select-none">Sort Order:</label>
-                                    <select
-                                      value={banner.sort_order || ''}
-                                      onChange={async (e) => {
-                                        const newOrder = Number(e.target.value);
-                                        if (newOrder === banner.sort_order) return;
-                                        await handleUpdateBannerSort(banner, newOrder);
-                                      }}
-                                      className="px-2 py-1 text-[10px] font-black rounded-lg border border-border bg-slate-50 dark:bg-slate-900 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary cursor-pointer shadow-sm min-w-[50px] text-center"
-                                    >
-                                      {(banners || []).map((_, i) => (
-                                        <option key={i + 1} value={i + 1}>
-                                          {i + 1}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </div>
+                                  <h4 className="font-extrabold text-foreground text-sm truncate" title={banner.title}>{banner.title}</h4>
                                 </div>
                                 {banner.description && (
                                   <p className="text-xs text-muted leading-relaxed line-clamp-2">{banner.description}</p>
@@ -3347,21 +3329,6 @@ export default function AdminPage() {
                     <option value="/software/retail/paint-dealers">Paint Dealers & Distribution</option>
                     <option value="/software/retail/multi-outlet-chain">Multi Outlet Retail Chain</option>
                   </optgroup>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Sort Order</label>
-                <select
-                  value={newBannerSortOrder}
-                  onChange={(e) => setNewBannerSortOrder(Number(e.target.value))}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-[#863BFF]/20 focus:border-[#863BFF] transition-all text-xs"
-                >
-                  {Array.from({ length: (banners || []).length + 1 }, (_, i) => (
-                    <option key={i + 1} value={i + 1}>
-                      {i + 1}
-                    </option>
-                  ))}
                 </select>
               </div>
 

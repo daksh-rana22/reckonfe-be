@@ -130,10 +130,10 @@ export default function BannerSliderSection() {
 
   return (
     <div
-      className={`w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-[449px] relative overflow-hidden select-none border-b shadow-inner group/banner ${isDark ? 'border-slate-800/80 bg-slate-950' : 'border-slate-200/80 bg-slate-100'
+      className={`w-full h-[500px] sm:h-[300px] md:h-[400px] lg:h-[449px] relative overflow-hidden select-none border-b shadow-inner group/banner ${isDark ? 'border-slate-800/80 bg-slate-950' : 'border-slate-200/80 bg-slate-100'
         }`}
     >
-      {/* Background Dots Pattern overlay */}
+      {/* Background Dots Pattern overla */}
       <div className={`absolute inset-0 pointer-events-none mix-blend-overlay z-10 ${isDark ? 'opacity-[0.05]' : 'opacity-[0.02]'}`}>
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -149,8 +149,8 @@ export default function BannerSliderSection() {
       <button
         onClick={handleDismiss}
         className={`absolute top-4 right-4 p-2 rounded-full border transition-all cursor-pointer z-30 shadow-md backdrop-blur-sm ${isDark
-            ? 'border-white/10 bg-black/50 text-slate-400 hover:text-white hover:bg-black/75 hover:border-white/30'
-            : 'border-slate-200/80 bg-white/70 text-slate-500 hover:text-slate-900 hover:bg-white/95 hover:border-slate-300'
+          ? 'border-white/10 bg-black/50 text-slate-400 hover:text-white hover:bg-black/75 hover:border-white/30'
+          : 'border-slate-200/80 bg-white/70 text-slate-500 hover:text-slate-900 hover:bg-white/95 hover:border-slate-300'
           }`}
         aria-label="Dismiss banner"
       >
@@ -172,7 +172,7 @@ export default function BannerSliderSection() {
           <img
             src={bannerImage}
             alt={currentBanner.title}
-            className="w-full h-full object-cover select-none"
+            className="w-full h-full object-fill select-none"
             loading="eager"
           />
 

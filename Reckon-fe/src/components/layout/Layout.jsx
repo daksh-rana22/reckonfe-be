@@ -1,6 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import TopBar from './TopBar';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import ThemeCustomizer from './ThemeCustomizer';
@@ -20,7 +19,6 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <ScrollToTop />
-      <TopBar />
       <Navbar />
       <AnimatePresence mode="wait">
         <motion.main

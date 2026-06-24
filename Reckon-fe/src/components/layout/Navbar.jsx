@@ -98,10 +98,10 @@ export default function Navbar() {
                       <Link
                         to={item.path}
                         className={cn(
-                          'flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-sm transition-all duration-200',
+                          'flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-base transition-all duration-200',
                           isActive
-                            ? 'bg-primary/15 text-primary font-semibold'
-                            : 'text-foreground/80 hover:text-primary hover:bg-primary/5 font-medium'
+                            ? 'bg-primary/15 text-primary font-bold'
+                            : 'text-foreground/80 hover:text-primary hover:bg-primary/5 font-semibold'
                         )}
                       >
                         {item.label}
@@ -182,10 +182,10 @@ export default function Navbar() {
                     key={item.label}
                     to={item.path}
                     className={cn(
-                      'px-3.5 py-2 rounded-[12px] text-sm transition-all duration-200',
+                      'px-3.5 py-2 rounded-[12px] text-base transition-all duration-200',
                       location.pathname === item.path
-                        ? 'bg-primary/15 text-primary font-semibold'
-                        : 'text-foreground/80 hover:text-primary hover:bg-primary/5 font-medium'
+                        ? 'bg-primary/15 text-primary font-bold'
+                        : 'text-foreground/80 hover:text-primary hover:bg-primary/5 font-semibold'
                     )}
                   >
                     {item.label}
