@@ -342,17 +342,48 @@ export default function ContactPage() {
                 {
                   icon: Phone,
                   title: 'Helpline',
-                  content: '0522-4972500\n6389 590 600 | 6389 590 700\n6389 590 800 | 6389 590 900',
+                  content: (
+                    <div className="mt-1 space-y-1 text-sm text-muted">
+                      <div>
+                        <span className="text-muted-foreground mr-1">Landline:</span>
+                        <a href="tel:0522-4972500" className="text-foreground hover:text-primary hover:underline transition-colors font-semibold">
+                          0522-4972500
+                        </a>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                        <span className="text-muted-foreground">Mobile:</span>
+                        <a href="tel:6389590600" className="text-foreground hover:text-primary hover:underline transition-colors font-semibold">6389 590 600</a>
+                        <span className="text-muted-foreground/40">|</span>
+                        <a href="tel:6389590700" className="text-foreground hover:text-primary hover:underline transition-colors font-semibold">6389 590 700</a>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                        <span className="text-muted-foreground">Mobile:</span>
+                        <a href="tel:6389590800" className="text-foreground hover:text-primary hover:underline transition-colors font-semibold">6389 590 800</a>
+                        <span className="text-muted-foreground/40">|</span>
+                        <a href="tel:6389590900" className="text-foreground hover:text-primary hover:underline transition-colors font-semibold">6389 590 900</a>
+                      </div>
+                    </div>
+                  ),
                 },
                 {
                   icon: Mail,
-                  title: 'Sales',
-                  content: 'sales@reckonsales.com',
-                },
-                {
-                  icon: Mail,
-                  title: 'Support',
-                  content: 'care@reckonsales.com',
+                  title: 'Email Us',
+                  content: (
+                    <div className="mt-1.5 space-y-1.5 text-sm">
+                      <div className="flex items-center gap-2">
+                        <span className="text-muted font-medium w-16">Sales:</span>
+                        <a href="mailto:sales@reckonsales.com" className="text-primary hover:text-primary-dark transition-colors font-semibold hover:underline">
+                          sales@reckonsales.com
+                        </a>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-muted font-medium w-16">Support:</span>
+                        <a href="mailto:care@reckonsales.com" className="text-primary hover:text-primary-dark transition-colors font-semibold hover:underline">
+                          care@reckonsales.com
+                        </a>
+                      </div>
+                    </div>
+                  ),
                 },
                 {
                   icon: Clock,
@@ -362,33 +393,21 @@ export default function ContactPage() {
               ].map((info) => {
                 const Icon = info.icon;
                 return (
-                  <div key={info.title} className="flex gap-4 p-5 rounded-xl bg-surface border border-border">
+                  <div key={info.title} className="flex gap-4 p-5 rounded-xl bg-surface border border-border hover:border-primary/20 hover:shadow-sm transition-all duration-300">
                     <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                       <Icon className="w-5 h-5 text-primary" />
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <h3 className="text-sm font-semibold text-foreground">{info.title}</h3>
-                      <p className="text-sm text-muted mt-0.5" style={{ whiteSpace: 'pre-line' }}>{info.content}</p>
+                      {typeof info.content === 'string' ? (
+                        <p className="text-sm text-muted mt-0.5" style={{ whiteSpace: 'pre-line' }}>{info.content}</p>
+                      ) : (
+                        info.content
+                      )}
                     </div>
                   </div>
                 );
               })}
-
-              {/* Quick Links */}
-              <div className="p-5 rounded-xl bg-gradient-hero text-white">
-                <h3 className="font-semibold mb-3">Quick Links</h3>
-                <div className="space-y-2">
-                  <Link to="/login" className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors">
-                    <ArrowRight className="w-3.5 h-3.5" /> Partner Portal Login
-                  </Link>
-                  <a href="http://smartscan.reckonsales.com/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors">
-                    <ArrowRight className="w-3.5 h-3.5" /> Reckon SmartScan
-                  </a>
-                  <Link to="/tutorials" className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors">
-                    <ArrowRight className="w-3.5 h-3.5" /> Video Tutorials
-                  </Link>
-                </div>
-              </div>
             </div>
           </div>
         </div>
