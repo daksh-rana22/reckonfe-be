@@ -12,7 +12,7 @@ import {
   Monitor, FileText, Cloud, Hammer, Search,
   ArrowLeft, Shield, ChevronDown, Menu,
   FolderOpen, Layers, Eye, EyeOff,
-  RefreshCw, Handshake, MessageSquare, Sliders
+  RefreshCw, Handshake, MessageSquare, Sliders, GripVertical
 } from 'lucide-react';
 
 const ICON_OPTIONS = [
@@ -220,7 +220,7 @@ export default function AdminPage() {
     logoUrl, updateLogo, resetLogo,
     clientLogos, addClientLogo, updateClientLogo, deleteClientLogo, resetClientLogos,
     partnerLogos, addPartnerLogo, deletePartnerLogo, resetPartnerLogos,
-    categories, addCategory, removeCategory, updateCategory, toggleCategoryActive,
+    categories, addCategory, removeCategory, updateCategory, toggleCategoryActive, reorderDownloadCategories,
     downloads, addDownload, removeDownload, updateDownload, resetDownloads, toggleDownloadActive,
     downloadFile, getIconComponent,
     galleryCategories, addGalleryCategory, removeGalleryCategory, updateGalleryCategory,
@@ -312,6 +312,8 @@ export default function AdminPage() {
   const [inlineEditingCatVal, setInlineEditingCatVal] = useState(null);
   const [inlineEditCatName, setInlineEditCatName] = useState('');
   const [inlineCatError, setInlineCatError] = useState('');
+  const [draggedCatVal, setDraggedCatVal] = useState(null);
+  const [dragOverCatVal, setDragOverCatVal] = useState(null);
 
   // Admin accounts settings state
   const [showAddAdminModal, setShowAddAdminModal] = useState(false);
@@ -2209,14 +2211,65 @@ export default function AdminPage() {
 
             {/* Categories List */}
             <div className="space-y-2.5">
-              <label className="block text-xs font-bold text-muted uppercase tracking-wider">Existing Categories</label>
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-bold text-muted uppercase tracking-wider">Existing Categories</label>
+                <span className="text-[10px] text-muted flex items-center gap-1"><GripVertical className="w-3.5 h-3.5" /> Drag items to reorder</span>
+              </div>
               <div className="max-h-60 overflow-y-auto pr-1 space-y-2 scrollbar-thin">
-                {categories.map((cat) => {
+                {categories.map((cat, idx) => {
                   const fileCount = countByType(cat.value);
                   const isEditing = inlineEditingCatVal === cat.value;
+                  const isDragging = draggedCatVal === cat.value;
+                  const isDragOver = dragOverCatVal === cat.value;
 
                   return (
-                    <div key={cat.value} className="p-3 border border-border bg-slate-50/50 dark:bg-white/[0.01] rounded-xl flex items-center justify-between gap-3 min-h-[52px]">
+                    <div
+                      key={cat.value}
+                      draggable={!isEditing}
+                      onDragStart={(e) => {
+                        e.dataTransfer.effectAllowed = 'move';
+                        e.dataTransfer.setData('text/plain', cat.value);
+                        setDraggedCatVal(cat.value);
+                      }}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = 'move';
+                        setDragOverCatVal(cat.value);
+                      }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        const draggedValue = e.dataTransfer.getData('text/plain') || draggedCatVal;
+                        if (!draggedValue || draggedValue === cat.value) {
+                          setDraggedCatVal(null);
+                          setDragOverCatVal(null);
+                          return;
+                        }
+                        const currentOrder = categories.map(c => c.value);
+                        const fromIdx = currentOrder.indexOf(draggedValue);
+                        const toIdx = currentOrder.indexOf(cat.value);
+                        if (fromIdx !== -1 && toIdx !== -1) {
+                          const newOrder = [...currentOrder];
+                          newOrder.splice(fromIdx, 1);
+                          newOrder.splice(toIdx, 0, draggedCatVal);
+                          reorderDownloadCategories(newOrder);
+                        }
+                        setDraggedCatVal(null);
+                        setDragOverCatVal(null);
+                      }}
+                      onDragEnd={() => {
+                        setDraggedCatVal(null);
+                        setDragOverCatVal(null);
+                      }}
+                      className={cn(
+                        "p-3 border rounded-xl flex items-center justify-between gap-3 min-h-[52px] transition-all duration-200",
+                        !isEditing ? "cursor-grab active:cursor-grabbing select-none" : "",
+                        isDragging
+                          ? "opacity-40 scale-95 border-primary/40 bg-primary/5"
+                          : isDragOver
+                          ? "border-primary bg-primary/5 shadow-sm scale-[1.01]"
+                          : "border-border bg-slate-50/50 dark:bg-white/[0.01] hover:border-border/80 hover:bg-surface-secondary"
+                      )}
+                    >
                       {isEditing ? (
                         <div className="flex items-center gap-2 w-full">
                           <input
@@ -2258,11 +2311,17 @@ export default function AdminPage() {
                         </div>
                       ) : (
                         <>
-                          <div className="space-y-0.5 min-w-0 flex-1 text-left">
-                            <p className={cn("text-xs font-bold truncate", cat.is_active === false ? "text-muted/60" : "text-foreground")}>
-                              {cat.label} {cat.is_active === false && <span className="text-[9px] font-bold text-red-500 normal-case ml-1">(Inactive)</span>}
-                            </p>
-                            <p className="text-[9px] text-muted">{fileCount} files assigned</p>
+                          <div className="flex items-center gap-2.5 min-w-0 flex-1 text-left">
+                            <GripVertical className="w-3.5 h-3.5 text-muted shrink-0" />
+                            <span className="w-5 h-5 rounded-full bg-surface-secondary border border-border flex items-center justify-center text-[9px] font-black text-muted shrink-0">
+                              {idx + 1}
+                            </span>
+                            <div className="space-y-0.5 min-w-0 flex-1 text-left">
+                              <p className={cn("text-xs font-bold truncate", cat.is_active === false ? "text-muted/60" : "text-foreground")}>
+                                {cat.label} {cat.is_active === false && <span className="text-[9px] font-bold text-red-500 normal-case ml-1">(Inactive)</span>}
+                              </p>
+                              <p className="text-[9px] text-muted">{fileCount} files assigned</p>
+                            </div>
                           </div>
                           <div className="flex items-center gap-1.5 shrink-0">
                             <button
@@ -3257,7 +3316,7 @@ export default function AdminPage() {
       {showAddBannerModal && (
         <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAddBannerModal(false)}>
           <div className="bg-surface rounded-2xl border border-border shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col animate-fade-up overflow-hidden" onClick={e => e.stopPropagation()}>
-            
+
             {/* Modal Header */}
             <div className="flex items-center justify-between px-6 py-4.5 border-b border-border shrink-0">
               <h3 className="text-base font-black text-foreground">Add Homepage Product Banner</h3>

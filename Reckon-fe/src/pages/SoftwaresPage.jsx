@@ -33,7 +33,7 @@ export default function SoftwaresPage() {
         <div className="hidden lg:block relative w-full lg:max-w-md lg:h-[220px] select-none pointer-events-none">
           {/* Decorative background glow under the constellation on desktop */}
           <div className="hidden lg:block absolute inset-0 bg-primary/15 rounded-full blur-3xl pointer-events-none -translate-y-4" />
-          
+
           {[
             { label: 'Business Apps', count: BUSINESS_APPS.length, color: '#F97316', bgGlow: 'rgba(249,115,22,0.25)', pos: 'lg:top-0 lg:right-36', delay: '0s' },
             { label: 'Industry Verticals', count: VERTICALS.length, color: '#EF4444', bgGlow: 'rgba(239,68,68,0.25)', pos: 'lg:top-20 lg:right-0', delay: '2s' },

@@ -19,6 +19,33 @@ export function getIconComponent(iconName) {
   return ICON_MAP[iconName] || Monitor;
 }
 
+const sortCategoriesBySavedOrder = (categoriesList) => {
+  const sortedAlphabetically = [...categoriesList].sort((a, b) =>
+    a.label.localeCompare(b.label)
+  );
+
+  try {
+    const savedOrder = localStorage.getItem('reckon-downloads-category-order');
+    if (savedOrder) {
+      const orderedValues = JSON.parse(savedOrder);
+      if (Array.isArray(orderedValues)) {
+        const orderMap = {};
+        orderedValues.forEach((val, idx) => {
+          orderMap[val] = idx;
+        });
+        return [...sortedAlphabetically].sort((a, b) => {
+          const aIndex = orderMap[a.value] !== undefined ? orderMap[a.value] : 9999;
+          const bIndex = orderMap[b.value] !== undefined ? orderMap[b.value] : 9999;
+          return aIndex - bIndex;
+        });
+      }
+    }
+  } catch (e) {
+    console.error('Error parsing categories order:', e);
+  }
+  return sortedAlphabetically;
+};
+
 export function AdminStoreProvider({ children }) {
   const [logoUrl, setLogoUrl] = useState('/images/logo.png');
   const [clientLogos, setClientLogos] = useState([]);
@@ -95,7 +122,12 @@ export function AdminStoreProvider({ children }) {
       const resCat = await fetch(`${API_BASE}/downloads/categories`);
       if (resCat.ok) {
         const dataCat = await resCat.json();
-        setCategories(dataCat);
+        const hasSortOrder = dataCat.length > 0 && ('sort_order' in dataCat[0]);
+        if (hasSortOrder) {
+          setCategories(dataCat);
+        } else {
+          setCategories(sortCategoriesBySavedOrder(dataCat));
+        }
       }
 
       const resFiles = await fetch(`${API_BASE}/downloads/files`);
@@ -418,6 +450,41 @@ export function AdminStoreProvider({ children }) {
       console.error('Error toggling category active status:', err);
     }
   }, [fetchDownloads, getHeaders]);
+
+  const reorderDownloadCategories = useCallback(async (orderedValues) => {
+    // Save to localStorage as a fallback in case we are pointing to the unmigrated production server
+    localStorage.setItem('reckon-downloads-category-order', JSON.stringify(orderedValues));
+
+    // Optimistic local state update
+    setCategories(prev => {
+      const orderMap = {};
+      orderedValues.forEach((val, idx) => {
+        orderMap[val] = idx;
+      });
+      return [...prev].sort((a, b) => {
+        const aIndex = orderMap[a.value] !== undefined ? orderMap[a.value] : 9999;
+        const bIndex = orderMap[b.value] !== undefined ? orderMap[b.value] : 9999;
+        return aIndex - bIndex;
+      });
+    });
+
+    try {
+      const res = await fetch(`${API_BASE}/downloads/categories/reorder`, {
+        method: 'PUT',
+        headers: getHeaders(),
+        body: JSON.stringify({ ordered_values: orderedValues })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const hasSortOrder = data.length > 0 && ('sort_order' in data[0]);
+        if (hasSortOrder) {
+          setCategories(data);
+        }
+      }
+    } catch (err) {
+      console.warn('Backend category reordering not supported or failed, using local storage fallback.', err);
+    }
+  }, [getHeaders]);
 
   // ── Downloads Item mutations ──
   const addDownload = useCallback(async (item, fileBlob) => {
@@ -917,7 +984,7 @@ export function AdminStoreProvider({ children }) {
       logoUrl, updateLogo, resetLogo,
       clientLogos, addClientLogo, updateClientLogo, deleteClientLogo, resetClientLogos,
       partnerLogos, addPartnerLogo, deletePartnerLogo, resetPartnerLogos,
-      categories, addCategory, removeCategory, updateCategory, toggleCategoryActive,
+      categories, addCategory, removeCategory, updateCategory, toggleCategoryActive, reorderDownloadCategories,
       downloads, addDownload, removeDownload, updateDownload, resetDownloads, toggleDownloadActive,
       downloadFile, getIconComponent,
       galleryCategories, addGalleryCategory, removeGalleryCategory, updateGalleryCategory,
