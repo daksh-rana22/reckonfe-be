@@ -10,7 +10,7 @@ import {
   ImageIcon, Download, LogOut, Upload, RotateCcw,
   Plus, Trash2, Pencil, X, Check, AlertCircle,
   Monitor, FileText, Cloud, Hammer, Search,
-  Sun, Moon, ArrowLeft, Shield, ChevronDown, Menu,
+  ArrowLeft, Shield, ChevronDown, Menu,
   FolderOpen, Layers, Eye, EyeOff,
   RefreshCw, Handshake, MessageSquare, Sliders
 } from 'lucide-react';
@@ -213,7 +213,7 @@ export default function AdminPage() {
     removeAdminUser,
     updateAdminUser
   } = useAdmin();
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const isDark = theme === 'dark';
 
   const {
@@ -1039,12 +1039,7 @@ export default function AdminPage() {
                 <ArrowLeft className="w-4 h-4 text-muted" />
                 <span className="hidden sm:inline">Back to Site</span>
               </Link>
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-xl text-muted hover:text-foreground hover:bg-slate-100 dark:hover:bg-white/5 transition-all border border-border/80"
-              >
-                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              </button>
+
 
               {/* Profile card matching image */}
               <div className="flex items-center gap-2.5 pl-2 border-l border-border/80">

@@ -3,12 +3,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('reckon-theme') || 'light';
-    }
-    return 'light';
-  });
+  const theme = 'light';
+  const setTheme = () => {};
 
   const [accent, setAccentState] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -26,10 +22,10 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-    localStorage.setItem('reckon-theme', theme);
-  }, [theme]);
+    root.classList.remove('dark');
+    root.classList.add('light');
+    localStorage.setItem('reckon-theme', 'light');
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -49,9 +45,7 @@ export function ThemeProvider({ children }) {
     localStorage.setItem('reckon-master-theme', masterTheme);
   }, [masterTheme]);
 
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
-  };
+  const toggleTheme = () => {};
 
   const setAccent = (newAccent) => {
     setAccentState(newAccent);

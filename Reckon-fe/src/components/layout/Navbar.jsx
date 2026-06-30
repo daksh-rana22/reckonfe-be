@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { NAV_ITEMS } from '@/data/navigation';
-import { useTheme } from '@/hooks/useTheme';
 import { useAdminStore } from '@/hooks/useAdminStore';
-import { Menu, X, ChevronDown, ChevronRight, Sun, Moon, ExternalLink } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import MobileNav from './MobileNav';
 
@@ -12,7 +11,6 @@ export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
   const { logoUrl } = useAdminStore();
   const location = useLocation();
   const dropdownRefs = useRef({});
@@ -196,17 +194,7 @@ export default function Navbar() {
 
             {/* Right Actions */}
             <div className="flex items-center gap-3">
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-primary/5 transition-all duration-200"
-                aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? (
-                  <Sun className="w-4.5 h-4.5" />
-                ) : (
-                  <Moon className="w-4.5 h-4.5" />
-                )}
-              </button>
+
 
               {/* Login Button with Dropdown (Hover/Click) */}
               <div

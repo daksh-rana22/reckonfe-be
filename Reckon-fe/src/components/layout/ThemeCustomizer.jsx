@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTheme } from '@/hooks/useTheme';
-import { Palette, Check, Sun, Moon, Settings } from 'lucide-react';
+import { Palette, Check, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -70,39 +70,6 @@ export default function ThemeCustomizer() {
               >
                 Done
               </button>
-            </div>
-
-            {/* Color Mode */}
-            <div className="mb-4">
-              <span className="text-xs font-bold text-muted uppercase tracking-wider block mb-2">
-                Color Mode
-              </span>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  onClick={() => theme === 'dark' && toggleTheme()}
-                  className={cn(
-                    'flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer',
-                    theme === 'light'
-                      ? 'bg-primary text-primary-foreground border-transparent shadow-sm'
-                      : 'bg-surface border-border text-muted hover:text-foreground hover:bg-surface-hover'
-                  )}
-                >
-                  <Sun className="w-3.5 h-3.5" />
-                  Light
-                </button>
-                <button
-                  onClick={() => theme === 'light' && toggleTheme()}
-                  className={cn(
-                    'flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer',
-                    theme === 'dark'
-                      ? 'bg-primary text-primary-foreground border-transparent shadow-sm'
-                      : 'bg-surface border-border text-muted hover:text-foreground hover:bg-surface-hover'
-                  )}
-                >
-                  <Moon className="w-3.5 h-3.5" />
-                  Dark
-                </button>
-              </div>
             </div>
 
             {/* Master Theme Selection */}
