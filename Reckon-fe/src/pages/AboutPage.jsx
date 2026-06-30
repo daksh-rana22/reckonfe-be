@@ -63,7 +63,7 @@ export default function AboutPage() {
               {/* Office Illustration */}
               <div className="relative bg-surface rounded-2xl border border-border overflow-hidden shadow-md">
                 <img 
-                  src="/images/office_illustration.png" 
+                  src="/images/reckon_office.png" 
                   alt="Reckon Development Center" 
                   className="w-full aspect-[16/9] object-cover hover:scale-[1.02] transition-transform duration-500" 
                 />
