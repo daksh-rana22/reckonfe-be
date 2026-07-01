@@ -70,8 +70,8 @@ export default function DemoVideoSection() {
               {/* Playable YouTube Video */}
               <div className="relative aspect-video rounded-lg overflow-hidden bg-secondary shadow-inner">
                 <iframe
-                  src="https://www.youtube.com/embed/QsGOKDv-FK8?autoplay=0&rel=0&modestbranding=1"
-                  title="Getting Started with Reckon ERP & Billing Software — Full Walkthrough"
+                  src="https://www.youtube.com/embed/rGQ79MrZUQw?autoplay=0&rel=0&modestbranding=1"
+                  title="Best Pharma Software — Full Demo"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="absolute inset-0 w-full h-full border-0"
