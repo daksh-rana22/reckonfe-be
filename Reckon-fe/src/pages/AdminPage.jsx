@@ -2678,6 +2678,7 @@ export default function AdminPage() {
                   onChange={(e) => setNewClientSoftware(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-[#863BFF]/20 focus:border-[#863BFF] transition-all text-xs"
                 >
+                  <option value="home" className="font-bold" style={{ fontWeight: 'bold' }}>Home / Landing Page</option>
                   <option value="all">All Softwares / General</option>
                   <optgroup label="Pharmacy & Healthcare Suite">
                     <option value="pharmacy-healthcare">All Pharmacy Pages</option>

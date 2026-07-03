@@ -21,7 +21,7 @@ export default function HomePage() {
       <FeaturesGrid />
       <DemoVideoSection />
       <IndustryVerticals />
-      <ClientsSection />
+      <ClientsSection software="home" />
       <StatsCounter />
       <TestimonialsSlider />
       <CTASection />

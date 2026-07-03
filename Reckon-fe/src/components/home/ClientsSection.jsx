@@ -46,13 +46,17 @@ export default function ClientsSection({
   badge = 'Our Clients',
   title = 'Trusted by Our Clients',
   subtitle,
-  software,
+  software = 'home',
 }) {
   const { clientLogos } = useAdminStore();
   const filteredLogos = software
     ? clientLogos.filter(c => {
         const logoSoftware = c.software;
         const pageSoftware = software;
+
+        if (pageSoftware === 'home') {
+          return logoSoftware === 'home';
+        }
 
         if (logoSoftware === 'all' || !logoSoftware) return true;
         if (logoSoftware === pageSoftware) return true;
