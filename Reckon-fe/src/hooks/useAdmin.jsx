@@ -42,17 +42,22 @@ export function AdminProvider({ children }) {
     return '';
   });
 
-  // Periodically check token expiry (every 5 minutes)
+  // Periodically check token expiry (every 5 minutes) for logged-in admin sessions
   useEffect(() => {
     const interval = setInterval(() => {
       const token = localStorage.getItem('reckon-access-token');
-      if (isTokenExpired(token)) {
+      const isAuth = localStorage.getItem('reckon-admin-auth') === 'true';
+
+      // Only check expiry if a token/auth session actually exists
+      if (isAuth && token && isTokenExpired(token)) {
         localStorage.removeItem('reckon-access-token');
         localStorage.removeItem('reckon-admin-auth');
         localStorage.removeItem('reckon-admin-current-user');
         setIsAdmin(false);
         setCurrentUser('');
-        if (window.location.pathname !== '/login') {
+
+        // Only redirect to login if user is currently trying to access admin pages
+        if (window.location.pathname.startsWith('/admin')) {
           window.location.href = '/login';
         }
       }

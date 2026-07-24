@@ -24,6 +24,8 @@ const getHeroImage = (variant) => {
       return '/images/pharma_marketing_billing.png';
     case 'multi-branch-pharmacy':
       return '/images/multi_branch_pharmacy_billing.png';
+    case 'auto-parts':
+      return '/images/auto_parts_billing.png';
     case 'auto-parts-retailers':
       return '/images/auto_parts_retailer_billing.png';
     case 'spare-parts-dealers':
@@ -32,6 +34,8 @@ const getHeroImage = (variant) => {
       return '/images/car_accessories_billing.png';
     case 'multi-branch-auto-parts':
       return '/images/multi_branch_autoparts_billing.png';
+    case 'fmcg':
+      return '/images/fmcg_billing.png';
     case 'fmcg-distributors':
       return '/images/fmcg_distributor_billing.png';
     case 'fmcg-wholesalers':
@@ -62,9 +66,12 @@ const getHeroImage = (variant) => {
       return '/images/paint_dealers_billing.png';
     case 'multi-outlet-chain':
       return '/images/multi_outlet_chain_billing.png';
+    case 'retail':
+      return '/images/retail_billing.png';
     case 'main':
+    case 'pharmacy-healthcare':
     default:
-      return '/images/retail_pharmacy_billing.png';
+      return '/images/pharmacy_healthcare_billing.png';
   }
 };
 
@@ -148,31 +155,31 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
           <div className="lg:col-span-5 space-y-6">
             {/* Breadcrumbs */}
             <nav className={cn(
-              'flex items-center gap-1.5 text-xs font-medium',
+              'flex flex-wrap items-center gap-1.5 text-xs font-medium',
               isDark ? 'text-white/50' : 'text-slate-600'
             )}>
-              <Link to="/" className="flex items-center gap-1 transition-colors hover:text-foreground">
-                <Home className="w-3 h-3" />
-                <span>Home</span>
+              <Link to="/" className="flex items-center gap-1 transition-colors hover:text-foreground shrink-0">
+                <Home className="w-3 h-3 shrink-0" />
+                <span className="whitespace-nowrap">Home</span>
               </Link>
-              <ChevronRight className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-slate-400')} />
-              <Link to="/software" className="transition-colors hover:text-foreground">Software</Link>
-              <ChevronRight className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-slate-400')} />
+              <ChevronRight className={cn('w-3 h-3 shrink-0', isDark ? 'text-white/25' : 'text-slate-400')} />
+              <Link to="/software" className="transition-colors hover:text-foreground shrink-0 whitespace-nowrap">Software</Link>
+              <ChevronRight className={cn('w-3 h-3 shrink-0', isDark ? 'text-white/25' : 'text-slate-400')} />
               {variant !== 'main' && variant !== 'auto-parts' && variant !== 'fmcg' && variant !== 'retail' && (
                 <>
                   {variant === 'auto-parts-retailers' || variant === 'spare-parts-dealers' || variant === 'car-accessories' || variant === 'multi-branch-auto-parts' ? (
-                    <Link to="/software/auto-parts" className="transition-colors hover:text-foreground">Auto-Parts Billing Software</Link>
+                    <Link to="/software/auto-parts" className="transition-colors hover:text-foreground shrink-0 whitespace-nowrap">Auto-Parts</Link>
                   ) : variant === 'fmcg-distributors' || variant === 'fmcg-wholesalers' || variant === 'fmcg-retailers' || variant === 'fmcg-companies' ? (
-                    <Link to="/software/fmcg" className="transition-colors hover:text-foreground">FMCG Billing Software</Link>
+                    <Link to="/software/fmcg" className="transition-colors hover:text-foreground shrink-0 whitespace-nowrap">FMCG</Link>
                   ) : variant === 'grocery-kirana' || variant === 'departmental-supermarket' || variant === 'garment-footwear' || variant === 'sarees-clothing' || variant === 'pharmacy-ayurvedic' || variant === 'hardware-electrical' || variant === 'books-stationary' || variant === 'school-dresses' || variant === 'gift-novelty' || variant === 'paint-dealers' || variant === 'multi-outlet-chain' ? (
-                    <Link to="/software/retail" className="transition-colors hover:text-foreground">Retail Billing Software</Link>
+                    <Link to="/software/retail" className="transition-colors hover:text-foreground shrink-0 whitespace-nowrap">Retail</Link>
                   ) : (
-                    <Link to="/software/pharmacy-healthcare" className="transition-colors hover:text-foreground">Pharmacy & Healthcare</Link>
+                    <Link to="/software/pharmacy-healthcare" className="transition-colors hover:text-foreground shrink-0 whitespace-nowrap">Pharmacy & Healthcare</Link>
                   )}
-                  <ChevronRight className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-slate-400')} />
+                  <ChevronRight className={cn('w-3 h-3 shrink-0', isDark ? 'text-white/25' : 'text-slate-400')} />
                 </>
               )}
-              <span className={cn('font-semibold', isDark ? 'text-primary-light' : 'text-primary')}>
+              <span className={cn('font-semibold shrink-0 whitespace-nowrap', isDark ? 'text-primary-light' : 'text-primary')}>
                 {data.title}
               </span>
             </nav>
@@ -242,8 +249,11 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
 
           {/* Right: Multi-device mockup or Uploaded Image */}
           <div className="lg:col-span-7 relative flex justify-center lg:justify-end w-full">
-            {variant !== 'main' && variant !== 'auto-parts' && variant !== 'fmcg' && variant !== 'retail' ? (
-              <div className="relative w-full max-w-[720px] lg:translate-x-12 xl:translate-x-16">
+            {true ? (
+              <div className={cn(
+                "relative w-full transition-all duration-500",
+                variant === 'fmcg-retailers' || variant === 'fmcg-companies' || variant === 'retail-pharmacies' || variant === 'multi-branch-auto-parts' || variant === 'multi-branch-pharmacy' || variant === 'multi-outlet-chain' ? "max-w-[740px]" : "max-w-[490px]"
+              )}>
                 {/* Outer glow ring */}
                 <div className={cn(
                   "absolute -inset-3 bg-gradient-to-r rounded-3xl blur-2xl opacity-60",
@@ -260,7 +270,7 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
 
                 {/* Showcase Image */}
                 <div className={cn(
-                  "relative rounded-3xl border shadow-2xl p-2 overflow-hidden transition-all duration-500",
+                  "relative rounded-3xl border shadow-2xl p-2 overflow-hidden transition-all duration-500 w-full",
                   isDark
                     ? "bg-[#161228]/40 border-white/8"
                     : "bg-white/45 border-white/60 backdrop-blur"
@@ -268,7 +278,7 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
                   <img
                     src={getHeroImage(variant)}
                     alt={`Reckon ${data.title} Dashboard`}
-                    className="rounded-2xl w-full object-contain hover:scale-[1.01] transition-transform duration-700 shadow-md"
+                    className="rounded-2xl w-full h-auto object-contain hover:scale-[1.01] transition-transform duration-700 shadow-md"
                   />
                 </div>
               </div>

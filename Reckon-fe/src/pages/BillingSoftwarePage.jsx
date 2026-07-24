@@ -725,99 +725,15 @@ function FeaturesAtGlanceSection({ color, variant }) {
             ))}
           </div>
 
-          {/* Sticky Side Phone Mockup with HTML/CSS Reckon Screen */}
+          {/* Sticky Side Phone Mockup with Reckon Mobile App Screen */}
           <div className="hidden lg:block relative h-full">
             <div className="sticky top-28 flex justify-center w-full">
-              <div className="relative rounded-[2.5rem] overflow-hidden border-8 border-slate-900 dark:border-slate-800 bg-[#0F172A] shadow-2xl transition-transform duration-500 hover:scale-[1.02] max-w-[280px] w-full aspect-[9/19] p-0 flex flex-col justify-between">
-
-                {/* Phone speaker notch (iPhone Style) */}
-                <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-20 h-4 rounded-full bg-black flex items-center justify-center z-30 pointer-events-none">
-                  <div className="w-1.5 h-1.5 rounded-full bg-slate-900 mr-2" />
-                  <div className="w-8 h-1 rounded-full bg-slate-800" />
-                </div>
-
-                {/* Status Bar */}
-                <div className="bg-slate-950 pt-7 pb-1.5 px-3 flex justify-between items-center text-[7px] text-slate-300 font-semibold select-none z-20">
-                  <span>12:30</span>
-                  <div className="flex items-center gap-1">
-                    <span>📶</span>
-                    <span>🔋</span>
-                  </div>
-                </div>
-
-                {/* Reckon Navigation Bar */}
-                <div className="bg-slate-900 border-b border-slate-800 py-2.5 px-3.5 text-slate-100 z-20 flex justify-between items-center select-none">
-                  <div className="flex items-center gap-1.5">
-                    <Menu className="w-3.5 h-3.5 text-slate-300 hover:text-white cursor-pointer" />
-                    <span className="text-[11px] font-black tracking-tight text-white">Reckon</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <Search className="w-3.5 h-3.5 hover:text-white cursor-pointer" />
-                    {/* RFID / Wireless Scanner gun icon */}
-                    <div className="flex items-center justify-center w-4 h-4 hover:text-white cursor-pointer">
-                      <svg className="w-3.5 h-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7.5 7.5 0 01-10 0m7.5-3a4.5 4.5 0 01-5 0M12 12v3" />
-                      </svg>
-                    </div>
-                    <Barcode className="w-3.5 h-3.5 hover:text-white cursor-pointer" />
-                    <RefreshCw className="w-3 h-3 hover:text-white cursor-pointer" />
-                  </div>
-                </div>
-
-                {/* Category Tabs (Horizontal Scrollable) */}
-                <div className="bg-white border-b border-slate-100 py-2 px-3 overflow-x-auto scrollbar-none flex gap-4 whitespace-nowrap z-20 select-none">
-                  {pageData.tabs.map((tab, idx) => (
-                    <span
-                      key={idx}
-                      className={cn(
-                        "text-[8px] font-extrabold pb-0.5 px-0.5 transition-all duration-300 cursor-pointer relative",
-                        idx === 0
-                          ? "text-blue-600 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-blue-600"
-                          : "text-slate-400 hover:text-slate-600"
-                      )}
-                    >
-                      {tab}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Main Product Grid Container */}
-                <div className="flex-1 bg-slate-50 p-2 overflow-y-auto scrollbar-none z-10">
-                  <div className="grid grid-cols-3 gap-1.5">
-                    {pageData.items.map((item, idx) => {
-                      const ProductIcon = item.icon;
-                      return (
-                        <div
-                          key={idx}
-                          className="bg-white rounded-lg border border-slate-200/55 shadow-[0_1px_2px_rgba(0,0,0,0.02)] flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-md hover:border-slate-300/80 h-[76px]"
-                        >
-                          {/* Icon Container */}
-                          <div className="flex-1 flex items-center justify-center p-1.5">
-                            <div className="w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 hover:scale-105" style={{ backgroundColor: `${item.color}15` }}>
-                              <ProductIcon className="w-4 h-4" style={{ color: item.color }} />
-                            </div>
-                          </div>
-                          {/* Product Title */}
-                          <span className="text-[6.5px] font-bold text-slate-800 text-center px-1 mb-1 line-clamp-2 leading-tight h-5 flex items-center justify-center">
-                            {item.name}
-                          </span>
-                          {/* Price Banner */}
-                          <div className="bg-[#6b7c96]/95 text-white text-[6.5px] font-bold text-center py-1 select-none leading-none">
-                            {item.price}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Bottom Footer "Go to Cart" Button */}
-                <div className="bg-white border-t border-slate-100 p-2 z-20">
-                  <div className="bg-[#eef2ff] hover:bg-[#e0e7ff] active:bg-[#c7d2fe] transition-colors border border-[#e0e7ff] rounded-md py-1.5 text-center text-[8.5px] font-black text-indigo-600 cursor-pointer shadow-sm">
-                    Go to Cart
-                  </div>
-                </div>
-
+              <div className="relative max-w-[285px] w-full transition-transform duration-500 hover:scale-[1.02] drop-shadow-2xl">
+                <img
+                  src="/images/reckon_mobile_app.png"
+                  alt="Reckon Software Mobile App"
+                  className="w-full h-auto object-contain rounded-[2.5rem]"
+                />
               </div>
             </div>
           </div>

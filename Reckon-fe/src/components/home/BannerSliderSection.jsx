@@ -176,9 +176,9 @@ export default function BannerSliderSection() {
             loading="eager"
           />
 
-          {/* Bottom Right "More" Action Button */}
+          {/* Bottom Left "More" Action Button */}
           {currentBanner.redirect_path && (
-            <div className="absolute bottom-6 right-6 sm:bottom-10 sm:right-12 z-20 flex items-center gap-4">
+            <div className="absolute bottom-3 left-6 sm:bottom-4 sm:left-12 z-20 flex items-center gap-4">
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -186,10 +186,10 @@ export default function BannerSliderSection() {
               >
                 <Link
                   to={currentBanner.redirect_path}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-950 font-black text-xs uppercase tracking-wider shadow-xl hover:shadow-2xl transition-all duration-300 active:scale-95 border border-white/10"
+                  className="inline-flex items-center gap-2.5 px-8 py-3.5 sm:px-10 sm:py-4 rounded-2xl bg-slate-900/80 hover:bg-slate-900/95 text-white dark:bg-white/80 dark:hover:bg-white/95 dark:text-slate-950 backdrop-blur-md font-black text-sm sm:text-base uppercase tracking-wider shadow-2xl transition-all duration-300 active:scale-95 border border-white/20"
                 >
                   <span>More</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/banner:translate-x-1" />
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover/banner:translate-x-1" />
                 </Link>
               </motion.div>
             </div>
