@@ -112,11 +112,11 @@ export default function SoftwareDetailPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
             {/* Left side: Breadcrumb & Title & Subtitle & Underline */}
-            <div className="lg:col-span-7 text-left space-y-4">
+            <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-4">
 
               {/* Breadcrumbs matching PageHeader layout exactly */}
               <nav className={cn(
-                "flex items-center gap-1.5 text-xs font-medium mb-6",
+                "flex flex-wrap items-center justify-center lg:justify-start gap-1.5 text-xs font-medium mb-6",
                 isDark ? "text-white/50" : "text-slate-600"
               )}>
                 <Link
@@ -150,7 +150,7 @@ export default function SoftwareDetailPage() {
               {/* Subtitle */}
               {software.tagline && (
                 <p className={cn(
-                  'mt-5 text-lg leading-relaxed max-w-2xl capitalize',
+                  'mt-5 text-lg leading-relaxed max-w-2xl capitalize mx-auto lg:mx-0',
                   isDark ? 'text-white/60' : 'text-[#0B0816]/70'
                 )}>
                   {software.tagline}
@@ -158,7 +158,7 @@ export default function SoftwareDetailPage() {
               )}
 
               {/* Decorative underline */}
-              <div className="flex items-center gap-1.5 pt-3">
+              <div className="flex items-center justify-center lg:justify-start gap-1.5 pt-3">
                 <div className={cn('h-1 rounded-full w-6', isDark ? 'bg-white/25' : 'bg-[#0B0816]/15')} />
                 <div className={cn('h-1 rounded-full w-14', isDark ? 'bg-primary-light' : 'bg-primary')} />
                 <div className={cn('h-1 rounded-full w-6', isDark ? 'bg-white/25' : 'bg-[#0B0816]/15')} />

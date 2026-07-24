@@ -14,7 +14,7 @@ const INDUSTRY_CARDS = [
 
 export default function IndustryVerticals() {
   return (
-    <section className="py-20 md:py-28 bg-surface-secondary">
+    <section className="py-10 sm:py-16 md:py-24 bg-surface-secondary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title="Billing Solutions for Every Industry"

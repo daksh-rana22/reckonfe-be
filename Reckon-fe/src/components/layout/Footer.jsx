@@ -173,15 +173,15 @@ export default function Footer() {
       </div>
 
       {/* Main Footer */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 md:py-16">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-10">
           {/* Brand Column */}
-          <div className="flex flex-col gap-4">
+          <div className="col-span-2 sm:col-span-2 lg:col-span-1 flex flex-col gap-3">
             <Link to="/" className="flex items-center gap-2.5 group">
               <img
                 src={logoUrl}
                 alt="Reckon Logo"
-                className="w-9 h-9 object-contain rounded-xl bg-white p-1.5 shadow-sm border border-black/5"
+                className="w-8 h-8 sm:w-9 sm:h-9 object-contain rounded-xl bg-white p-1.5 shadow-sm border border-black/5"
               />
               <div>
                 <span className={cn("text-base font-bold transition-colors", isDark ? "text-white" : "text-[#0B0816]")}>
@@ -192,35 +192,35 @@ export default function Footer() {
                 </p>
               </div>
             </Link>
-            <p className={cn("text-[13px] leading-relaxed", isDark ? "text-muted-foreground" : "text-slate-600")}>
+            <p className={cn("text-xs sm:text-[13px] leading-relaxed max-w-md", isDark ? "text-muted-foreground" : "text-slate-600")}>
               India's leading ERP & billing software solutions provider, serving 1000+ businesses across 16+ industries since 2009.
             </p>
             {/* Social Links */}
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex items-center gap-2 mt-1">
               <a href={SOCIAL_LINKS.facebook} className={socialIconClass} aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-                <FacebookIcon className="w-4 h-4" />
+                <FacebookIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
               <a href={SOCIAL_LINKS.google} className={socialIconClass} aria-label="Google" target="_blank" rel="noopener noreferrer">
-                <GoogleIcon className="w-4 h-4" />
+                <GoogleIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
               <a href={SOCIAL_LINKS.linkedin} className={socialIconClass} aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-                <LinkedinIcon className="w-4 h-4" />
+                <LinkedinIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
               <a href={SOCIAL_LINKS.instagram} className={socialIconClass} aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-                <InstagramIcon className="w-4 h-4" />
+                <InstagramIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
               <a href={SOCIAL_LINKS.youtube} className={socialIconClass} aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-                <YoutubeIcon className="w-4 h-4" />
+                <YoutubeIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
             </div>
           </div>
 
           {/* Company Links */}
-          <div>
-            <h4 className={cn("text-xs font-bold uppercase tracking-wider mb-4", isDark ? "text-white" : "text-[#0B0816]")}>
+          <div className="col-span-1">
+            <h4 className={cn("text-xs font-bold uppercase tracking-wider mb-3", isDark ? "text-white" : "text-[#0B0816]")}>
               Company
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-2 text-xs sm:text-[13px]">
               {NAV_ITEMS.find(item => item.label === 'Company')?.subItems.map((item) => (
                 <li key={item.path}>
                   <Link to={item.path} className={linkClass}>
@@ -237,11 +237,11 @@ export default function Footer() {
           </div>
 
           {/* Software Solutions */}
-          <div>
-            <h4 className={cn("text-xs font-bold uppercase tracking-wider mb-4", isDark ? "text-white" : "text-[#0B0816]")}>
+          <div className="col-span-1">
+            <h4 className={cn("text-xs font-bold uppercase tracking-wider mb-3", isDark ? "text-white" : "text-[#0B0816]")}>
               Solutions
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-2 text-xs sm:text-[13px]">
               {BILLING_NAV_ITEMS.map((item) => (
                 <li key={item.path}>
                   <Link to={item.path} className={linkClass}>
@@ -253,28 +253,28 @@ export default function Footer() {
           </div>
 
           {/* Contact Details */}
-          <div>
-            <h4 className={cn("text-xs font-bold uppercase tracking-wider mb-4", isDark ? "text-white" : "text-[#0B0816]")}>
+          <div className="col-span-2 sm:col-span-1 lg:col-span-1">
+            <h4 className={cn("text-xs font-bold uppercase tracking-wider mb-3", isDark ? "text-white" : "text-[#0B0816]")}>
               Contact Us
             </h4>
-            <ul className="space-y-3.5 text-[13px]">
-              <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 shrink-0 mt-0.5 text-primary" />
+            <ul className="space-y-2.5 text-xs sm:text-[13px]">
+              <li className="flex items-start gap-2">
+                <MapPin className="w-3.5 h-3.5 shrink-0 mt-0.5 text-primary" />
                 <span className={isDark ? "text-muted-foreground" : "text-slate-700 font-medium"}>{CONTACT_INFO.address}</span>
               </li>
-              <li className="flex items-start gap-2.5">
-                <Mail className="w-4 h-4 shrink-0 mt-0.5 text-primary" />
+              <li className="flex items-start gap-2">
+                <Mail className="w-3.5 h-3.5 shrink-0 mt-0.5 text-primary" />
                 <div className="flex flex-col">
-                  <span className={cn("text-[10px] uppercase tracking-wider font-bold mb-0.5", isDark ? "text-white/60" : "text-slate-500")}>Sales Enquiry</span>
+                  <span className={cn("text-[9px] uppercase tracking-wider font-bold mb-0.5", isDark ? "text-white/60" : "text-slate-500")}>Sales Enquiry</span>
                   <a href={`mailto:${CONTACT_INFO.salesEmail}`} className={cn("transition-colors font-medium", isDark ? "text-muted-foreground hover:text-white" : "text-slate-700 hover:text-[#0B0816]")}>
                     {CONTACT_INFO.salesEmail}
                   </a>
                 </div>
               </li>
-              <li className="flex items-start gap-2.5">
-                <Mail className="w-4 h-4 shrink-0 mt-0.5 text-primary" />
+              <li className="flex items-start gap-2">
+                <Mail className="w-3.5 h-3.5 shrink-0 mt-0.5 text-primary" />
                 <div className="flex flex-col">
-                  <span className={cn("text-[10px] uppercase tracking-wider font-bold mb-0.5", isDark ? "text-white/60" : "text-slate-500")}>Support Enquiry</span>
+                  <span className={cn("text-[9px] uppercase tracking-wider font-bold mb-0.5", isDark ? "text-white/60" : "text-slate-500")}>Support Enquiry</span>
                   <a href={`mailto:${CONTACT_INFO.supportEmail}`} className={cn("transition-colors font-medium", isDark ? "text-muted-foreground hover:text-white" : "text-slate-700 hover:text-[#0B0816]")}>
                     {CONTACT_INFO.supportEmail}
                   </a>
@@ -284,25 +284,25 @@ export default function Footer() {
           </div>
 
           {/* Support & Helpline */}
-          <div>
-            <h4 className={cn("text-xs font-bold uppercase tracking-wider mb-4", isDark ? "text-white" : "text-[#0B0816]")}>
+          <div className="col-span-2 sm:col-span-1 lg:col-span-1">
+            <h4 className={cn("text-xs font-bold uppercase tracking-wider mb-3", isDark ? "text-white" : "text-[#0B0816]")}>
               Support & Helpline
             </h4>
-            <ul className="space-y-3.5 text-[13px]">
-              <li className="flex items-start gap-2.5">
-                <Phone className="w-4 h-4 shrink-0 mt-1 text-primary" />
-                <div className="flex flex-col gap-2">
+            <ul className="space-y-2.5 text-xs sm:text-[13px]">
+              <li className="flex items-start gap-2">
+                <Phone className="w-3.5 h-3.5 shrink-0 mt-1 text-primary" />
+                <div className="flex flex-col gap-1.5">
                   <div className="flex flex-col">
-                    <span className={cn("text-[10px] uppercase tracking-wider font-bold mb-0.5", isDark ? "text-white/60" : "text-slate-500")}>Landline</span>
-                    <a href={`tel:${CONTACT_INFO.phone}`} className={cn("font-semibold text-sm transition-colors", isDark ? "text-white hover:text-primary" : "text-[#0B0816] hover:text-primary")}>
+                    <span className={cn("text-[9px] uppercase tracking-wider font-bold mb-0.5", isDark ? "text-white/60" : "text-slate-500")}>Landline</span>
+                    <a href={`tel:${CONTACT_INFO.phone}`} className={cn("font-semibold text-xs sm:text-sm transition-colors", isDark ? "text-white hover:text-primary" : "text-[#0B0816] hover:text-primary")}>
                       {CONTACT_INFO.phone}
                     </a>
                   </div>
                   <div className="flex flex-col">
-                    <span className={cn("text-[10px] uppercase tracking-wider font-bold mb-0.5", isDark ? "text-white/60" : "text-slate-500")}>Helplines</span>
-                    <div className="grid grid-cols-1 gap-1">
+                    <span className={cn("text-[9px] uppercase tracking-wider font-bold mb-0.5", isDark ? "text-white/60" : "text-slate-500")}>Helplines</span>
+                    <div className="grid grid-cols-2 sm:grid-cols-1 gap-1">
                       {CONTACT_INFO.helpline.map((num) => (
-                        <a key={num} href={`tel:${num.replace(/\s/g, '')}`} className={cn("font-medium transition-colors", isDark ? "text-muted-foreground hover:text-white" : "text-slate-700 hover:text-[#0B0816]")}>
+                        <a key={num} href={`tel:${num.replace(/\s/g, '')}`} className={cn("font-medium transition-colors text-xs", isDark ? "text-muted-foreground hover:text-white" : "text-slate-700 hover:text-[#0B0816]")}>
                           {num}
                         </a>
                       ))}
@@ -310,12 +310,12 @@ export default function Footer() {
                   </div>
                 </div>
               </li>
-              <li className="flex items-start gap-2.5 pt-2.5 border-t border-border/40">
-                <Clock className="w-4 h-4 shrink-0 mt-0.5 text-primary" />
-                <div className="flex flex-col space-y-0.5">
-                  <span className={cn("text-[10px] uppercase tracking-wider font-bold mb-0.5", isDark ? "text-white/60" : "text-slate-500")}>Business Hours</span>
-                  <span className={cn("text-xs font-medium", isDark ? "text-muted-foreground" : "text-slate-700")}>{CONTACT_INFO.timings.weekdays}</span>
-                  <span className={cn("text-xs font-medium", isDark ? "text-muted-foreground" : "text-slate-700")}>{CONTACT_INFO.timings.sunday}</span>
+              <li className="flex items-start gap-2 pt-2 border-t border-border/40">
+                <Clock className="w-3.5 h-3.5 shrink-0 mt-0.5 text-primary" />
+                <div className="flex flex-col space-y-0.5 text-xs">
+                  <span className={cn("text-[9px] uppercase tracking-wider font-bold mb-0.5", isDark ? "text-white/60" : "text-slate-500")}>Business Hours</span>
+                  <span className={cn("font-medium", isDark ? "text-muted-foreground" : "text-slate-700")}>{CONTACT_INFO.timings.weekdays}</span>
+                  <span className={cn("font-medium", isDark ? "text-muted-foreground" : "text-slate-700")}>{CONTACT_INFO.timings.sunday}</span>
                 </div>
               </li>
             </ul>

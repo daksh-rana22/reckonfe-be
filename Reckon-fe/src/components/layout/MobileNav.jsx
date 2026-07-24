@@ -64,23 +64,35 @@ export default function MobileNav({ open, onClose }) {
               const isActive = item.subItems?.some(s => location.pathname === s.path);
               return (
                 <div key={item.label}>
-                  <button
-                    onClick={() => toggleExpand(item.label)}
+                  <div
                     className={cn(
-                      'w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                      'w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors',
                       isActive
                         ? 'text-primary bg-primary/5'
                         : 'text-foreground hover:bg-surface-secondary'
                     )}
                   >
-                    {item.label}
-                    <ChevronDown
-                      className={cn(
-                        'w-4 h-4 transition-transform duration-200',
-                        expandedMenu === item.label && 'rotate-180'
-                      )}
-                    />
-                  </button>
+                    <Link
+                      to={item.path}
+                      onClick={onClose}
+                      className="flex-1 py-1 font-semibold hover:text-primary transition-colors text-left"
+                    >
+                      {item.label}
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => toggleExpand(item.label)}
+                      className="p-2 rounded-md hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors"
+                      aria-label={`Toggle ${item.label} menu`}
+                    >
+                      <ChevronDown
+                        className={cn(
+                          'w-4 h-4 transition-transform duration-200',
+                          expandedMenu === item.label && 'rotate-180'
+                        )}
+                      />
+                    </button>
+                  </div>
 
                   {/* Expanded sub-items */}
                   <div
@@ -96,23 +108,35 @@ export default function MobileNav({ open, onClose }) {
                           <div key={sub.path} className="space-y-0.5">
                             {hasChildren ? (
                               <>
-                                <button
-                                  onClick={() => toggleExpandSub(sub.label)}
+                                <div
                                   className={cn(
-                                    'w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                                    'w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
                                     location.pathname.startsWith(sub.path)
                                       ? 'text-primary bg-primary/5'
                                       : 'text-foreground/80 hover:text-primary hover:bg-primary/5'
                                   )}
                                 >
-                                  <span>{sub.label}</span>
-                                  <ChevronDown
-                                    className={cn(
-                                      'w-3.5 h-3.5 transition-transform duration-200',
-                                      expandedSubMenu === sub.label && 'rotate-180'
-                                    )}
-                                  />
-                                </button>
+                                  <Link
+                                    to={sub.path}
+                                    onClick={onClose}
+                                    className="flex-1 py-1 hover:text-primary transition-colors"
+                                  >
+                                    {sub.label}
+                                  </Link>
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleExpandSub(sub.label)}
+                                    className="p-1.5 rounded-md hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors"
+                                    aria-label={`Toggle ${sub.label} sub-menu`}
+                                  >
+                                    <ChevronDown
+                                      className={cn(
+                                        'w-3.5 h-3.5 transition-transform duration-200',
+                                        expandedSubMenu === sub.label && 'rotate-180'
+                                      )}
+                                    />
+                                  </button>
+                                </div>
                                 <div
                                   className={cn(
                                     'overflow-hidden transition-all duration-300 pl-4 space-y-0.5',

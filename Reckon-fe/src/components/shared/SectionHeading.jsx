@@ -8,7 +8,7 @@ export default function SectionHeading({ title, subtitle, badge, center = true, 
     <div
       ref={ref}
       className={cn(
-        'mb-14 transition-all duration-700',
+        'mb-8 sm:mb-12 md:mb-14 transition-all duration-700',
         center && 'text-center',
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
         className

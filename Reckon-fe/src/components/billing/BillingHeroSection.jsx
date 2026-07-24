@@ -150,12 +150,12 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
       <div className="absolute bottom-1/4 right-1/4 w-2 h-2 bg-primary/40 rounded-full animate-float-slow pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 lg:gap-12 items-center">
           {/* Left: Text content */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 space-y-3.5 sm:space-y-6 text-center lg:text-left">
             {/* Breadcrumbs */}
             <nav className={cn(
-              'flex flex-wrap items-center gap-1.5 text-xs font-medium',
+              'flex flex-wrap items-center justify-center lg:justify-start gap-1.5 text-xs font-medium',
               isDark ? 'text-white/50' : 'text-slate-600'
             )}>
               <Link to="/" className="flex items-center gap-1 transition-colors hover:text-foreground shrink-0">
@@ -194,32 +194,32 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
 
             {/* Subtitle */}
             <p className={cn(
-              'text-lg leading-relaxed max-w-xl capitalize',
+              'text-lg leading-relaxed max-w-xl capitalize mx-auto lg:mx-0',
               isDark ? 'text-white/60' : 'text-[#0B0816]/70'
             )}>
               {data.subtitle}
             </p>
 
             {/* Hero feature pills */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-1.5 sm:gap-2">
               {data.heroFeatures.map((feat) => (
                 <span
                   key={feat}
                   className={cn(
-                    'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-all',
+                    'inline-flex items-center gap-1 px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium sm:font-semibold border transition-all',
                     isDark
                       ? 'bg-white/8 border-white/15 text-white/80'
                       : 'bg-white/60 border-white/80 text-[#0B0816]/80 shadow-sm'
                   )}
                 >
-                  <Check className="w-3 h-3 text-primary shrink-0" />
+                  <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary shrink-0" />
                   {feat}
                 </span>
               ))}
             </div>
 
-            {/* CTA buttons */}
-            <div className="flex flex-wrap gap-3 pt-2">
+            {/* CTA buttons (Desktop only - in left text column) */}
+            <div className="hidden lg:flex flex-wrap justify-start gap-3 pt-2">
               <Link
                 to={`/contact?software=${encodeURIComponent(data.title)}`}
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-white font-semibold shadow-lg hover:shadow-glow hover:scale-[1.02] transition-all duration-300"
@@ -238,20 +238,13 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
                 Download Setup
               </Link>
             </div>
-
-            {/* Decorative underline */}
-            <div className="flex items-center gap-1.5 pt-2">
-              <div className={cn('h-1 rounded-full w-6', isDark ? 'bg-white/25' : 'bg-[#0B0816]/15')} />
-              <div className={cn('h-1 rounded-full w-14', isDark ? 'bg-primary-light' : 'bg-primary')} />
-              <div className={cn('h-1 rounded-full w-6', isDark ? 'bg-white/25' : 'bg-[#0B0816]/15')} />
-            </div>
           </div>
 
           {/* Right: Multi-device mockup or Uploaded Image */}
-          <div className="lg:col-span-7 relative flex justify-center lg:justify-end w-full">
+          <div className="lg:col-span-7 relative flex flex-col items-center lg:justify-end w-full">
             {true ? (
               <div className={cn(
-                "relative w-full transition-all duration-500",
+                "relative w-full transition-all duration-500 flex flex-col items-center",
                 variant === 'fmcg-retailers' || variant === 'fmcg-companies' || variant === 'retail-pharmacies' || variant === 'multi-branch-auto-parts' || variant === 'multi-branch-pharmacy' || variant === 'multi-outlet-chain' ? "max-w-[740px]" : "max-w-[490px]"
               )}>
                 {/* Outer glow ring */}
@@ -285,7 +278,35 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
             ) : (
               <DeviceMockup isDark={isDark} color={data.color} variant={variant} />
             )}
+
+            {/* CTA buttons (Mobile only - in 1 row below hero image) */}
+            <div className="flex lg:hidden flex-row items-center justify-center gap-2 w-full max-w-sm pt-5 px-2">
+              <Link
+                to={`/contact?software=${encodeURIComponent(data.title)}`}
+                className="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold shadow-md active:scale-95 transition-all whitespace-nowrap"
+              >
+                Request Demo <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+              </Link>
+              <Link
+                to="/downloads"
+                className={cn(
+                  "flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold border active:scale-95 transition-all whitespace-nowrap",
+                  isDark
+                    ? "bg-white/5 border-white/15 text-white hover:bg-white/10"
+                    : "bg-white/80 border-white/90 text-[#0B0816] hover:bg-white shadow-sm"
+                )}
+              >
+                Download Setup
+              </Link>
+            </div>
           </div>
+        </div>
+
+        {/* Decorative underline centered at the very end of all hero content */}
+        <div className="flex items-center justify-center gap-1.5 pt-8 sm:pt-12 w-full">
+          <div className={cn('h-1 rounded-full w-6', isDark ? 'bg-white/25' : 'bg-[#0B0816]/15')} />
+          <div className={cn('h-1 rounded-full w-14', isDark ? 'bg-primary-light' : 'bg-primary')} />
+          <div className={cn('h-1 rounded-full w-6', isDark ? 'bg-white/25' : 'bg-[#0B0816]/15')} />
         </div>
       </div>
     </section>

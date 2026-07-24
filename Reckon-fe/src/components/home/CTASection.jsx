@@ -10,12 +10,12 @@ export default function CTASection() {
   const isDark = theme === 'dark';
 
   return (
-    <section className="py-24 md:py-32 bg-background">
+    <section className="py-10 sm:py-16 md:py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           ref={ref}
           className={cn(
-            'relative overflow-hidden rounded-3xl p-10 md:p-16 lg:p-20 text-center transition-all duration-700',
+            'relative overflow-hidden rounded-3xl p-6 sm:p-10 md:p-16 lg:p-20 text-center transition-all duration-700',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           )}
           style={{

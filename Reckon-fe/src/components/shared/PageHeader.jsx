@@ -112,10 +112,10 @@ export default function PageHeader({ title, subtitle, breadcrumbs = [], gradient
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={cn(children ? "grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center" : "")}>
-          <div className={cn(children ? "lg:col-span-7" : "")}>
+          <div className={cn("flex flex-col items-center lg:items-start text-center lg:text-left", children ? "lg:col-span-7" : "")}>
             {/* Breadcrumbs */}
             {breadcrumbs.length > 0 && (
-              <nav className="flex items-center gap-1.5 text-xs mb-7">
+              <nav className="flex flex-wrap items-center justify-center lg:justify-start gap-1.5 text-xs mb-7">
                 <Link
                   to="/"
                   className={cn(
@@ -165,7 +165,7 @@ export default function PageHeader({ title, subtitle, breadcrumbs = [], gradient
 
             {subtitle && (
               <p className={cn(
-                'mt-5 text-lg max-w-2xl leading-relaxed',
+                'mt-5 text-lg max-w-2xl leading-relaxed mx-auto lg:mx-0',
                 gradient
                   ? (isDark ? 'text-white/60' : 'text-[#0B0816]/70')
                   : 'text-muted'
@@ -175,7 +175,7 @@ export default function PageHeader({ title, subtitle, breadcrumbs = [], gradient
             )}
 
             {/* Decorative underline */}
-            <div className="flex items-center gap-1.5 mt-7">
+            <div className="flex items-center justify-center lg:justify-start gap-1.5 mt-7">
               <div className={cn('h-1 rounded-full w-6', gradient ? (isDark ? 'bg-white/25' : 'bg-[#0B0816]/15') : 'bg-primary/25')} />
               <div className={cn('h-1 rounded-full w-14', gradient ? 'bg-primary' : 'bg-gradient-accent')} />
               <div className={cn('h-1 rounded-full w-6', gradient ? (isDark ? 'bg-white/25' : 'bg-[#0B0816]/15') : 'bg-primary/25')} />

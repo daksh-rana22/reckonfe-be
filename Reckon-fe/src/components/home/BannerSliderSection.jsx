@@ -130,7 +130,7 @@ export default function BannerSliderSection() {
 
   return (
     <div
-      className={`w-full h-[65vh] relative overflow-hidden select-none border-b shadow-inner group/banner ${isDark ? 'border-slate-800/80 bg-slate-950' : 'border-slate-200/80 bg-slate-100'
+      className={`w-full h-[30vh] min-h-[200px] md:h-[65vh] md:min-h-[500px] relative overflow-hidden select-none border-b shadow-inner group/banner ${isDark ? 'border-slate-800/80 bg-slate-950' : 'border-slate-200/80 bg-slate-100'
         }`}
     >
       {/* Background Dots Pattern overla */}
@@ -170,7 +170,7 @@ export default function BannerSliderSection() {
         >
           {/* Main Photo Image - direct, bright, not darkened */}
           <img
-            src={bannerImage}
+            src={bannerImage || null}
             alt={currentBanner.title}
             className="w-full h-full object-fill select-none"
             loading="eager"
@@ -178,7 +178,7 @@ export default function BannerSliderSection() {
 
           {/* Bottom Left "More" Action Button */}
           {currentBanner.redirect_path && (
-            <div className="absolute bottom-3 left-6 sm:bottom-4 sm:left-12 z-20 flex items-center gap-4">
+            <div className="absolute bottom-2 left-3 sm:bottom-4 sm:left-12 z-20 flex items-center gap-4">
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -186,10 +186,10 @@ export default function BannerSliderSection() {
               >
                 <Link
                   to={currentBanner.redirect_path}
-                  className="inline-flex items-center gap-2.5 px-8 py-3.5 sm:px-10 sm:py-4 rounded-2xl bg-slate-900/80 hover:bg-slate-900/95 text-white dark:bg-white/80 dark:hover:bg-white/95 dark:text-slate-950 backdrop-blur-md font-black text-sm sm:text-base uppercase tracking-wider shadow-2xl transition-all duration-300 active:scale-95 border border-white/20"
+                  className="inline-flex items-center gap-1.5 sm:gap-2.5 px-4 py-2 sm:px-10 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-900/80 hover:bg-slate-900/95 text-white dark:bg-white/80 dark:hover:bg-white/95 dark:text-slate-950 backdrop-blur-md font-black text-xs sm:text-base uppercase tracking-wider shadow-2xl transition-all duration-300 active:scale-95 border border-white/20"
                 >
                   <span>More</span>
-                  <ArrowRight className="w-5 h-5 transition-transform group-hover/banner:translate-x-1" />
+                  <ArrowRight className="w-3.5 h-3.5 sm:w-5 sm:h-5 transition-transform group-hover/banner:translate-x-1" />
                 </Link>
               </motion.div>
             </div>

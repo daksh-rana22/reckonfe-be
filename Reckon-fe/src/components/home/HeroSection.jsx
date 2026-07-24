@@ -108,6 +108,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="flex flex-col items-center lg:items-start text-center lg:text-left"
           >
             {/* Top badge */}
             <motion.div
@@ -138,7 +139,7 @@ export default function HeroSection() {
             </h1>
 
             <p className={cn(
-              "mt-7 text-base sm:text-lg leading-relaxed max-w-xl",
+              "mt-7 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0",
               isDark ? "text-white/55" : "text-[#0B0816]/70"
             )}>
               Powerful, GST-compliant business management software designed for pharmacies,
@@ -146,7 +147,7 @@ export default function HeroSection() {
             </p>
 
             {/* Trust badges */}
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap justify-center lg:justify-start gap-3">
               {TRUST_BADGES.map((badge) => (
                 <div
                   key={badge}
@@ -162,7 +163,7 @@ export default function HeroSection() {
             </div>
 
             {/* CTAs */}
-            <div className="mt-9 flex flex-wrap gap-4">
+            <div className="mt-9 flex flex-wrap justify-center lg:justify-start gap-4">
               <Link
                 to="/software"
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-primary to-primary-dark text-white font-bold shadow-lg hover:shadow-glow hover:scale-[1.03] transition-all duration-300 active:scale-95"
@@ -185,7 +186,7 @@ export default function HeroSection() {
             </div>
 
             {/* Social proof */}
-            <div className="mt-10 flex items-center gap-5">
+            <div className="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-5">
               <div className="flex -space-x-2.5">
                 {[['#DC2626', 'RK'], ['#2563EB', 'PS'], ['#7C3AED', 'AV'], ['#EC4899', 'DG']].map(([bg, init]) => (
                   <div

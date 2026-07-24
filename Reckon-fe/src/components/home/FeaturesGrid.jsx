@@ -46,7 +46,7 @@ const FEATURES = [
 
 export default function FeaturesGrid() {
   return (
-    <section className="py-16 md:py-20 bg-background relative overflow-hidden">
+    <section className="py-8 sm:py-12 md:py-20 bg-background relative overflow-hidden">
       {/* Subtle background aurora */}
       <div className="absolute inset-0 bg-gradient-aurora pointer-events-none" />
 
