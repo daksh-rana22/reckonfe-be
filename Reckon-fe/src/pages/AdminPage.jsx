@@ -330,16 +330,19 @@ export default function AdminPage() {
 
   // Banners state
   const [showAddBannerModal, setShowAddBannerModal] = useState(false);
+  const [editingBannerId, setEditingBannerId] = useState(null);
   const [showGuidelines, setShowGuidelines] = useState(false);
   const [newBannerTitle, setNewBannerTitle] = useState('');
   const [newBannerDescription, setNewBannerDescription] = useState('');
   const [newBannerSortOrder, setNewBannerSortOrder] = useState(0);
+  const [newBannerIsActive, setNewBannerIsActive] = useState(true);
   const [newBannerFile, setNewBannerFile] = useState(null);
   const [newBannerFilePreview, setNewBannerFilePreview] = useState(null);
   const [newBannerRedirectPath, setNewBannerRedirectPath] = useState('');
   const [bannerError, setBannerError] = useState('');
   const [bannerSuccess, setBannerSuccess] = useState('');
   const bannerImageInputRef = useRef(null);
+  const bannerEditImageInputRef = useRef(null);
 
   // Banner slide duration input
   const [editDuration, setEditDuration] = useState(5);
@@ -637,6 +640,7 @@ export default function AdminPage() {
       setNewBannerTitle('');
       setNewBannerDescription('');
       setNewBannerSortOrder(0);
+      setNewBannerIsActive(true);
       setNewBannerFile(null);
       setNewBannerFilePreview(null);
       setNewBannerRedirectPath('');
@@ -646,6 +650,50 @@ export default function AdminPage() {
       setTimeout(() => setBannerSuccess(''), 3000);
     } catch (err) {
       setBannerError('Failed to add banner: ' + err.message);
+    }
+  };
+
+  const handleEditBannerClick = (banner) => {
+    setEditingBannerId(banner.id);
+    setNewBannerTitle(banner.title || '');
+    setNewBannerDescription(banner.description || '');
+    setNewBannerSortOrder(banner.sort_order || 1);
+    setNewBannerIsActive(banner.is_active !== false);
+    setNewBannerRedirectPath(banner.redirect_path || '');
+    setNewBannerFile(null);
+    setNewBannerFilePreview(banner.image_url || null);
+    setBannerError('');
+    setShowAddBannerModal(true);
+  };
+
+  const handleUpdateBanner = async () => {
+    try {
+      setBannerError('');
+      await updateBanner(
+        editingBannerId,
+        newBannerTitle || 'Banner',
+        newBannerDescription,
+        newBannerSortOrder,
+        newBannerIsActive,
+        newBannerFile || null,
+        newBannerRedirectPath
+      );
+
+      // Reset form
+      setEditingBannerId(null);
+      setNewBannerTitle('');
+      setNewBannerDescription('');
+      setNewBannerSortOrder(0);
+      setNewBannerIsActive(true);
+      setNewBannerFile(null);
+      setNewBannerFilePreview(null);
+      setNewBannerRedirectPath('');
+      setShowAddBannerModal(false);
+
+      setBannerSuccess('Banner updated successfully!');
+      setTimeout(() => setBannerSuccess(''), 3000);
+    } catch (err) {
+      setBannerError('Failed to update banner: ' + err.message);
     }
   };
 
@@ -1846,11 +1894,14 @@ export default function AdminPage() {
 
                       <button
                         onClick={() => {
+                          setEditingBannerId(null);
                           setNewBannerTitle('');
                           setNewBannerDescription('');
                           setNewBannerSortOrder(banners.length + 1);
+                          setNewBannerIsActive(true);
                           setNewBannerFile(null);
                           setNewBannerFilePreview(null);
+                          setNewBannerRedirectPath('');
                           setBannerError('');
                           setShowAddBannerModal(true);
                         }}
@@ -1922,15 +1973,39 @@ export default function AdminPage() {
                               </div>
                             </div>
 
-                            <div className="mt-4 pt-3 border-t border-border flex justify-end">
-                              <button
-                                onClick={() => handleDeleteBanner(banner.id, banner.title)}
-                                className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 text-[#DC2626] dark:text-red-400 border border-red-100 dark:border-red-500/20 text-xs font-bold transition-all cursor-pointer"
-                                title="Delete Banner"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                                Delete
-                              </button>
+                            <div className="mt-4 pt-3 border-t border-border flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-1.5">
+                                <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold uppercase border select-none ${
+                                  banner.is_active
+                                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
+                                    : 'bg-slate-100 dark:bg-white/5 text-muted border-border'
+                                }`}>
+                                  {banner.is_active ? 'Active' : 'Inactive'}
+                                </span>
+                                {banner.sort_order != null && (
+                                  <span className="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase border select-none bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20">
+                                    Order: {banner.sort_order}
+                                  </span>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={() => handleEditBannerClick(banner)}
+                                  className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 dark:bg-blue-500/10 dark:hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-500/20 text-xs font-bold transition-all cursor-pointer"
+                                  title="Edit Banner"
+                                >
+                                  <Pencil className="w-3.5 h-3.5" />
+                                  Edit
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteBanner(banner.id, banner.title)}
+                                  className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 text-[#DC2626] dark:text-red-400 border border-red-100 dark:border-red-500/20 text-xs font-bold transition-all cursor-pointer"
+                                  title="Delete Banner"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                  Delete
+                                </button>
+                              </div>
                             </div>
                           </div>
                         ))}
@@ -3312,15 +3387,17 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Add Banner Modal */}
+      {/* Add / Edit Banner Modal */}
       {showAddBannerModal && (
-        <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAddBannerModal(false)}>
+        <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in" onClick={() => { setShowAddBannerModal(false); setEditingBannerId(null); }}>
           <div className="bg-surface rounded-2xl border border-border shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col animate-fade-up overflow-hidden" onClick={e => e.stopPropagation()}>
 
             {/* Modal Header */}
             <div className="flex items-center justify-between px-6 py-4.5 border-b border-border shrink-0">
-              <h3 className="text-base font-black text-foreground">Add Homepage Product Banner</h3>
-              <button onClick={() => setShowAddBannerModal(false)} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-muted hover:text-foreground transition-all cursor-pointer">
+              <h3 className="text-base font-black text-foreground">
+                {editingBannerId ? 'Edit Banner' : 'Add Homepage Product Banner'}
+              </h3>
+              <button onClick={() => { setShowAddBannerModal(false); setEditingBannerId(null); }} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-muted hover:text-foreground transition-all cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -3333,6 +3410,56 @@ export default function AdminPage() {
                   {bannerError}
                 </div>
               )}
+
+              {/* Title field (shown when editing) */}
+              {editingBannerId && (
+                <div>
+                  <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Banner Title</label>
+                  <input
+                    type="text"
+                    value={newBannerTitle}
+                    onChange={(e) => setNewBannerTitle(e.target.value)}
+                    placeholder="e.g. Retail Pharmacy Banner"
+                    className="w-full px-3.5 py-2 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-[#863BFF]/20 focus:border-[#863BFF] transition-all text-xs"
+                  />
+                </div>
+              )}
+
+              {/* Sort Order field */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Sort Order</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={newBannerSortOrder}
+                    onChange={(e) => setNewBannerSortOrder(Number(e.target.value))}
+                    placeholder="1"
+                    className="w-full px-3.5 py-2 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-[#863BFF]/20 focus:border-[#863BFF] transition-all text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Active Status</label>
+                  <div className="flex items-center gap-2.5 h-[34px]">
+                    <button
+                      type="button"
+                      onClick={() => setNewBannerIsActive(!newBannerIsActive)}
+                      className={cn(
+                        "relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out",
+                        newBannerIsActive ? "bg-emerald-500" : "bg-slate-200 dark:bg-white/10"
+                      )}
+                    >
+                      <span className={cn(
+                        "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                        newBannerIsActive ? "translate-x-4" : "translate-x-0"
+                      )} />
+                    </button>
+                    <span className="text-[11px] font-semibold text-foreground">
+                      {newBannerIsActive ? 'Active' : 'Inactive'}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
               <div>
                 <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">Software Solution Page</label>
@@ -3451,14 +3578,14 @@ export default function AdminPage() {
             {/* Modal Footer */}
             <div className="flex gap-3 px-6 py-4.5 border-t border-border shrink-0 bg-slate-50/50 dark:bg-white/[0.01]">
               <button
-                onClick={handleAddBanner}
+                onClick={editingBannerId ? handleUpdateBanner : handleAddBanner}
                 className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary-dark text-xs font-bold shadow-sm transition-all duration-300 cursor-pointer"
               >
                 <Check className="w-4 h-4" />
-                Add Banner
+                {editingBannerId ? 'Save Changes' : 'Add Banner'}
               </button>
               <button
-                onClick={() => setShowAddBannerModal(false)}
+                onClick={() => { setShowAddBannerModal(false); setEditingBannerId(null); }}
                 className="px-5 py-3 rounded-xl border border-border text-foreground hover:bg-slate-50 dark:hover:bg-white/5 text-xs font-bold transition-all cursor-pointer"
               >
                 Cancel
