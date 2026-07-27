@@ -81,7 +81,7 @@ function TestimonialCard({ testimonial, delay }) {
     <div
       ref={ref}
       className={cn(
-        'group relative flex flex-col p-5 rounded-xl bg-card border border-border shadow-sm',
+        'group relative flex flex-col p-3.5 sm:p-5 rounded-lg sm:rounded-xl bg-card border border-border shadow-sm',
         'hover:shadow-lg transition-all duration-500 overflow-hidden cursor-default',
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       )}
@@ -89,51 +89,51 @@ function TestimonialCard({ testimonial, delay }) {
     >
       {/* Colored top accent */}
       <div
-        className="absolute top-0 left-0 right-0 h-[2.5px] rounded-t-xl"
+        className="absolute top-0 left-0 right-0 h-[2px] sm:h-[2.5px] rounded-t-lg sm:rounded-t-xl"
         style={{ background: `linear-gradient(90deg, ${color}, ${color}44)` }}
       />
 
       {/* Ambient glow on hover */}
       <div
-        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        className="absolute inset-0 rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{ background: `radial-gradient(ellipse 80% 60% at 50% 0%, ${color}08, transparent 70%)` }}
       />
 
       {/* Quote icon */}
       <div
-        className="w-8 h-8 rounded-lg flex items-center justify-center mb-3.5 shrink-0"
+        className="w-7 h-7 sm:w-8 sm:h-8 rounded-md sm:rounded-lg flex items-center justify-center mb-2 sm:mb-3.5 shrink-0"
         style={{ background: `${color}12`, border: `1px solid ${color}22` }}
       >
-        <Quote className="w-4 h-4" style={{ color }} />
+        <Quote className="w-3.5 h-3.5 sm:w-4 sm:h-4" style={{ color }} />
       </div>
 
       {/* Stars */}
-      <div className="flex items-center gap-0.5 mb-3">
+      <div className="flex items-center gap-0.5 mb-2 sm:mb-3">
         {[...Array(5)].map((_, j) => (
-          <span key={j} className={cn('text-xs', j < testimonial.rating ? 'text-warning' : 'text-border')}>★</span>
+          <span key={j} className={cn('text-[10px] sm:text-xs', j < testimonial.rating ? 'text-warning' : 'text-border')}>★</span>
         ))}
-        <span className="ml-1 text-[11px] font-bold text-muted-foreground">{testimonial.rating}.0</span>
+        <span className="ml-1 text-[10px] sm:text-[11px] font-bold text-muted-foreground">{testimonial.rating}.0</span>
       </div>
 
       {/* Quote */}
-      <p className="text-xs sm:text-sm text-muted leading-relaxed flex-1 italic">
+      <p className="text-xs sm:text-sm text-muted leading-snug sm:leading-relaxed flex-1 italic">
         "{testimonial.quote}"
       </p>
 
       {/* Author */}
-      <div className="mt-4 pt-3.5 border-t border-border flex items-center gap-2.5">
+      <div className="mt-3 sm:mt-4 pt-2.5 sm:pt-3.5 border-t border-border flex items-center gap-2 sm:gap-2.5">
         <div
-          className="w-8.5 h-8.5 rounded-full flex items-center justify-center shrink-0 text-xs font-black text-white"
+          className="w-7 h-7 sm:w-8.5 sm:h-8.5 rounded-full flex items-center justify-center shrink-0 text-[10px] sm:text-xs font-black text-white"
           style={{ background: `linear-gradient(135deg, ${color}, ${color}99)` }}
         >
           {testimonial.name.charAt(0)}
         </div>
-        <div>
-          <p className="text-[13px] font-bold text-foreground leading-tight">{testimonial.name}</p>
-          <p className="text-[11px] text-muted leading-tight mt-0.5">{testimonial.designation} · {testimonial.company}</p>
+        <div className="min-w-0 flex-1">
+          <p className="text-xs sm:text-[13px] font-bold text-foreground leading-tight truncate">{testimonial.name}</p>
+          <p className="text-[10px] sm:text-[11px] text-muted leading-tight mt-0.5 truncate">{testimonial.designation} · {testimonial.company}</p>
         </div>
         <span
-          className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0"
+          className="ml-auto text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 sm:px-2 rounded-full shrink-0"
           style={{ background: `${color}12`, color }}
         >
           {getIndustryLabel(testimonial.industry)}
@@ -148,17 +148,17 @@ export default function TestimonialsSlider() {
   const displayTestimonials = testimonials && testimonials.length > 0 ? testimonials : TESTIMONIALS;
 
   return (
-    <section className="py-10 sm:py-16 md:py-24 bg-background relative overflow-hidden">
+    <section className="py-8 sm:py-16 md:py-24 bg-background relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-aurora pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative">
         <SectionHeading
           badge="Client Stories"
           title="What Our Clients Say"
           subtitle="Hear from businesses that have transformed their operations with Reckon across India."
         />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {displayTestimonials.map((testimonial, i) => (
             <TestimonialCard key={testimonial.id} testimonial={testimonial} delay={i * 80} />
           ))}

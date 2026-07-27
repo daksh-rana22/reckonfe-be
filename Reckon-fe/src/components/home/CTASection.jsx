@@ -10,12 +10,12 @@ export default function CTASection() {
   const isDark = theme === 'dark';
 
   return (
-    <section className="py-10 sm:py-16 md:py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-6 sm:py-16 md:py-24 bg-background">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div
           ref={ref}
           className={cn(
-            'relative overflow-hidden rounded-3xl p-6 sm:p-10 md:p-16 lg:p-20 text-center transition-all duration-700',
+            'relative overflow-hidden rounded-2xl sm:rounded-3xl p-5 sm:p-10 md:p-16 lg:p-20 text-center transition-all duration-700',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           )}
           style={{
@@ -25,7 +25,7 @@ export default function CTASection() {
           }}
         >
           {/* Grid overlay */}
-          <div className="absolute inset-0 grid-mesh opacity-50 pointer-events-none rounded-3xl" />
+          <div className="absolute inset-0 grid-mesh opacity-50 pointer-events-none rounded-2xl sm:rounded-3xl" />
 
           {/* Glowing orbs */}
           <div
@@ -46,14 +46,14 @@ export default function CTASection() {
 
           <div className="relative">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-bold uppercase tracking-widest mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/15 border border-primary/30 text-primary text-[11px] sm:text-xs font-bold uppercase tracking-widest mb-4 sm:mb-8">
               <Sparkles className="w-3.5 h-3.5" />
               Start Today — Free Demo
             </div>
 
             {/* Headline */}
             <h2 className={cn(
-              "text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-6 tracking-tight",
+              "text-2xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-4 sm:mb-6 tracking-tight",
               isDark ? "text-white" : "text-[#0B0816]"
             )}>
               Ready to Transform{' '}
@@ -61,7 +61,7 @@ export default function CTASection() {
             </h2>
 
             <p className={cn(
-              "mt-2 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed",
+              "mt-2 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed",
               isDark ? "text-white/55" : "text-[#0B0816]/70"
             )}>
               Join thousands of businesses across India who trust Reckon for their ERP and billing needs.
@@ -69,10 +69,10 @@ export default function CTASection() {
             </p>
 
             {/* CTA Buttons */}
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <div className="mt-6 sm:mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary to-primary-dark text-white font-bold shadow-lg hover:shadow-glow hover:scale-[1.03] transition-all duration-300 active:scale-95"
+                className="inline-flex items-center gap-2 px-5 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-primary to-primary-dark text-white text-sm sm:text-base font-bold shadow-lg hover:shadow-glow hover:scale-[1.03] transition-all duration-300 active:scale-95"
               >
                 Schedule Free Demo
                 <ArrowRight className="w-4 h-4" />
@@ -80,7 +80,7 @@ export default function CTASection() {
               <Link
                 to="/software"
                 className={cn(
-                  "inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-semibold border transition-all duration-300 backdrop-blur-sm",
+                  "inline-flex items-center gap-2 px-5 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl text-sm sm:text-base font-semibold border transition-all duration-300 backdrop-blur-sm",
                   isDark
                     ? "bg-white/8 text-white border-white/15 hover:bg-white/14 hover:border-white/25"
                     : "bg-white/40 text-blue-600 border-blue-500/30 hover:bg-white/60 hover:border-blue-500/50"
@@ -92,7 +92,7 @@ export default function CTASection() {
 
             {/* Trust indicators */}
             <div className={cn(
-              "mt-10 flex flex-wrap items-center justify-center gap-6 text-sm",
+              "mt-6 sm:mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm",
               isDark ? "text-white/40" : "text-slate-600 font-medium"
             )}>
               <div className="flex items-center gap-2">

@@ -46,7 +46,7 @@ export default function StatCard({ label, value, suffix = '', icon: Icon, delay 
     >
       {/* Watermark number behind */}
       <span className={cn(
-        "absolute inset-0 flex items-center justify-center text-[7rem] font-black select-none pointer-events-none leading-none",
+        "absolute inset-0 flex items-center justify-center text-4xl sm:text-[7rem] font-black select-none pointer-events-none leading-none",
         isDark ? "text-white/3" : "text-[#0B0816]/3"
       )}>
         {value >= 1000 ? `${Math.round(value / 1000)}K` : value}
@@ -55,16 +55,16 @@ export default function StatCard({ label, value, suffix = '', icon: Icon, delay 
       {/* Icon */}
       {Icon && (
         <div className={cn(
-          "w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300 backdrop-blur-sm",
+          "w-10 h-10 sm:w-14 sm:h-14 mx-auto mb-2.5 sm:mb-4 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300 backdrop-blur-sm",
           isDark ? "bg-white/10 border-white/15" : "bg-white/40 border-white/60 shadow-sm"
         )}>
-          <Icon className="w-7 h-7 text-primary" />
+          <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-primary" />
         </div>
       )}
 
       {/* Value */}
       <div className={cn(
-        "relative text-5xl sm:text-6xl font-black leading-none mb-3 tracking-tight",
+        "relative text-3xl sm:text-5xl md:text-6xl font-black leading-none mb-1.5 sm:mb-3 tracking-tight",
         isDark ? "text-white" : "text-[#0B0816]"
       )}>
         {value >= 1000 ? displayValue : count}
@@ -73,7 +73,7 @@ export default function StatCard({ label, value, suffix = '', icon: Icon, delay 
 
       {/* Label */}
       <p className={cn(
-        "text-sm font-semibold uppercase tracking-widest",
+        "text-xs sm:text-sm font-semibold uppercase tracking-widest",
         isDark ? "text-white/50" : "text-slate-600"
       )}>{label}</p>
 

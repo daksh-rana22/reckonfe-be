@@ -97,7 +97,7 @@ export default function DemoVideoSection() {
               </p>
             </div>
 
-            <div className="space-y-4 pt-2">
+            <div className="space-y-3 sm:space-y-4 pt-2">
               {[
                 { icon: Zap, title: 'Speedy Billing', desc: 'Punch invoices in seconds with comprehensive hotkey mappings.' },
                 { icon: Cpu, title: 'Smart Sync', desc: 'Centralized cloud synchronization for multi-branch environments.' },
@@ -105,13 +105,13 @@ export default function DemoVideoSection() {
               ].map((feat, i) => {
                 const Icon = feat.icon;
                 return (
-                  <div key={i} className="flex gap-4 p-4 rounded-xl bg-surface border border-border hover:border-primary/20 transition-all duration-300">
-                    <div className="w-10 h-10 shrink-0 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                      <Icon className="w-5 h-5" />
+                  <div key={i} className="flex gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-surface border border-border hover:border-primary/20 transition-all duration-300">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-md sm:rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-foreground text-sm">{feat.title}</h4>
-                      <p className="text-muted text-xs mt-1 leading-relaxed">{feat.desc}</p>
+                      <h4 className="font-bold text-foreground text-xs sm:text-sm">{feat.title}</h4>
+                      <p className="text-muted text-[11px] sm:text-xs mt-0.5 sm:mt-1 leading-snug sm:leading-relaxed">{feat.desc}</p>
                     </div>
                   </div>
                 );

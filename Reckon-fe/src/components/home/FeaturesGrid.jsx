@@ -50,13 +50,13 @@ export default function FeaturesGrid() {
       {/* Subtle background aurora */}
       <div className="absolute inset-0 bg-gradient-aurora pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative">
         <SectionHeading
           badge="Core Platform"
           title="Built for Indian Businesses"
           subtitle="Everything you need to streamline operations, boost productivity, and grow revenue — all in one platform."
         />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {FEATURES.map((feature, i) => (
             <FeatureCard key={feature.title} {...feature} index={i} delay={i * 60} />
           ))}

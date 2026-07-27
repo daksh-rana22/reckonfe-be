@@ -118,7 +118,7 @@ export default function SoftwarePage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-8">
             {VARIANT_CARDS.map((card, i) => (
               <ProductCard key={card.key} card={card} index={i} isDark={isDark} />
             ))}
@@ -141,7 +141,7 @@ export default function SoftwarePage() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
             {PLATFORM_FEATURES.map((feat, i) => (
               <PlatformFeatureCard key={feat.title} feature={feat} index={i} />
             ))}
@@ -221,35 +221,35 @@ function ProductCard({ card, index, isDark }) {
         style={{ background: `radial-gradient(circle at 50% 0%, ${card.glowColor}, transparent 70%)` }}
       />
 
-      <div className="relative p-7 md:p-8">
-        <div className="flex items-start justify-between mb-5">
+      <div className="relative p-4 sm:p-7 md:p-8">
+        <div className="flex items-start justify-between mb-3 sm:mb-5">
           {/* Icon */}
           <div
-            className="w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm"
+            className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm"
             style={{ backgroundColor: `${variant.color}15` }}
           >
-            <Icon className="w-7 h-7" style={{ color: variant.color }} />
+            <Icon className="w-5 h-5 sm:w-7 sm:h-7" style={{ color: variant.color }} />
           </div>
           {/* Arrow */}
-          <div className="w-10 h-10 rounded-full flex items-center justify-center bg-surface-secondary border border-border group-hover:bg-primary group-hover:border-primary group-hover:text-white text-muted transition-all duration-300">
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-surface-secondary border border-border group-hover:bg-primary group-hover:border-primary group-hover:text-white text-muted transition-all duration-300">
+            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
           </div>
         </div>
 
-        <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+        <h3 className="text-base sm:text-xl font-bold text-foreground mb-1.5 sm:mb-2 group-hover:text-primary transition-colors">
           {variant.title}
         </h3>
 
-        <p className="text-sm text-muted leading-relaxed mb-5">
+        <p className="text-xs sm:text-sm text-muted leading-snug sm:leading-relaxed mb-3 sm:mb-5">
           {variant.subtitle}
         </p>
 
         {/* Feature pills */}
-        <div className="flex flex-wrap gap-1.5 mb-5">
+        <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-3 sm:mb-5">
           {variant.heroFeatures.map((feat) => (
             <span
               key={feat}
-              className="inline-flex items-center gap-1 text-[10px] px-2.5 py-1 rounded-full bg-surface-secondary text-muted border border-border font-medium"
+              className="inline-flex items-center gap-1 text-[9px] sm:text-[10px] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-surface-secondary text-muted border border-border font-medium"
             >
               <Check className="w-2.5 h-2.5 text-primary" />
               {feat}
@@ -258,13 +258,13 @@ function ProductCard({ card, index, isDark }) {
         </div>
 
         {/* Stats row */}
-        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-border">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-border">
           {variant.stats.slice(0, 2).map((stat) => (
             <div key={stat.label}>
-              <div className="text-lg font-extrabold text-foreground">
+              <div className="text-sm sm:text-lg font-extrabold text-foreground">
                 {stat.value.toLocaleString()}<span style={{ color: variant.color }}>{stat.suffix}</span>
               </div>
-              <div className="text-[10px] text-muted font-medium uppercase tracking-wide">{stat.label}</div>
+              <div className="text-[9px] sm:text-[10px] text-muted font-medium uppercase tracking-wide">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -282,16 +282,16 @@ function PlatformFeatureCard({ feature, index }) {
     <div
       ref={ref}
       className={cn(
-        'group p-5 rounded-xl bg-surface border border-border hover:border-primary/20 hover:shadow-lg transition-all duration-500',
+        'group p-3.5 sm:p-5 rounded-lg sm:rounded-xl bg-surface border border-border hover:border-primary/20 hover:shadow-lg transition-all duration-500',
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
       )}
       style={{ transitionDelay: `${(index % 4) * 80}ms` }}
     >
-      <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-primary/10 mb-3 group-hover:scale-110 transition-transform duration-300">
-        <Icon className="w-5 h-5 text-primary" />
+      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-md sm:rounded-lg flex items-center justify-center bg-primary/10 mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
+        <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
       </div>
-      <h4 className="font-semibold text-foreground text-sm mb-1 group-hover:text-primary transition-colors">{feature.title}</h4>
-      <p className="text-xs text-muted leading-relaxed">{feature.desc}</p>
+      <h4 className="font-semibold text-foreground text-xs sm:text-sm mb-0.5 sm:mb-1 group-hover:text-primary transition-colors">{feature.title}</h4>
+      <p className="text-[11px] sm:text-xs text-muted leading-tight sm:leading-relaxed">{feature.desc}</p>
     </div>
   );
 }
@@ -320,16 +320,16 @@ function ComparisonSection({ isDark }) {
   ];
 
   return (
-    <section className="py-20 bg-background">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest bg-primary/10 text-primary mb-4">
+    <section className="py-10 sm:py-20 bg-background">
+      <div className="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 sm:mb-14">
+          <span className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-widest bg-primary/10 text-primary mb-3 sm:mb-4">
             Compare
           </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-3">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground mb-2 sm:mb-3">
             Feature <span className="text-primary">Comparison</span>
           </h2>
-          <p className="text-muted max-w-xl mx-auto">
+          <p className="text-muted text-xs sm:text-base max-w-xl mx-auto">
             See how each solution stacks up across key capabilities.
           </p>
         </div>
@@ -337,49 +337,51 @@ function ComparisonSection({ isDark }) {
         <div
           ref={ref}
           className={cn(
-            'rounded-2xl border border-border bg-surface overflow-hidden shadow-lg transition-all duration-700',
+            'rounded-xl sm:rounded-2xl border border-border bg-surface overflow-hidden shadow-lg transition-all duration-700 overflow-x-auto',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           )}
         >
-          {/* Table header */}
-          <div className="grid grid-cols-5 gap-0 border-b border-border bg-surface-secondary/80">
-            <div className="p-4 text-xs font-bold text-muted uppercase tracking-wider">Feature</div>
-            {solutions.map((sol) => (
-              <div key={sol.name} className="p-4 text-center">
-                <div className="text-xs font-bold uppercase tracking-wider" style={{ color: sol.color }}>
-                  {sol.name}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Table rows */}
-          {features.map((feat, i) => (
-            <div
-              key={feat}
-              className={cn(
-                'grid grid-cols-5 gap-0 border-b border-border/50 last:border-0',
-                i % 2 === 0 ? 'bg-surface' : 'bg-surface-secondary/30'
-              )}
-            >
-              <div className="p-3.5 text-sm text-foreground font-medium flex items-center">
-                {feat}
-              </div>
+          <div className="min-w-[460px] sm:min-w-0">
+            {/* Table header */}
+            <div className="grid grid-cols-5 gap-0 border-b border-border bg-surface-secondary/80">
+              <div className="p-2.5 sm:p-4 text-[10px] sm:text-xs font-bold text-muted uppercase tracking-wider">Feature</div>
               {solutions.map((sol) => (
-                <div key={sol.name} className="p-3.5 flex items-center justify-center">
-                  {sol.checks[i] ? (
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: `${sol.color}15` }}>
-                      <Check className="w-3 h-3" style={{ color: sol.color }} />
-                    </div>
-                  ) : (
-                    <div className="w-5 h-5 rounded-full bg-surface-secondary flex items-center justify-center">
-                      <span className="text-[10px] text-muted">—</span>
-                    </div>
-                  )}
+                <div key={sol.name} className="p-2.5 sm:p-4 text-center">
+                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider" style={{ color: sol.color }}>
+                    {sol.name}
+                  </div>
                 </div>
               ))}
             </div>
-          ))}
+
+            {/* Table rows */}
+            {features.map((feat, i) => (
+              <div
+                key={feat}
+                className={cn(
+                  'grid grid-cols-5 gap-0 border-b border-border/50 last:border-0',
+                  i % 2 === 0 ? 'bg-surface' : 'bg-surface-secondary/30'
+                )}
+              >
+                <div className="p-2.5 sm:p-3.5 text-xs sm:text-sm text-foreground font-medium flex items-center">
+                  {feat}
+                </div>
+                {solutions.map((sol) => (
+                  <div key={sol.name} className="p-2.5 sm:p-3.5 flex items-center justify-center">
+                    {sol.checks[i] ? (
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: `${sol.color}15` }}>
+                        <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3" style={{ color: sol.color }} />
+                      </div>
+                    ) : (
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-surface-secondary flex items-center justify-center">
+                        <span className="text-[9px] sm:text-[10px] text-muted">—</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

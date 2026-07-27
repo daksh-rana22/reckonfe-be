@@ -12,12 +12,12 @@ export default function StatsCounter() {
 
   return (
     /* Outer section uses page background — no colour clash */
-    <section className="py-8 sm:py-12 md:py-16 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-6 sm:py-12 md:py-16 bg-background">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
 
         {/* ── Contained card ── */}
         <div
-          className="relative overflow-hidden rounded-3xl px-8 py-16 shadow-2xl"
+          className="relative overflow-hidden rounded-2xl sm:rounded-3xl px-4 py-8 sm:px-8 sm:py-16 shadow-2xl"
           style={{
             background: isDark
               ? 'var(--gradient-section-dark)'
@@ -39,7 +39,7 @@ export default function StatsCounter() {
           />
 
           {/* Grid overlay */}
-          <div className="absolute inset-0 grid-mesh opacity-50 pointer-events-none rounded-3xl" />
+          <div className="absolute inset-0 grid-mesh opacity-50 pointer-events-none rounded-2xl sm:rounded-3xl" />
 
           {/* Subtle top border shine */}
           <div className={cn(
@@ -57,16 +57,16 @@ export default function StatsCounter() {
 
           <div className="relative">
             {/* Section header */}
-            <div className="text-center mb-14">
+            <div className="text-center mb-8 sm:mb-14">
               <span className={cn(
-                "inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-bold uppercase tracking-widest mb-5",
+                "inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border text-[11px] sm:text-xs font-bold uppercase tracking-widest mb-3 sm:mb-5",
                 isDark ? "bg-white/6 border-white/10 text-white/55" : "bg-white/40 border-white/50 text-slate-700 shadow-sm"
               )}>
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 By the Numbers
               </span>
               <h2 className={cn(
-                "text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight",
+                "text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight",
                 isDark ? "text-white" : "text-[#0B0816]"
               )}>
                 Trusted Across{' '}
@@ -75,7 +75,7 @@ export default function StatsCounter() {
             </div>
 
             {/* Stats grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 md:gap-6">
               {STATS.map((stat, i) => (
                 <StatCard
                   key={stat.label}

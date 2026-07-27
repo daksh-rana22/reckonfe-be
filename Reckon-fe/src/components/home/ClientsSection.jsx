@@ -164,12 +164,12 @@ export default function ClientsSection({
   const renderClientCard = (client, i, isMobile = false) => (
     <div
       key={`${client.name}-${i}`}
-      className={cn("group flex flex-col items-center shrink-0", isMobile ? "w-32" : "w-40")}
+      className={cn("group flex flex-col items-center shrink-0", isMobile ? "w-28 sm:w-32" : "w-40")}
       draggable={false}
     >
       <div className={cn(
-        "w-full rounded-2xl overflow-hidden bg-white border border-border shadow-sm group-hover:shadow-xl group-hover:-translate-y-1.5 transition-all duration-300 relative flex items-center justify-center p-2.5",
-        isMobile ? "h-20" : "h-28 p-3"
+        "w-full rounded-xl sm:rounded-2xl overflow-hidden bg-white border border-border shadow-sm group-hover:shadow-xl group-hover:-translate-y-1.5 transition-all duration-300 relative flex items-center justify-center p-2.5",
+        isMobile ? "h-16 sm:h-20 p-2" : "h-28 p-3"
       )}>
         <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/6 pointer-events-none" />
         <img
