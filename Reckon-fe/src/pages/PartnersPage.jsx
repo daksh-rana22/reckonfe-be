@@ -141,13 +141,13 @@ export default function PartnersPage() {
       />
 
       {/* Benefits */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground">Why Become a Partner?</h2>
-            <p className="mt-3 text-muted max-w-2xl mx-auto">Our partner program is designed to help you build a profitable business around Reckon's industry-leading software solutions.</p>
+      <section className="py-8 sm:py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Why Become a Partner?</h2>
+            <p className="mt-2 text-xs sm:text-base text-muted max-w-2xl mx-auto">Our partner program is designed to help you build a profitable business around Reckon's industry-leading software solutions.</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6">
             {BENEFITS.map((benefit, i) => (
               <BenefitCard key={benefit.title} benefit={benefit} index={i} />
             ))}
@@ -225,7 +225,7 @@ export default function PartnersPage() {
           </div>
 
           {/* Card Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
             {partnerLogos && partnerLogos.length > 0 ? (
               partnerLogos.slice(partnerPage * 8, (partnerPage + 1) * 8).map((partner, index) => {
                 return (
@@ -233,7 +233,7 @@ export default function PartnersPage() {
                     key={partner.id || index}
                     className="flex flex-col group"
                   >
-                    <div className="relative aspect-square w-full rounded-2xl overflow-hidden shadow-lg border border-border/10 bg-slate-900 flex items-center justify-center">
+                    <div className="relative aspect-square w-full rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg border border-border/10 bg-slate-900 flex items-center justify-center">
                       <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950 -z-10" />
                       <img
                         src={partner.img}
@@ -246,13 +246,13 @@ export default function PartnersPage() {
                     </div>
                     
                     {/* Content below image */}
-                    <div className="mt-4 text-center flex flex-col items-center justify-center px-1">
-                      <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1 tracking-tight group-hover:text-primary transition-colors">
+                    <div className="mt-2 sm:mt-4 text-center flex flex-col items-center justify-center px-1">
+                      <h3 className="text-sm sm:text-2xl font-bold text-foreground mb-0.5 sm:mb-1 tracking-tight group-hover:text-primary transition-colors truncate w-full">
                         {partner.name}
                       </h3>
-                      <div className="flex items-center justify-center gap-1.5 text-sm sm:text-base text-muted-foreground">
-                        <MapPin className="w-4 h-4 text-sky-500 shrink-0 fill-sky-500/10" />
-                        <span className="font-semibold">{formatLocation(partner.city)}</span>
+                      <div className="flex items-center justify-center gap-1 sm:gap-1.5 text-xs sm:text-base text-muted-foreground truncate w-full">
+                        <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-sky-500 shrink-0 fill-sky-500/10" />
+                        <span className="font-semibold truncate">{formatLocation(partner.city)}</span>
                       </div>
                     </div>
                   </div>
@@ -265,7 +265,7 @@ export default function PartnersPage() {
                   key={partner.id || index}
                   className="flex flex-col group"
                 >
-                  <div className="relative aspect-square w-full rounded-2xl overflow-hidden shadow-lg border border-border/10 bg-slate-900 flex items-center justify-center">
+                  <div className="relative aspect-square w-full rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg border border-border/10 bg-slate-900 flex items-center justify-center">
                     <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950 -z-10" />
                     <img
                       src={partner.img}
@@ -278,13 +278,13 @@ export default function PartnersPage() {
                   </div>
 
                   {/* Content below image */}
-                  <div className="mt-4 text-center flex flex-col items-center justify-center px-1">
-                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1 tracking-tight group-hover:text-primary transition-colors">
+                  <div className="mt-2 sm:mt-4 text-center flex flex-col items-center justify-center px-1">
+                    <h3 className="text-sm sm:text-2xl font-bold text-foreground mb-0.5 sm:mb-1 tracking-tight group-hover:text-primary transition-colors truncate w-full">
                       {partner.name}
                     </h3>
-                    <div className="flex items-center justify-center gap-1.5 text-sm sm:text-base text-muted-foreground">
-                      <MapPin className="w-4 h-4 text-sky-500 shrink-0 fill-sky-500/10" />
-                      <span className="font-semibold">{formatLocation(partner.city)}</span>
+                    <div className="flex items-center justify-center gap-1 sm:gap-1.5 text-xs sm:text-base text-muted-foreground truncate w-full">
+                      <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-sky-500 shrink-0 fill-sky-500/10" />
+                      <span className="font-semibold truncate">{formatLocation(partner.city)}</span>
                     </div>
                   </div>
                 </div>
@@ -435,16 +435,16 @@ function BenefitCard({ benefit, index }) {
     <div
       ref={ref}
       className={cn(
-        'p-6 rounded-xl bg-surface border border-border hover:border-primary/20 hover:shadow-lg transition-all duration-500',
+        'p-3.5 sm:p-6 rounded-lg sm:rounded-xl bg-surface border border-border hover:border-primary/20 hover:shadow-lg transition-all duration-500',
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       )}
       style={{ transitionDelay: `${index * 80}ms` }}
     >
-      <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-        <Icon className="w-5 h-5 text-primary" />
+      <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-md sm:rounded-lg bg-primary/10 flex items-center justify-center mb-2.5 sm:mb-4">
+        <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
       </div>
-      <h3 className="text-lg font-semibold text-foreground mb-2">{benefit.title}</h3>
-      <p className="text-sm text-muted leading-relaxed">{benefit.description}</p>
+      <h3 className="text-xs sm:text-lg font-semibold text-foreground mb-1 sm:mb-2">{benefit.title}</h3>
+      <p className="text-[11px] sm:text-sm text-muted leading-snug sm:leading-relaxed">{benefit.description}</p>
     </div>
   );
 }

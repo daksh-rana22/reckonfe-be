@@ -222,67 +222,67 @@ export default function ContactPage() {
         gradient
       />
 
-      <section className="py-16 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-5 gap-12">
+      <section className="py-6 sm:py-16 bg-background">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-5 gap-6 sm:gap-12">
             {/* Contact Form */}
             <div className="lg:col-span-3">
-              <div className="bg-surface rounded-2xl border border-border p-8 shadow-md">
-                <h2 className="text-xl font-bold text-foreground mb-6">Schedule a Demo</h2>
+              <div className="bg-surface rounded-xl sm:rounded-2xl border border-border p-4 sm:p-8 shadow-md">
+                <h2 className="text-lg sm:text-xl font-bold text-foreground mb-4 sm:mb-6">Schedule a Demo</h2>
                 {error && (
-                  <div className="p-3.5 rounded-xl bg-danger/10 border border-danger/30 text-danger text-sm flex items-center gap-2.5 mb-5 animate-pulse-soft">
+                  <div className="p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl bg-danger/10 border border-danger/30 text-danger text-xs sm:text-sm flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-5 animate-pulse-soft">
                     <AlertCircle className="w-4 h-4 shrink-0" />
                     <span className="font-semibold">{error}</span>
                   </div>
                 )}
                 {success && (
-                  <div className="p-3.5 rounded-xl bg-success/10 border border-success/30 text-success text-sm flex items-center gap-2.5 mb-5">
+                  <div className="p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl bg-success/10 border border-success/30 text-success text-xs sm:text-sm flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-5">
                     <CheckCircle className="w-4 h-4 shrink-0" />
                     <span className="font-semibold">Demo Request Submitted successfully!</span>
                   </div>
                 )}
 
-                <form className="space-y-5" onSubmit={handleSubmit}>
-                  <div className="grid sm:grid-cols-2 gap-5">
+                <form className="space-y-3.5 sm:space-y-5" onSubmit={handleSubmit}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-1.5">Full Name *</label>
+                      <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Full Name *</label>
                       <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-background border border-input text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                        className="w-full px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                         placeholder="Your name"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-1.5">Email *</label>
+                      <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Email *</label>
                       <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-background border border-input text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                        className="w-full px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                         placeholder="your@email.com"
                       />
                     </div>
                   </div>
-                  <div className="grid sm:grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-1.5">Mobile Number *</label>
+                      <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Mobile Number *</label>
                       <input
                         type="tel"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
                         maxLength={10}
-                        className="w-full px-4 py-2.5 rounded-xl bg-background border border-input text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                        className="w-full px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                         placeholder="9876543210"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-1.5">Demo For *</label>
+                      <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Demo For *</label>
                       <select
                         value={demoFor}
                         onChange={(e) => setDemoFor(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                        className="w-full px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                       >
                         {softwareParam && !flatOptions.includes(softwareParam) && (
                           <option value={softwareParam}>{softwareParam}</option>
@@ -301,28 +301,28 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">Message</label>
+                    <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Message</label>
                     <textarea
-                      rows={4}
+                      rows={3}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl bg-background border border-input text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"
+                      className="w-full px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"
                       placeholder="Tell us about your business requirements..."
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary-dark text-white font-semibold shadow-md hover:shadow-glow transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl bg-primary hover:bg-primary-dark text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-glow transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {loading ? (
                       <>
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         Sending...
                       </>
                     ) : (
                       <>
-                        <Send className="w-4 h-4" />
+                        <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         Submit Request
                       </>
                     )}
@@ -332,7 +332,7 @@ export default function ContactPage() {
             </div>
 
             {/* Contact Info */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-3.5 sm:space-y-6">
               {[
                 {
                   icon: MapPin,
@@ -343,7 +343,7 @@ export default function ContactPage() {
                   icon: Phone,
                   title: 'Helpline',
                   content: (
-                    <div className="mt-1 space-y-1 text-sm text-muted">
+                    <div className="mt-1 space-y-1 text-xs sm:text-sm text-muted">
                       <div>
                         <span className="text-muted-foreground mr-1">Landline:</span>
                         <a href="tel:0522-4972500" className="text-foreground hover:text-primary hover:underline transition-colors font-semibold">
@@ -369,15 +369,15 @@ export default function ContactPage() {
                   icon: Mail,
                   title: 'Email Us',
                   content: (
-                    <div className="mt-1.5 space-y-1.5 text-sm">
+                    <div className="mt-1.5 space-y-1.5 text-xs sm:text-sm">
                       <div className="flex items-center gap-2">
-                        <span className="text-muted font-medium w-16">Sales:</span>
+                        <span className="text-muted font-medium w-14 sm:w-16">Sales:</span>
                         <a href="mailto:sales@reckonsales.com" className="text-primary hover:text-primary-dark transition-colors font-semibold hover:underline">
                           sales@reckonsales.com
                         </a>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-muted font-medium w-16">Support:</span>
+                        <span className="text-muted font-medium w-14 sm:w-16">Support:</span>
                         <a href="mailto:care@reckonsales.com" className="text-primary hover:text-primary-dark transition-colors font-semibold hover:underline">
                           care@reckonsales.com
                         </a>
@@ -393,14 +393,14 @@ export default function ContactPage() {
               ].map((info) => {
                 const Icon = info.icon;
                 return (
-                  <div key={info.title} className="flex gap-4 p-5 rounded-xl bg-surface border border-border hover:border-primary/20 hover:shadow-sm transition-all duration-300">
-                    <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                      <Icon className="w-5 h-5 text-primary" />
+                  <div key={info.title} className="flex gap-3 sm:gap-4 p-3.5 sm:p-5 rounded-lg sm:rounded-xl bg-surface border border-border hover:border-primary/20 hover:shadow-sm transition-all duration-300">
+                    <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-md sm:rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-sm font-semibold text-foreground">{info.title}</h3>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-xs sm:text-sm font-semibold text-foreground">{info.title}</h3>
                       {typeof info.content === 'string' ? (
-                        <p className="text-sm text-muted mt-0.5" style={{ whiteSpace: 'pre-line' }}>{info.content}</p>
+                        <p className="text-xs sm:text-sm text-muted mt-0.5" style={{ whiteSpace: 'pre-line' }}>{info.content}</p>
                       ) : (
                         info.content
                       )}
