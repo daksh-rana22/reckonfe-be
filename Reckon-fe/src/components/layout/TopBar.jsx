@@ -5,7 +5,7 @@ import { ExternalLink, Phone, Mail } from 'lucide-react';
 export default function TopBar() {
   return (
     <div className="bg-secondary text-secondary-foreground text-sm hidden md:block">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-1.5 sm:px-3.5 lg:px-[22px]">
         <div className="flex items-center justify-between h-9">
           {/* Left: contact info */}
           <div className="flex items-center gap-5">

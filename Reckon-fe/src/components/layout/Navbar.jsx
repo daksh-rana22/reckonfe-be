@@ -53,7 +53,7 @@ export default function Navbar() {
             : 'bg-navbar-theme-grey shadow-sm'
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-1.5 sm:px-3.5 lg:px-[22px]">
           <div
             className={cn(
               'flex items-center justify-between transition-all duration-300',
@@ -78,7 +78,7 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-1.5">
+            <div className="hidden lg:flex items-center gap-2">
               {NAV_ITEMS.map((item) => {
                 /* ── Dropdown Items (Software & Company) ── */
                 if (item.dropdown) {
@@ -96,7 +96,7 @@ export default function Navbar() {
                       <Link
                         to={item.path}
                         className={cn(
-                          'flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-base transition-all duration-200',
+                          'flex items-center gap-1.5 px-3 py-2 rounded-[10px] text-base transition-all duration-200',
                           isActive
                             ? 'bg-primary/15 text-primary font-bold'
                             : 'text-foreground/80 hover:text-primary hover:bg-primary/5 font-semibold'
@@ -105,7 +105,7 @@ export default function Navbar() {
                         {item.label}
                         <ChevronDown
                           className={cn(
-                            'w-3.5 h-3.5 transition-transform duration-200',
+                            'w-4 h-4 transition-transform duration-200',
                             isOpen && 'rotate-180'
                           )}
                         />
@@ -114,7 +114,7 @@ export default function Navbar() {
                       {/* Dropdown Panel */}
                       <div
                         className={cn(
-                          'absolute top-full left-0 w-72 pt-3 transition-all duration-200',
+                          'absolute top-full left-0 w-72 pt-2 transition-all duration-200',
                           isOpen
                             ? 'opacity-100 visible translate-y-0'
                             : 'opacity-0 invisible -translate-y-2'
@@ -180,7 +180,7 @@ export default function Navbar() {
                     key={item.label}
                     to={item.path}
                     className={cn(
-                      'px-3.5 py-2 rounded-[12px] text-base transition-all duration-200',
+                      'px-3 py-2 rounded-[10px] text-base transition-all duration-200',
                       location.pathname === item.path
                         ? 'bg-primary/15 text-primary font-bold'
                         : 'text-foreground/80 hover:text-primary hover:bg-primary/5 font-semibold'
@@ -194,8 +194,6 @@ export default function Navbar() {
 
             {/* Right Actions */}
             <div className="flex items-center gap-3">
-
-
               {/* Login Button with Dropdown (Hover/Click) */}
               <div
                 className="relative"
@@ -204,10 +202,10 @@ export default function Navbar() {
               >
                 <button
                   onClick={() => setLoginOpen(!loginOpen)}
-                  className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full border border-border text-foreground hover:bg-primary/5 hover:border-primary/20 hover:scale-105 active:scale-95 transition-all duration-300 font-semibold text-sm cursor-pointer shadow-sm"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-4.5 py-2 rounded-full border border-border text-foreground hover:bg-primary/5 hover:border-primary/20 hover:scale-105 active:scale-95 transition-all duration-300 font-semibold text-sm cursor-pointer shadow-sm"
                 >
                   <span>Login</span>
-                  <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", loginOpen && "rotate-180")} />
+                  <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", loginOpen && "rotate-180")} />
                 </button>
 
                 <div
@@ -238,10 +236,21 @@ export default function Navbar() {
 
               <Link
                 to="/contact"
-                className="hidden sm:inline-flex items-center px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold shadow-lg hover:shadow-glow hover:bg-primary-dark transition-all duration-300 hover:scale-105 active:scale-95"
+                className="hidden sm:inline-flex items-center px-4.5 py-2 rounded-full bg-primary text-primary-foreground text-sm font-semibold shadow-lg hover:shadow-glow hover:bg-primary-dark transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 Schedule Demo
               </Link>
+
+              {/* Reckon Smart Scan Text Link */}
+              <a
+                href="http://smartscan.reckonsales.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:inline-flex items-center gap-1.5 text-base font-semibold text-foreground/80 hover:text-primary transition-colors duration-200"
+              >
+                <span>🚀 Reckon-SmartScan</span>
+                <ExternalLink className="w-4 h-4 opacity-60" />
+              </a>
 
               {/* Mobile menu button */}
               <button
