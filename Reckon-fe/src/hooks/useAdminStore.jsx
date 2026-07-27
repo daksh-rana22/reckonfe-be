@@ -883,7 +883,7 @@ export function AdminStoreProvider({ children }) {
       }
 
       const res = await fetch(`${API_BASE}/banners/${id}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: getHeaders(true),
         body: formData
       });
