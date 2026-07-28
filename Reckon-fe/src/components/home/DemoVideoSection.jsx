@@ -5,7 +5,7 @@ import SectionHeading from '@/components/shared/SectionHeading';
 
 export default function DemoVideoSection() {
   return (
-    <section className="py-10 sm:py-16 md:py-24 bg-background relative overflow-hidden border-t border-b border-border/50">
+    <section className="py-4 sm:py-6 md:py-8 bg-background relative overflow-hidden border-t border-b border-border/50">
       {/* Background glow effects */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-80 h-80 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />

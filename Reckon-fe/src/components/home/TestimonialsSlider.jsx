@@ -148,7 +148,7 @@ export default function TestimonialsSlider() {
   const displayTestimonials = testimonials && testimonials.length > 0 ? testimonials : TESTIMONIALS;
 
   return (
-    <section className="py-8 sm:py-16 md:py-24 bg-background relative overflow-hidden">
+    <section className="py-4 sm:py-6 md:py-8 bg-background relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-aurora pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative">

@@ -321,7 +321,7 @@ function ComparisonSection({ isDark }) {
 
   return (
     <section className="py-10 sm:py-20 bg-background">
-      <div className="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 2xl:px-10">
         <div className="text-center mb-8 sm:mb-14">
           <span className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-widest bg-primary/10 text-primary mb-3 sm:mb-4">
             Compare

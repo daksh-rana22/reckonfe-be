@@ -12,7 +12,7 @@ export default function StatsCounter() {
 
   return (
     /* Outer section uses page background — no colour clash */
-    <section className="py-6 sm:py-12 md:py-16 bg-background">
+    <section className="py-4 sm:py-6 md:py-8 bg-background">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
 
         {/* ── Contained card ── */}

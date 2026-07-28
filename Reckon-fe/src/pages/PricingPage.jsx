@@ -252,7 +252,7 @@ export default function PricingPage() {
 
       {/* ── Feature Comparison Table ── */}
       <section className="py-20 bg-surface-secondary border-t border-b border-border/60">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 2xl:px-10">
           <div className="text-center mb-14">
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest bg-primary/10 text-primary mb-4 border border-primary/20">
               Compare Plans

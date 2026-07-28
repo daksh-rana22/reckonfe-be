@@ -98,68 +98,106 @@ export default function HelpPage() {
         </div>
       </PageHeader>
 
-      <section className="py-16 bg-background">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Search */}
-          <div className="relative mb-10 max-w-lg mx-auto">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" />
+      <section className="py-8 sm:py-16 bg-background">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 2xl:px-10">
+          {/* Search Bar */}
+          <div className="relative mb-10 sm:mb-14 max-w-xl mx-auto">
+            <Search className="absolute left-4.5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search for help..."
-              className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-surface border border-input text-foreground text-lg placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+              placeholder="Search for help topics, questions, or guides..."
+              className="w-full pl-12 pr-4 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-surface border border-input text-foreground text-sm sm:text-base placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary shadow-sm transition-all"
             />
           </div>
 
-          {/* Quick Links */}
-          <div className="grid sm:grid-cols-3 gap-4 mb-12">
+          {/* Quick Links Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 mb-12 sm:mb-16">
             {[
-              { icon: Book, title: 'Documentation', desc: 'User guides & manuals', link: '/downloads' },
-              { icon: MessageCircle, title: 'Contact Support', desc: 'Get help from our team', link: '/contact' },
-              { icon: HelpCircle, title: 'Video Tutorials', desc: 'Step-by-step videos', link: '/tutorials' },
+              { icon: Book, title: 'Documentation', desc: 'User guides, manuals & downloads', link: '/downloads', color: '#F97316' },
+              { icon: MessageCircle, title: 'Contact Support', desc: 'Get direct help from our team', link: '/contact', color: '#EF4444' },
+              { icon: HelpCircle, title: 'Video Tutorials', desc: 'Step-by-step video walkthroughs', link: '/tutorials', color: '#0EA5E9' },
             ].map((item) => {
               const Icon = item.icon;
               return (
-                <Link key={item.title} to={item.link} className="p-5 rounded-xl bg-surface border border-border hover:border-primary/20 hover:shadow-md transition-all text-center group">
-                  <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                    <Icon className="w-5 h-5 text-primary" />
+                <Link
+                  key={item.title}
+                  to={item.link}
+                  className="group relative p-6 sm:p-8 rounded-xl sm:rounded-2xl bg-surface border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center overflow-hidden"
+                >
+                  <div
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300"
+                    style={{ backgroundColor: `${item.color}15` }}
+                  >
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: item.color }} />
                   </div>
-                  <h3 className="font-semibold text-foreground text-sm">{item.title}</h3>
-                  <p className="text-xs text-muted mt-1">{item.desc}</p>
+                  <h3 className="font-bold text-foreground text-base sm:text-lg mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
+                  <p className="text-xs sm:text-sm text-muted">{item.desc}</p>
                 </Link>
               );
             })}
           </div>
 
-          {/* FAQ Sections */}
-          <div className="space-y-8">
-            {filteredSections.map((section) => (
-              <div key={section.title}>
-                <h2 className="text-lg font-bold text-foreground mb-4">{section.title}</h2>
-                <div className="space-y-2">
-                  {section.items.map((item) => {
-                    const key = `${section.title}-${item.q}`;
-                    const isOpen = openItems[key];
-                    return (
-                      <div key={key} className="rounded-xl border border-border bg-surface overflow-hidden">
-                        <button
-                          onClick={() => toggleItem(key)}
-                          className="w-full flex items-center justify-between p-4 text-left text-sm font-medium text-foreground hover:bg-surface-hover transition-colors"
+          {/* FAQ Sections Stacked List matching layout design */}
+          {filteredSections.length > 0 ? (
+            <div className="space-y-10 sm:space-y-12">
+              {filteredSections.map((section) => (
+                <div key={section.title} className="space-y-3 sm:space-y-4">
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight text-center">
+                    {section.title}
+                  </h2>
+                  <div className="space-y-2.5 sm:space-y-3">
+                    {section.items.map((item) => {
+                      const key = `${section.title}-${item.q}`;
+                      const isOpen = openItems[key];
+                      return (
+                        <div
+                          key={key}
+                          className="rounded-xl sm:rounded-2xl border border-border/80 bg-surface shadow-sm overflow-hidden transition-all duration-300 hover:border-primary/30"
                         >
-                          {item.q}
-                          <ChevronDown className={cn('w-4 h-4 text-muted shrink-0 transition-transform', isOpen && 'rotate-180')} />
-                        </button>
-                        <div className={cn('overflow-hidden transition-all duration-300', isOpen ? 'max-h-96' : 'max-h-0')}>
-                          <p className="px-4 pb-4 text-sm text-muted leading-relaxed">{item.a}</p>
+                          <button
+                            onClick={() => toggleItem(key)}
+                            className="w-full flex items-center justify-between p-4 sm:p-5 text-left text-sm sm:text-base font-semibold text-foreground hover:bg-surface-hover/60 transition-colors gap-4"
+                          >
+                            <span>{item.q}</span>
+                            <ChevronDown
+                              className={cn(
+                                'w-4 h-4 sm:w-5 sm:h-5 text-muted shrink-0 transition-transform duration-300',
+                                isOpen && 'rotate-180 text-primary'
+                              )}
+                            />
+                          </button>
+                          <div
+                            className={cn(
+                              'overflow-hidden transition-all duration-300 ease-in-out',
+                              isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                            )}
+                          >
+                            <div className="px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm text-muted leading-relaxed border-t border-border/40 pt-3">
+                              {item.a}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 px-4 bg-surface rounded-2xl border border-border max-w-md mx-auto">
+              <HelpCircle className="w-10 h-10 text-muted mx-auto mb-3 opacity-50" />
+              <p className="text-base font-bold text-foreground mb-1">No matching help topics</p>
+              <p className="text-xs text-muted mb-4">Try searching for keywords like "GST", "install", or "backup".</p>
+              <button
+                onClick={() => setSearch('')}
+                className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-bold shadow-md hover:bg-primary-dark transition-colors"
+              >
+                Clear Search
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </>

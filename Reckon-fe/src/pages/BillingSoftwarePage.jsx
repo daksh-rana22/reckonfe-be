@@ -67,9 +67,6 @@ export default function BillingSoftwarePage({ variant: propVariant = 'main' }) {
         </>
       )}
 
-      {/* Show other software variant cards only on the main Pharmacy page */}
-      {activeVariant === 'main' && <BillingSoftwareCards />}
-
       {isMainPage && (
         <>
           <BillingShowcase data={data} />

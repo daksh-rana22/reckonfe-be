@@ -601,3 +601,33 @@
   --section-glow-2: rgba(167, 139, 250, 0.08);
   --section-glow-3: rgba(139, 92, 246, 0.04);
 }
+
+/* ==========================================================
+   ===== RESPONSIVE CONTAINER & CARD SCALING FOR 24"+ =======
+   ========================================================== */
+
+@layer utilities {
+  @media (min-width: 1440px) {
+    .max-w-7xl {
+      max-width: 1380px;
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .max-w-7xl {
+      max-width: 1520px;
+    }
+  }
+
+  @media (min-width: 1920px) {
+    .max-w-7xl {
+      max-width: 1680px;
+    }
+  }
+
+  @media (min-width: 2560px) {
+    .max-w-7xl {
+      max-width: 1920px;
+    }
+  }
+}

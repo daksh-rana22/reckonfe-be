@@ -200,7 +200,7 @@ export default function ClientsSection({
   );
 
   return (
-    <section className="py-8 sm:py-12 md:py-16 bg-background relative overflow-hidden">
+    <section className="py-4 sm:py-6 md:py-8 bg-background relative overflow-hidden">
 
       {/* ── Inject CSS marquee keyframes ── */}
       <style>{`
@@ -242,7 +242,7 @@ export default function ClientsSection({
       </div>
 
       {/* ── Full-width scrollable track ── */}
-      <div className="relative w-full mt-6 sm:mt-10 overflow-hidden">
+      <div className="relative w-full mt-4 sm:mt-6 overflow-hidden">
         {/* Edge fades — always visible */}
         <>
           <div className="absolute inset-y-0 left-0 w-16 sm:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
@@ -275,7 +275,7 @@ export default function ClientsSection({
 
           {/* Desktop POV: Single full-width row */}
           <div className="hidden md:block">
-            <div className={['clients-marquee-track gap-6 px-6 pb-4 pt-2', paused ? 'paused' : ''].join(' ')}>
+            <div className={['clients-marquee-track gap-6 px-6 pb-2 pt-1', paused ? 'paused' : ''].join(' ')}>
               {ITEMS.map((client, i) => renderClientCard(client, i, false))}
             </div>
           </div>
@@ -283,7 +283,7 @@ export default function ClientsSection({
       </div>
 
       {/* Bottom trust line */}
-      <div className="mt-8 text-center">
+      <div className="mt-4 text-center">
         <p className="text-sm text-muted-foreground">
           <span className="font-bold text-foreground">{clientLogos.length}+</span> trusted brands across{' '}
           <span className="font-bold text-foreground">India</span> —{' '}

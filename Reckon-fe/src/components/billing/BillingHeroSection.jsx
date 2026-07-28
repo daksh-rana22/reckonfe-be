@@ -92,7 +92,7 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
-        'relative overflow-hidden py-16 lg:py-24 select-none transition-colors duration-500 border-b',
+        'relative overflow-hidden py-8 sm:py-10 lg:py-14 xl:py-16 select-none transition-colors duration-500 border-b',
         isDark ? 'text-white border-white/5' : 'text-[#0B0816] border-slate-100'
       )}
       style={{
@@ -245,7 +245,7 @@ export default function BillingHeroSection({ data, variant = 'main' }) {
             {true ? (
               <div className={cn(
                 "relative w-full transition-all duration-500 flex flex-col items-center",
-                variant === 'fmcg-retailers' || variant === 'fmcg-companies' || variant === 'retail-pharmacies' || variant === 'multi-branch-auto-parts' || variant === 'multi-branch-pharmacy' || variant === 'multi-outlet-chain' ? "max-w-[740px]" : "max-w-[490px]"
+                variant === 'fmcg-retailers' || variant === 'fmcg-companies' || variant === 'retail-pharmacies' || variant === 'multi-outlet-chain' ? "max-w-[580px]" : "max-w-[520px]"
               )}>
                 {/* Outer glow ring */}
                 <div className={cn(

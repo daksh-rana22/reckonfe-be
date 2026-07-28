@@ -10,12 +10,12 @@ export default function CTASection() {
   const isDark = theme === 'dark';
 
   return (
-    <section className="py-6 sm:py-16 md:py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+    <section className="py-4 sm:py-6 md:py-8 bg-background">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 2xl:px-10">
         <div
           ref={ref}
           className={cn(
-            'relative overflow-hidden rounded-2xl sm:rounded-3xl p-5 sm:p-10 md:p-16 lg:p-20 text-center transition-all duration-700',
+            'relative overflow-hidden rounded-2xl sm:rounded-3xl p-5 sm:p-10 md:p-16 lg:p-20 2xl:p-24 text-center transition-all duration-700',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           )}
           style={{
@@ -29,11 +29,11 @@ export default function CTASection() {
 
           {/* Glowing orbs */}
           <div
-            className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none animate-pulse-soft"
+            className="absolute top-0 right-0 w-[500px] h-[500px] 2xl:w-[700px] 2xl:h-[700px] rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none animate-pulse-soft"
             style={{ backgroundColor: 'var(--section-glow-1)' }}
           />
           <div
-            className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full blur-[100px] translate-y-1/2 -translate-x-1/3 pointer-events-none animate-pulse-soft"
+            className="absolute bottom-0 left-0 w-[400px] h-[400px] 2xl:w-[600px] 2xl:h-[600px] rounded-full blur-[100px] translate-y-1/2 -translate-x-1/3 pointer-events-none animate-pulse-soft"
             style={{ animationDelay: '2s', backgroundColor: 'var(--section-glow-2)' }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/3 to-transparent pointer-events-none" />
@@ -46,14 +46,14 @@ export default function CTASection() {
 
           <div className="relative">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/15 border border-primary/30 text-primary text-[11px] sm:text-xs font-bold uppercase tracking-widest mb-4 sm:mb-8">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/15 border border-primary/30 text-primary text-[11px] sm:text-xs 2xl:text-sm font-bold uppercase tracking-widest mb-4 sm:mb-8">
+              <Sparkles className="w-3.5 h-3.5 2xl:w-4 2xl:h-4" />
               Start Today — Free Demo
             </div>
 
             {/* Headline */}
             <h2 className={cn(
-              "text-2xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-4 sm:mb-6 tracking-tight",
+              "text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-extrabold leading-tight mb-4 sm:mb-6 tracking-tight",
               isDark ? "text-white" : "text-[#0B0816]"
             )}>
               Ready to Transform{' '}
@@ -61,7 +61,7 @@ export default function CTASection() {
             </h2>
 
             <p className={cn(
-              "mt-2 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed",
+              "mt-2 text-sm sm:text-lg 2xl:text-xl max-w-2xl 2xl:max-w-4xl mx-auto leading-relaxed",
               isDark ? "text-white/55" : "text-[#0B0816]/70"
             )}>
               Join thousands of businesses across India who trust Reckon for their ERP and billing needs.
@@ -86,7 +86,7 @@ export default function CTASection() {
                     : "bg-white/40 text-blue-600 border-blue-500/30 hover:bg-white/60 hover:border-blue-500/50"
                 )}
               >
-                Explore Products
+                Explore Software
               </Link>
             </div>
 

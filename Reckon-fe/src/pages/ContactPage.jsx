@@ -135,7 +135,7 @@ export default function ContactPage() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [demoFor, setDemoFor] = useState(
-    (softwareParam ? (softwareMapping[softwareParam] || softwareParam) : '') || 'Retail Pharmacies'
+    (softwareParam ? (softwareMapping[softwareParam] || softwareParam) : '') || 'Others'
   );
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -197,7 +197,7 @@ export default function ContactPage() {
       setEmail('');
       setPhone('');
       setDemoFor(
-        (softwareParam ? (softwareMapping[softwareParam] || softwareParam) : '') || 'Retail Pharmacies'
+        (softwareParam ? (softwareMapping[softwareParam] || softwareParam) : '') || 'Others'
       );
       setMessage('');
       setTimeout(() => setSuccess(false), 6000);
@@ -224,109 +224,116 @@ export default function ContactPage() {
 
       <section className="py-6 sm:py-16 bg-background">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-5 gap-6 sm:gap-12">
+          <div className="grid lg:grid-cols-5 gap-6 sm:gap-10 md:gap-12 items-stretch">
             {/* Contact Form */}
-            <div className="lg:col-span-3">
-              <div className="bg-surface rounded-xl sm:rounded-2xl border border-border p-4 sm:p-8 shadow-md">
-                <h2 className="text-lg sm:text-xl font-bold text-foreground mb-4 sm:mb-6">Schedule a Demo</h2>
-                {error && (
-                  <div className="p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl bg-danger/10 border border-danger/30 text-danger text-xs sm:text-sm flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-5 animate-pulse-soft">
-                    <AlertCircle className="w-4 h-4 shrink-0" />
-                    <span className="font-semibold">{error}</span>
-                  </div>
-                )}
-                {success && (
-                  <div className="p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl bg-success/10 border border-success/30 text-success text-xs sm:text-sm flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-5">
-                    <CheckCircle className="w-4 h-4 shrink-0" />
-                    <span className="font-semibold">Demo Request Submitted successfully!</span>
-                  </div>
-                )}
+            <div className="lg:col-span-3 h-full">
+              <div className="bg-surface rounded-xl sm:rounded-2xl border border-border p-5 sm:p-8 md:p-10 shadow-md h-full flex flex-col justify-between">
+                <div>
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-foreground mb-4 sm:mb-6">Schedule a Demo</h2>
+                  {error && (
+                    <div className="p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl bg-danger/10 border border-danger/30 text-danger text-xs sm:text-sm flex items-center gap-2 sm:gap-2.5 mb-4 sm:mb-6 animate-pulse-soft">
+                      <AlertCircle className="w-4 h-4 shrink-0" />
+                      <span className="font-semibold">{error}</span>
+                    </div>
+                  )}
+                  {success && (
+                    <div className="p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl bg-success/10 border border-success/30 text-success text-xs sm:text-sm flex items-center gap-2 sm:gap-2.5 mb-4 sm:mb-6">
+                      <CheckCircle className="w-4 h-4 shrink-0" />
+                      <span className="font-semibold">Demo Request Submitted successfully!</span>
+                    </div>
+                  )}
+                </div>
 
-                <form className="space-y-3.5 sm:space-y-5" onSubmit={handleSubmit}>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
-                    <div>
-                      <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Full Name *</label>
-                      <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-                        placeholder="Your name"
-                      />
+                <form className="flex-1 flex flex-col justify-between space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+                  <div className="space-y-4 sm:space-y-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
+                      <div>
+                        <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Full Name *</label>
+                        <input
+                          type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                          placeholder="Your name"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Email *</label>
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                          placeholder="your@email.com"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Email *</label>
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-                        placeholder="your@email.com"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
-                    <div>
-                      <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Mobile Number *</label>
-                      <input
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-                        maxLength={10}
-                        className="w-full px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-                        placeholder="9876543210"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Demo For *</label>
-                      <select
-                        value={demoFor}
-                        onChange={(e) => setDemoFor(e.target.value)}
-                        className="w-full px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-                      >
-                        {softwareParam && !flatOptions.includes(softwareParam) && (
-                          <option value={softwareParam}>{softwareParam}</option>
-                        )}
-                        {categories.map(category => (
-                          <optgroup key={category.label} label={category.label}>
-                            {category.options.map(opt => (
-                              <option key={opt} value={opt}>{opt}</option>
-                            ))}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
+                      <div>
+                        <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Mobile Number *</label>
+                        <input
+                          type="tel"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                          maxLength={10}
+                          className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                          placeholder="9876543210"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Demo For *</label>
+                        <select
+                          value={demoFor}
+                          onChange={(e) => setDemoFor(e.target.value)}
+                          className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                        >
+                          {softwareParam && !flatOptions.includes(softwareParam) && (
+                            <option value={softwareParam}>{softwareParam}</option>
+                          )}
+                          {categories.map(category => (
+                            <optgroup key={category.label} label={category.label}>
+                              {category.options.map(opt => (
+                                <option key={opt} value={opt}>{opt}</option>
+                              ))}
+                            </optgroup>
+                          ))}
+                          <optgroup label="Other Options">
+                            <option value="Others">Others</option>
                           </optgroup>
-                        ))}
-                        <optgroup label="Other Options">
-                          <option value="Others">Others</option>
-                        </optgroup>
-                      </select>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="flex-1 flex flex-col">
+                      <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Message</label>
+                      <textarea
+                        rows={4}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="w-full flex-1 min-h-[120px] sm:min-h-[140px] px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"
+                        placeholder="Tell us about your business requirements..."
+                      />
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-1.5">Message</label>
-                    <textarea
-                      rows={3}
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      className="w-full px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-background border border-input text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"
-                      placeholder="Tell us about your business requirements..."
-                    />
+
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3 sm:px-8 sm:py-3.5 rounded-xl bg-primary hover:bg-primary-dark text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-glow transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {loading ? (
+                        <>
+                          <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                          Submit Request
+                        </>
+                      )}
+                    </button>
                   </div>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl bg-primary hover:bg-primary-dark text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-glow transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    {loading ? (
-                      <>
-                        <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                        Submit Request
-                      </>
-                    )}
-                  </button>
                 </form>
               </div>
             </div>
