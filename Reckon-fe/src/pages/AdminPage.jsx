@@ -997,22 +997,7 @@ export default function AdminPage() {
             </nav>
           </div>
 
-          {/* Sidebar Help Box */}
-          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-white/[0.02] border border-border space-y-3">
-            <div className="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-600 dark:text-red-400 shrink-0">
-              <Hammer className="w-4.5 h-4.5" />
-            </div>
-            <div className="space-y-1">
-              <h4 className="text-[11px] font-bold text-foreground">Need Help?</h4>
-              <p className="text-[10px] text-muted leading-relaxed">Our support team is here to help you.</p>
-            </div>
-            <button
-              onClick={() => alert('Support team notified! We will contact you at admin@reckonsales.in')}
-              className="w-full py-2 rounded-xl border border-border text-foreground hover:bg-slate-100 dark:hover:bg-white/5 text-[10px] font-bold transition-all cursor-pointer text-center"
-            >
-              Contact Support
-            </button>
-          </div>
+
         </aside>
 
         {/* ── MOBILE SIDEBAR DRAWERS ── */}
