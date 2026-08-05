@@ -324,31 +324,56 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className={cn("border-t", isDark ? "border-white/10" : "border-[#0B0816]/10")}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className={cn("text-[11px]", isDark ? "text-muted-foreground" : "text-slate-500")}>
+      <div className={cn("relative z-10 border-t py-6", isDark ? "border-white/10" : "border-[#0B0816]/10")}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <p className={cn("text-xs sm:text-sm font-medium text-center sm:text-left", isDark ? "text-slate-300" : "text-slate-800")}>
               © {currentYear} Reckon Sales Pvt. Ltd. All rights reserved.
             </p>
-            <div className="flex items-center gap-4">
-              <a
-                href="#"
+            <div className="flex flex-wrap items-center justify-center sm:justify-end gap-x-2.5 sm:gap-x-3.5 gap-y-1.5 text-center sm:pr-20">
+              <Link
+                to="/privacy-policy"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className={cn(
-                  "text-[11px] transition-colors",
-                  isDark ? "text-muted-foreground hover:text-white" : "text-slate-500 hover:text-[#0B0816]"
+                  "text-xs sm:text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap",
+                  isDark ? "text-slate-200 hover:text-primary" : "text-slate-800 hover:text-primary"
                 )}
               >
                 Privacy Policy
-              </a>
-              <a
-                href="#"
+              </Link>
+              <span className={cn("text-xs font-bold opacity-30 select-none", isDark ? "text-white" : "text-slate-600")}>•</span>
+              <Link
+                to="/Privacy_Policy_for_Seller_Mobile_App.html"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className={cn(
-                  "text-[11px] transition-colors",
-                  isDark ? "text-muted-foreground hover:text-white" : "text-slate-500 hover:text-[#0B0816]"
+                  "text-xs sm:text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap",
+                  isDark ? "text-slate-200 hover:text-primary" : "text-slate-800 hover:text-primary"
                 )}
               >
-                Terms of Service
-              </a>
+                Seller-App
+              </Link>
+              <span className={cn("text-xs font-bold opacity-30 select-none", isDark ? "text-white" : "text-slate-600")}>•</span>
+              <Link
+                to="/Privacy_Policy_for_Suvidha_Mobile_App.html"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className={cn(
+                  "text-xs sm:text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap",
+                  isDark ? "text-slate-200 hover:text-primary" : "text-slate-800 hover:text-primary"
+                )}
+              >
+                Suvidha-App
+              </Link>
+              <span className={cn("text-xs font-bold opacity-30 select-none", isDark ? "text-white" : "text-slate-600")}>•</span>
+              <Link
+                to="/terms-and-conditions"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className={cn(
+                  "text-xs sm:text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap",
+                  isDark ? "text-slate-200 hover:text-primary" : "text-slate-800 hover:text-primary"
+                )}
+              >
+                Terms &amp; Conditions
+              </Link>
             </div>
           </div>
         </div>

@@ -18,6 +18,10 @@ import NotFoundPage from '@/pages/NotFoundPage';
 import LoginPage from '@/pages/LoginPage';
 import AdminPage from '@/pages/AdminPage';
 import CareerPage from '@/pages/CareerPage';
+import TermsPage from '@/pages/TermsPage';
+import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
+import SellerAppPrivacyPage from '@/pages/SellerAppPrivacyPage';
+import SuvidhaAppPrivacyPage from '@/pages/SuvidhaAppPrivacyPage';
 
 export default function App() {
   return (
@@ -48,6 +52,14 @@ export default function App() {
                   <Route path="tutorials" element={<TutorialsPage />} />
                   <Route path="help" element={<HelpPage />} />
                   <Route path="career" element={<CareerPage />} />
+                  <Route path="terms-and-conditions" element={<TermsPage />} />
+                  <Route path="terms-and-conditions.php" element={<TermsPage />} />
+                  <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+                  <Route path="privacy-policy.php" element={<PrivacyPolicyPage />} />
+                  <Route path="Privacy_Policy_for_Seller_Mobile_App.html" element={<SellerAppPrivacyPage />} />
+                  <Route path="privacy-policy-seller-app" element={<SellerAppPrivacyPage />} />
+                  <Route path="Privacy_Policy_for_Suvidha_Mobile_App.html" element={<SuvidhaAppPrivacyPage />} />
+                  <Route path="privacy-policy-suvidha-app" element={<SuvidhaAppPrivacyPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Route>
               </Routes>

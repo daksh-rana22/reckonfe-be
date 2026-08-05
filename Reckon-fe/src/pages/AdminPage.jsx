@@ -1960,11 +1960,10 @@ export default function AdminPage() {
 
                             <div className="mt-4 pt-3 border-t border-border flex items-center justify-between gap-2">
                               <div className="flex items-center gap-1.5">
-                                <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold uppercase border select-none ${
-                                  banner.is_active
+                                <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold uppercase border select-none ${banner.is_active
                                     ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
                                     : 'bg-slate-100 dark:bg-white/5 text-muted border-border'
-                                }`}>
+                                  }`}>
                                   {banner.is_active ? 'Active' : 'Inactive'}
                                 </span>
                                 {banner.sort_order != null && (
@@ -2326,8 +2325,8 @@ export default function AdminPage() {
                         isDragging
                           ? "opacity-40 scale-95 border-primary/40 bg-primary/5"
                           : isDragOver
-                          ? "border-primary bg-primary/5 shadow-sm scale-[1.01]"
-                          : "border-border bg-slate-50/50 dark:bg-white/[0.01] hover:border-border/80 hover:bg-surface-secondary"
+                            ? "border-primary bg-primary/5 shadow-sm scale-[1.01]"
+                            : "border-border bg-slate-50/50 dark:bg-white/[0.01] hover:border-border/80 hover:bg-surface-secondary"
                       )}
                     >
                       {isEditing ? (

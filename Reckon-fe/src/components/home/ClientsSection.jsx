@@ -52,36 +52,36 @@ export default function ClientsSection({
   const { clientLogos } = useAdminStore();
   const filteredLogos = software
     ? clientLogos.filter(c => {
-        const logoSoftware = c.software;
-        const pageSoftware = software;
+      const logoSoftware = c.software;
+      const pageSoftware = software;
 
-        if (pageSoftware === 'home') {
-          return logoSoftware === 'home';
-        }
+      if (pageSoftware === 'home') {
+        return logoSoftware === 'home';
+      }
 
-        if (logoSoftware === 'all' || !logoSoftware) return true;
-        if (logoSoftware === pageSoftware) return true;
+      if (logoSoftware === 'all' || !logoSoftware) return true;
+      if (logoSoftware === pageSoftware) return true;
 
-        // Handle multi-branch pharmacy chain naming variants
-        if (
-          (logoSoftware === 'multi-branch-pharmacy' && pageSoftware === 'multi-branch-pharmacy-chain') ||
-          (logoSoftware === 'multi-branch-pharmacy-chain' && pageSoftware === 'multi-branch-pharmacy')
-        ) {
-          return true;
-        }
+      // Handle multi-branch pharmacy chain naming variants
+      if (
+        (logoSoftware === 'multi-branch-pharmacy' && pageSoftware === 'multi-branch-pharmacy-chain') ||
+        (logoSoftware === 'multi-branch-pharmacy-chain' && pageSoftware === 'multi-branch-pharmacy')
+      ) {
+        return true;
+      }
 
-        // If logo is a parent category, show it on its sub-pages
-        if (HIERARCHY[logoSoftware] && HIERARCHY[logoSoftware].includes(pageSoftware)) {
-          return true;
-        }
+      // If logo is a parent category, show it on its sub-pages
+      if (HIERARCHY[logoSoftware] && HIERARCHY[logoSoftware].includes(pageSoftware)) {
+        return true;
+      }
 
-        // If page is a parent category, show child logos
-        if (HIERARCHY[pageSoftware] && HIERARCHY[pageSoftware].includes(logoSoftware)) {
-          return true;
-        }
+      // If page is a parent category, show child logos
+      if (HIERARCHY[pageSoftware] && HIERARCHY[pageSoftware].includes(logoSoftware)) {
+        return true;
+      }
 
-        return false;
-      })
+      return false;
+    })
     : clientLogos;
 
   const trackRef = useRef(null);
@@ -185,7 +185,7 @@ export default function ClientsSection({
         {client.city && (
           <div className="absolute inset-0 bg-slate-950/75 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 p-1.5">
             <svg className="w-4 h-4 text-[#863BFF] dark:text-[#a855f7] mb-1 shrink-0" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
             </svg>
             <span className="text-[9px] font-black text-white tracking-widest select-none uppercase text-center w-full px-0.5">
               {client.city}
