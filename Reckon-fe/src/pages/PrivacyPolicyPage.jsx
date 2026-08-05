@@ -52,10 +52,10 @@ export default function PrivacyPolicyPage() {
             </div>
             <div className="space-y-4 text-sm sm:text-base leading-relaxed text-foreground/90 pt-1">
               <p>
-                Reckon Sales recognizes the importance of maintaining your privacy. We value your privacy and appreciate your trust in us. This Policy describes how we treat user information we collect on <a href="https://www.reckonsales.com/" className="text-primary font-bold hover:underline">www.reckonsales.com</a> and other offline sources. This Privacy Policy applies to current and former visitors to our website and to our online customers. By visiting and/or using our website, you agree to this Privacy Policy.
+                Reckon Sales recognizes the importance of maintaining your privacy. We value your privacy and appreciate your trust in us. This Policy describes how we treat user information we collect on <a href="https://reckonsales.in/" className="text-primary font-bold hover:underline">reckonsales.in</a> and other offline sources. This Privacy Policy applies to current and former visitors to our website and to our online customers. By visiting and/or using our website, you agree to this Privacy Policy.
               </p>
               <p>
-                <a href="https://www.reckonsales.com/" className="text-primary font-bold hover:underline">www.reckonsales.com</a> is a property of <strong>Reckon Sales Pvt. Ltd.</strong>, an Indian Company registered under the Companies Act, 2013 having its <strong>registered office at New Medicine Market, Meer Jaan Lane, Naya Gaon East, Lucknow- 226001.</strong>
+                <a href="https://reckonsales.in/" className="text-primary font-bold hover:underline">reckonsales.in</a> is a property of <strong>Reckon Sales Pvt. Ltd.</strong>, an Indian Company registered under the Companies Act, 2013 having its <strong>registered office at New Medicine Market, Meer Jaan Lane, Naya Gaon East, Lucknow- 226001.</strong>
               </p>
             </div>
           </div>
@@ -77,7 +77,7 @@ export default function PrivacyPolicyPage() {
                 <strong>Payment and billing information:</strong> We might collect your firm name, billing address and payment method mode. We NEVER collect your credit card number or credit card expiry date or other details pertaining to your credit card on our website.
               </p>
               <p>
-                <strong>Information you post.</strong> We collect information you post in a public space on our website or on a third-party social media site belonging to <a href="https://www.reckonsales.com/" className="text-primary font-bold hover:underline">www.reckonsales.com</a>
+                <strong>Information you post.</strong> We collect information you post in a public space on our website or on a third-party social media site belonging to <a href="https://reckonsales.in/" className="text-primary font-bold hover:underline">reckonsales.in</a>
               </p>
               <p>
                 <strong>Demographic information:</strong> We may collect demographic information about you and any other information provided by you during the use of our website. We might collect this as a part of a survey also.
@@ -186,7 +186,7 @@ export default function PrivacyPolicyPage() {
 
             <div className="space-y-4 text-sm sm:text-base leading-relaxed text-foreground/90">
               <p>
-                <strong>You can opt out of receiving our marketing emails.</strong> To stop receiving our promotional emails, please email unsubscribed @ <a href="https://www.reckonsales.com/" className="text-primary font-bold hover:underline">www.reckonsales.com</a> It may take about some days to process your request. Even if you opt out of getting marketing messages, we will still be sending you transactional messages through email and SMS.
+                <strong>You can opt out of receiving our marketing emails.</strong> To stop receiving our promotional emails, please email unsubscribed @ <a href="https://reckonsales.in/" className="text-primary font-bold hover:underline">reckonsales.in</a> It may take about some days to process your request. Even if you opt out of getting marketing messages, we will still be sending you transactional messages through email and SMS.
               </p>
               <p>
                 <strong>Third party sites:</strong> If you click on one of the links to third party websites, you may be taken to websites we do not control. This policy does not apply to the privacy practices of those websites. Read the privacy policy of other websites carefully. We are not responsible for these third party sites.

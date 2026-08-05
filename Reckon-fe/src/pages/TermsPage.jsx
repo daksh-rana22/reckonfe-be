@@ -59,7 +59,7 @@ export default function TermsPage() {
                 This Terms & Conditions applies to <span className="text-primary">Reckon Sales Pvt. Ltd.</span>
               </h2>
               <p className="text-sm sm:text-base text-muted mt-1.5 leading-relaxed">
-                Please read the license terms carefully before downloading, installing, or evaluating any software products or features provided by Reckon Sales Pvt. Ltd.
+                Please read the license terms carefully before downloading, installing, or evaluating any software products or features provided by Reckon Sales Pvt. Ltd. at <a href="https://reckonsales.in/" className="text-primary font-bold hover:underline">reckonsales.in</a>.
               </p>
             </div>
           </div>

@@ -56,7 +56,7 @@ export default function SellerAppPrivacyPage() {
                 Privacy Policy for <span className="text-primary">Seller Mobile App</span>
               </h2>
               <p className="text-sm sm:text-base text-foreground/90 mt-2 leading-relaxed">
-                This Privacy Policy describes how personal information is collected, used, and disclosed when you use the <strong>Seller</strong> Mobile App (referred to as &quot;the App&quot;) developed by <strong>Reckon Sales Private Limited</strong> (referred to as &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;). We are committed to protecting your privacy and ensuring the security of your personal information. By using the App, you consent to the practices outlined in this Privacy Policy.
+                This Privacy Policy describes how personal information is collected, used, and disclosed when you use the <strong>Seller</strong> Mobile App (referred to as &quot;the App&quot;) developed by <strong>Reckon Sales Private Limited</strong> on <a href="https://reckonsales.in/" className="text-primary font-bold hover:underline">reckonsales.in</a> (referred to as &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;). We are committed to protecting your privacy and ensuring the security of your personal information. By using the App, you consent to the practices outlined in this Privacy Policy.
               </p>
             </div>
           </div>
